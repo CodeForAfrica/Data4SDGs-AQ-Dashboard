@@ -3,6 +3,7 @@ import React from 'react';
 import App from 'next/app';
 import Router from 'next/router';
 
+import { Provider } from 'next-auth/client';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -36,7 +37,9 @@ export default class MainApp extends App {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <Provider session={pageProps.session}>
+          <Component {...pageProps} />
+        </Provider>
       </ThemeProvider>
     );
   }

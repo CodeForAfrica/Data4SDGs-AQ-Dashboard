@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footerButton: {
     width: '100%',
+    marginTop: '10px',
     color: 'white',
     '&:hover': {
       color: theme.palette.secondary.main,
@@ -73,8 +74,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Login(props) {
   const classes = useStyles(props);
-  const [value, setValue] = useState('');
-  const handleChange = (e) => setValue(e.target.value);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+
+    // const data = { email: email, password: password };
+  };
 
   return (
     <Grid
@@ -84,7 +91,7 @@ function Login(props) {
       className={classes.root}
     >
       <Grid item xs={12}>
-        <form noValidate className={classes.formStyles}>
+        <form noValidate className={classes.formStyles} onSubmit={onFormSubmit}>
           <FormControl classes={{ root: classes.formControlStyles }}>
             <InputLabel classes={{ root: classes.inputLabel }} htmlFor="email">
               Email address:{' '}
@@ -93,9 +100,9 @@ function Login(props) {
               id="email"
               type="email"
               name="MERGE0"
-              value={value}
+              value={email}
               placeholder="you@gmail.com"
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
               className="Email-input"
             />
           </FormControl>
@@ -111,14 +118,26 @@ function Login(props) {
               id="password"
               type="password"
               name="MERGE0"
-              value={value}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="Email-input"
             />
           </FormControl>
 
           <div className={classes.buttonContainer}>
-            <Link href="/dashboard/africa">
+            <Button
+              value="Subscribe"
+              type="submit"
+              name="submit"
+              id="mc-embedded-subscribe-form"
+              variant="contained"
+              className={classes.footerButton}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LOGIN
+            </Button>
+            <Link href="/api/auth/signin">
               <Button
                 value="Subscribe"
                 type="submit"
@@ -129,7 +148,7 @@ function Login(props) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                LOGIN
+                SIGN IN WITH GOOGLE
               </Button>
             </Link>
           </div>
