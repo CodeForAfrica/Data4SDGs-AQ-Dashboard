@@ -7,7 +7,7 @@ import Link from 'components/Link';
 import SocialMedia from 'components/SocialMedia';
 
 import codeforafrica from 'assets/images/logos/cfafrica_white.png';
-import innovateafrica from 'assets/images/logos/innovateafrica_white.png';
+import globalpartner from 'assets/images/logos/globalpartner.svg';
 import Email from 'components/Email';
 
 const useStyles = makeStyles((theme) => ({
@@ -173,13 +173,13 @@ function Footer(props) {
             </Grid>
             <Grid item xs>
               <a
-                href="https://innovateafrica.fund/"
+                href="https://www.data4sdgs.org/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
-                  src={innovateafrica}
-                  alt="innovateAFRICA"
+                  src={globalpartner}
+                  alt="global partnership"
                   className={classes.img}
                 />
               </a>
