@@ -164,11 +164,6 @@ function Navbar({ handleSearch, ...props }) {
                       </a>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="#partners" className={classes.navLink}>
-                        PARTNERS
-                      </a>
-                    </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
                       <a href="#contacts" className={classes.navLink}>
                         CONTACT
                       </a>
