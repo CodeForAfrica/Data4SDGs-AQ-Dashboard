@@ -135,7 +135,7 @@ header:{
         >
           <Grid item className={classes.dt}>
             <code className={classes.code}>
-              a5f804ade081126ea03f32e2905b234f9716be1a
+              {process.env.NEXT_PUBLIC_PURPLE_AIR}
             </code>
           </Grid>
 
@@ -155,7 +155,7 @@ header:{
         >
           <Grid item className={classes.dt}>
             <code className={classes.code}>
-              f90688c212115e97400e1ea93907e359474ec4a6
+              {process.env.NEXT_PUBLIC_AIRQO}
             </code>
           </Grid>
 
@@ -175,7 +175,7 @@ header:{
         >
           <Grid item className={classes.dt}>
             <code className={classes.code}>
-              d58e7d33fcd9bb9a9b7c86a03ff9db7232be7a28
+              {process.env.NEXT_PUBLIC_OPENAQ}
             </code>
           </Grid>
 
