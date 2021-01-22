@@ -116,16 +116,18 @@ function DataArchives() {
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
           <Typography variant="body2" className={classes.title} component="h3">
-            To access the various Network, you will have to pass the
-            Authorization Token for that network in the header file
+            {/* To access the various Network, you will have to pass the
+            Authorization Token for that network in the header file */}
+            Accessing data from the API is authorized by the use of a token.
             <br />
-            Example
+            <br />
+            There are numerous networks that provide data and each requires a
+            unique token to access its nodes. Place the token in the
+            Authorization header while making a request. An example using curl
+            is:
+            <br />
             <pre className={classes.queryParam}>
-              {`
-header:{
-    Authorization:"token {acessToken}" 
-}
-                `}
+              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/data/`}
             </pre>
           </Typography>
         </Grid>
