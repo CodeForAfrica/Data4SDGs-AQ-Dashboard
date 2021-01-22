@@ -194,6 +194,26 @@ header:{
             </Typography>
           </Grid>
         </Grid>
+        <Grid
+          item
+          xs={12}
+          container
+          justify="flex-start"
+          alignItems="flex-start"
+          className={classes.dl}
+        >
+          <Grid item className={classes.dt}>
+            <code className={classes.code}>
+              {process.env.NEXT_PUBLIC_DATA4_DSGS}
+            </code>
+          </Grid>
+
+          <Grid className={classes.dd}>
+            <Typography variant="body2" component="p">
+              Data4DSGs
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
