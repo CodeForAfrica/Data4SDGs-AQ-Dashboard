@@ -1,18 +1,21 @@
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import DataArchivesHeaderContent from 'components/Header/JumboContent/DataArchivesHeaderContent';
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   jumbotron: {
     flexGrow: 1,
-    backgroundColor: theme.palette.primary.light,
     borderRadius: 'none',
-    [theme.breakpoints.up('md')]: {
-      height: 450,
-    },
+    height: '20rem',
+  },
+  headline: {
+    textAlign: 'center',
+  },
+  caption: {
+    display: 'block',
+    textTransform: 'none',
   },
 }));
 
@@ -26,11 +29,12 @@ function DataArchivesHeader() {
       alignItems="center"
     >
       <Grid item xs={12}>
-        <DataArchivesHeaderContent
-          title="sensors.AFRICA DATA"
-          subheading="Sensors data is collected and uploaded to our API archives every five minutes. The API accepts the sensor data and serves as the basis for the graphical display of maps used on the site. 
-           "
-        />
+        <Typography variant="h5" className={classes.headline}>
+          Sensors in Africa
+          <Typography variant="caption" className={classes.caption}>
+            How to access data from http://api.sensors.africa
+          </Typography>
+        </Typography>
       </Grid>
     </Grid>
   );

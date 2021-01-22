@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Stories from 'components/About/Stories';
 import Navbar from 'components/Header/Navbar';
 import DataArchivesHeader from 'components/DataArchives/DataArchivesHeader';
 import DataArchives from 'components/DataArchives/DataArchives';
-import PartnerLogos from 'components/PartnerLogos';
+import Tokens from 'components/Tokens';
 import Footer from 'components/Footer';
 
 function Data() {
@@ -12,9 +11,8 @@ function Data() {
     <>
       <Navbar />
       <DataArchivesHeader />
+      <Tokens />
       <DataArchives />
-      <Stories />
-      <PartnerLogos />
       <Footer />
     </>
   );
