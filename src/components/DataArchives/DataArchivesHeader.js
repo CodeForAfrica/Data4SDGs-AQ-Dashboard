@@ -30,9 +30,9 @@ function DataArchivesHeader() {
     >
       <Grid item xs={12}>
         <Typography variant="h5" className={classes.headline}>
-          SENSORS AFRICA
+          Sensors in Africa
           <Typography variant="caption" className={classes.caption}>
-            How to access data from api.sensors.africa
+            How to access data from http://api.sensors.africa
           </Typography>
         </Typography>
       </Grid>

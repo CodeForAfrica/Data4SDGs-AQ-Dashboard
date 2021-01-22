@@ -115,16 +115,16 @@ function DataArchives() {
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
-          <Typography variant="body2" className={classes.title} component="h3">
+          <Typography variant="body2" component="h3">
             {/* To access the various Network, you will have to pass the
             Authorization Token for that network in the header file */}
             Accessing data from the API is authorized by the use of a token.
             <br />
             <br />
-            There are numerous networks that provide data and each requires a
-            unique token to access its nodes. Place the token in the
-            Authorization header while making a request. An example using curl
-            is:
+            While we collect data from various sensor networks, we also allow
+            access to data from a particular network. Place the token in the
+            Authorization header while making a request and the API will return
+            data from that network only. An example using curl would be:
             <br />
             <pre className={classes.queryParam}>
               {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/data/`}
@@ -144,16 +144,16 @@ function DataArchives() {
           alignItems="flex-start"
           className={classes.dl}
         >
-          <Grid item className={classes.dt}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_PURPLE_AIR}
-            </code>
-          </Grid>
-
-          <Grid className={classes.dd}>
+          <Grid className={classes.dt}>
             <Typography variant="body2" component="p">
               Purple Air
             </Typography>
+          </Grid>
+
+          <Grid item className={classes.dd}>
+            <code className={classes.code}>
+              {process.env.NEXT_PUBLIC_PURPLE_AIR}
+            </code>
           </Grid>
         </Grid>
         <Grid
@@ -164,17 +164,17 @@ function DataArchives() {
           alignItems="flex-start"
           className={classes.dl}
         >
-          <Grid item className={classes.dt}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_AIRQO}
-            </code>
-          </Grid>
-
           <Grid className={classes.dd}>
             <Typography variant="body2" component="p">
               AirQO
             </Typography>
           </Grid>
+
+          <Grid item className={classes.dt}>
+            <code className={classes.code}>
+              {process.env.NEXT_PUBLIC_AIRQO}
+            </code>
+          </Grid>
         </Grid>
         <Grid
           item
@@ -184,17 +184,17 @@ function DataArchives() {
           alignItems="flex-start"
           className={classes.dl}
         >
-          <Grid item className={classes.dt}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_OPENAQ}
-            </code>
-          </Grid>
-
-          <Grid className={classes.dd}>
+          <Grid className={classes.dt}>
             <Typography variant="body2" component="p">
               OpenAQ
             </Typography>
           </Grid>
+
+          <Grid item className={classes.dd}>
+            <code className={classes.code}>
+              {process.env.NEXT_PUBLIC_OPENAQ}
+            </code>
+          </Grid>
         </Grid>
         <Grid
           item
@@ -204,17 +204,23 @@ function DataArchives() {
           alignItems="flex-start"
           className={classes.dl}
         >
-          <Grid item className={classes.dt}>
+          <Grid className={classes.dt}>
+            <Typography variant="body2" component="p">
+              Data4DSGs*
+            </Typography>
+          </Grid>
+
+          <Grid item className={classes.dd}>
             <code className={classes.code}>
               {process.env.NEXT_PUBLIC_DATA4_DSGS}
             </code>
           </Grid>
-
-          <Grid className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Data4DSGs
-            </Typography>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} className={classes.wiki}>
+          <Typography variant="caption">
+            * Data4DSGs token is a super token that can be used to access all
+            data regardless of which networked the data was pulled from.
+          </Typography>
         </Grid>
       </Grid>
     </Grid>
