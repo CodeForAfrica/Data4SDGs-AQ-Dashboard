@@ -8,6 +8,7 @@ import {
   Hidden,
   Button,
   Typography,
+  Link,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import IconLogo from 'components/IconLogo';
@@ -167,6 +168,11 @@ function Navbar({ handleSearch, ...props }) {
                       <a href="#contacts" className={classes.navLink}>
                         CONTACT
                       </a>
+                    </MenuItem>
+                    <MenuItem classes={{ root: classes.navBarText }}>
+                      <Link href="/wiki" className={classes.navLink}>
+                        WIKI
+                      </Link>
                     </MenuItem>
                   </Grid>
                 </Hidden>
