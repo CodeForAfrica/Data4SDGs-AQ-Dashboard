@@ -155,28 +155,31 @@ function Navbar({ handleSearch, ...props }) {
                 <Hidden only={['xs']}>
                   <Grid item lg={7} classes={{ root: classes.navBarRoot }}>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="#map" className={classes.navLink}>
+                      <a href="/dashboard#map" className={classes.navLink}>
                         MAP
                       </a>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="#resources" className={classes.navLink}>
+                      <a
+                        href="/dashboard#resources"
+                        className={classes.navLink}
+                      >
                         RESOURCES
                       </a>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="#partners" className={classes.navLink}>
+                      <a href="/dashboard#partners" className={classes.navLink}>
                         PARTNERS
                       </a>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="#contacts" className={classes.navLink}>
+                      <a href="/dashboard#contacts" className={classes.navLink}>
                         CONTACT
                       </a>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <Link href="/wiki" className={classes.navLink}>
-                        WIKI
+                      <Link href="/dashboard/docs" className={classes.navLink}>
+                        DOCUMENTATION
                       </Link>
                     </MenuItem>
                   </Grid>
