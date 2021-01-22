@@ -12,8 +12,8 @@ function Data() {
     <>
       <Navbar />
       <DataArchivesHeader />
-      <DataArchives />
       <Tokens />
+      <DataArchives />
       <PartnerLogos />
       <Footer />
     </>

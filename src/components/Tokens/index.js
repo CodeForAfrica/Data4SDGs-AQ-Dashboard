@@ -105,6 +105,15 @@ function DataArchives() {
         alignItems="center"
         className={classes.main}
       >
+        <Grid item xs={12}>
+          <Typography
+            variant="h6"
+            className={classes.typography}
+            component="h2"
+          >
+            Authorization
+          </Typography>
+        </Grid>
         <Grid item xs={12} className={classes.wiki}>
           <Typography variant="body2" className={classes.title} component="h3">
             To access the various Network, you will have to pass the
