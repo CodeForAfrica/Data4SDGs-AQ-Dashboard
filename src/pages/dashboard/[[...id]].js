@@ -10,7 +10,6 @@ import { useSession } from 'next-auth/client';
 import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
 import Navbar from 'components/Header/Navbar';
-import PartnerLogos from 'components/PartnerLogos';
 import Footer from 'components/Footer';
 import SensorMap from 'components/SensorMap';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
@@ -170,9 +169,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
         </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />
-        </Grid>
-        <Grid item id="partners" className={classes.section} xs={12}>
-          <PartnerLogos />
         </Grid>
         <Grid id="contacts" className={classes.section} item xs={12}>
           <Footer />

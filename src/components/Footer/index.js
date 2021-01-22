@@ -7,7 +7,6 @@ import Link from 'components/Link';
 import SocialMedia from 'components/SocialMedia';
 
 import codeforafrica from 'assets/images/logos/cfafrica_white.png';
-import innovateafrica from 'assets/images/logos/innovateafrica_white.png';
 import Email from 'components/Email';
 
 const useStyles = makeStyles((theme) => ({
@@ -149,12 +148,11 @@ function Footer(props) {
         </Grid>
         <Grid item className={classes.footerContentContainer}>
           <Typography variant="h6" className={classes.titles}>
-            FUNDED BY
+            INCUBATED BY
           </Typography>
           <div className={classes.supportText}>
             <Typography variant="caption">
-              This initiative was seed-funded by innovateAFRICA and is being
-              incubated by Code for Africa.
+              This initiative is being incubated by Code for Africa.
             </Typography>
           </div>
           <Grid container justify="center" alignItems="center">
@@ -167,19 +165,6 @@ function Footer(props) {
                 <img
                   src={codeforafrica}
                   alt="Code for Africa"
-                  className={classes.img}
-                />
-              </a>
-            </Grid>
-            <Grid item xs>
-              <a
-                href="https://innovateafrica.fund/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src={innovateafrica}
-                  alt="innovateAFRICA"
                   className={classes.img}
                 />
               </a>
