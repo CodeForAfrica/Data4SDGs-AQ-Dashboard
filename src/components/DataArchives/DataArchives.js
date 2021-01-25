@@ -328,7 +328,35 @@ function DataArchives() {
           <Grid item className={classes.dt}>
             <a
               className={classes.link}
-              href="https://api.sensors.africa/v2/data/air?city={slug}&"
+              href="https://api.sensors.africa/v2/data"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <code className={classes.code}>
+                https://api.sensors.africa/v2/data
+              </code>
+            </a>
+          </Grid>
+          <Grid item className={classes.dd}>
+            <Typography variant="body2" component="p">
+              Provides <em>raw</em> sensor data of all nodes from a network
+              identified by the provided <code>ACCESS_TOKEN</code>
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          container
+          justify="flex-start"
+          alignItems="flex-start"
+          className={classes.dl}
+        >
+          <Grid item className={classes.dt}>
+            <a
+              className={classes.link}
+              href="https://api.sensors.africa/v2/data/air?city={slug}"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -337,7 +365,8 @@ function DataArchives() {
           </Grid>
           <Grid item className={classes.dd}>
             <Typography variant="body2" component="p">
-              Provides air data with city query from = {toFrom}&to = {toFrom}
+              Provides averaged air data with city query from = {toFrom}&to ={' '}
+              {toFrom}
               &value_type={valueType}
             </Typography>
           </Grid>
@@ -363,8 +392,8 @@ function DataArchives() {
           </Grid>
           <Grid item className={classes.dd}>
             <Typography variant="body2" component="p">
-              Provides all sensors node data including if the sensor was moved
-              and where
+              Provides active sensors node data including if the sensor was
+              moved and where
             </Typography>
           </Grid>
         </Grid>
