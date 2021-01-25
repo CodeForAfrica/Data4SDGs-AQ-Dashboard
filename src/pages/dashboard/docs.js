@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Router from 'next/router';
 
@@ -11,12 +11,12 @@ import Tokens from 'components/Tokens';
 import Footer from 'components/Footer';
 
 function Data() {
-  const [session] = useSession();
-  useEffect(() => {
-    if (!session) {
-      Router.push('/');
-    }
-  }, [session]);
+  const [session, loading] = useSession();
+  if (loading) return null;
+
+  if (!loading && !session) {
+    Router.push('/');
+  }
 
   return (
     <>
