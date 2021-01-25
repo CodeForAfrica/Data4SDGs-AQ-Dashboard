@@ -118,7 +118,15 @@ function DataArchives() {
           <Typography variant="body2" component="h3">
             {/* To access the various Network, you will have to pass the
             Authorization Token for that network in the header file */}
-            Accessing data from the API is authorized by the use of a token.
+            Accessing private data from the sensors.AFRICA{' '}
+            <a
+              href="http://api.sensors.africa"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              API
+            </a>{' '}
+            is authorized by the use of a token.
             <br />
             <br />
             While we collect data from various sensor networks, we also allow
@@ -127,8 +135,10 @@ function DataArchives() {
             data from that network only. An example using curl would be:
             <br />
             <pre className={classes.queryParam}>
-              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/data/`}
+              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}
             </pre>
+            that would return all nodes belonging to the network identified by
+            the <code>ACCESS_TOKEN</code>
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
