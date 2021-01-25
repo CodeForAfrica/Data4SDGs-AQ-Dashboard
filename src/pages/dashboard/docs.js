@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import Router from 'next/router';
+
+import { useSession } from 'next-auth/client';
 
 import Navbar from 'components/Header/Navbar';
 import DataArchivesHeader from 'components/DataArchives/DataArchivesHeader';
@@ -7,6 +11,13 @@ import Tokens from 'components/Tokens';
 import Footer from 'components/Footer';
 
 function Data() {
+  const [session] = useSession();
+  useEffect(() => {
+    if (!session) {
+      Router.push('/');
+    }
+  }, [session]);
+
   return (
     <>
       <Navbar />
