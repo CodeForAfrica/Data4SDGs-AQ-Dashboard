@@ -11,8 +11,17 @@ const useStyles = makeStyles({
   },
 });
 
-function KenyaMap({ title, src, height, width, frameBorder, scrolling }) {
-  const classes = useStyles();
+function KenyaMap({
+  title,
+  src,
+  height,
+  width,
+  frameBorder,
+  scrolling,
+  ...props
+}) {
+  const classes = useStyles(props);
+
   return (
     <iframe
       title={title}
