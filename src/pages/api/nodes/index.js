@@ -12,7 +12,8 @@ const cors = apiMiddleware(
 export default async (req, res) => {
   await cors(req, res);
 
-  const token = process.env.NEXT_PUBLIC_MAP_TOKEN;
+  const token = process.env.DATA4_DSGS;
+
   const myHeaders = new Headers();
 
   if (token) {
