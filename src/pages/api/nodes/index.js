@@ -1,16 +1,5 @@
-import Cors from 'cors';
-
-import apiMiddleware from 'lib/apiMiddleware';
-
-const cors = apiMiddleware(
-  Cors({
-    methods: ['GET', 'POST', 'OPTIONS'],
-    origin: 'https://wb.map.sensors.africa',
-  })
-);
-
 export default async (req, res) => {
-  await cors(req, res);
+  res.setHeader('Access-Control-Allow-Origin', 'https://wb.map.sensors.africa');
 
   const token = process.env.DATA4_DSGS;
 
