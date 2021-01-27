@@ -1,5 +1,16 @@
+import Cors from 'cors';
+
+import apiMiddleware from 'lib/apiMiddleware';
+
+const cors = apiMiddleware(
+  Cors({
+    methods: ['GET'],
+    origin: 'https://wb.map.sensors.africa',
+  })
+);
+
 export default async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  await cors(req, res);
 
   const token = process.env.NEXT_PUBLIC_MAP_TOKEN;
   const myHeaders = new Headers();
