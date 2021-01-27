@@ -89,7 +89,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DataArchives() {
+function DataArchives({ tokens }) {
+  const { purpleAirToken, airQOToken, openAQToken, data4SDGToken } = tokens;
   const classes = useStyles();
   return (
     <Grid
@@ -161,9 +162,7 @@ function DataArchives() {
           </Grid>
 
           <Grid item className={classes.dd}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_PURPLE_AIR}
-            </code>
+            <code className={classes.code}>{purpleAirToken}</code>
           </Grid>
         </Grid>
         <Grid
@@ -181,9 +180,7 @@ function DataArchives() {
           </Grid>
 
           <Grid item className={classes.dt}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_AIRQO}
-            </code>
+            <code className={classes.code}>{airQOToken}</code>
           </Grid>
         </Grid>
         <Grid
@@ -201,9 +198,7 @@ function DataArchives() {
           </Grid>
 
           <Grid item className={classes.dd}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_OPENAQ}
-            </code>
+            <code className={classes.code}>{openAQToken}</code>
           </Grid>
         </Grid>
         <Grid
@@ -221,9 +216,7 @@ function DataArchives() {
           </Grid>
 
           <Grid item className={classes.dd}>
-            <code className={classes.code}>
-              {process.env.NEXT_PUBLIC_DATA4_DSGS}
-            </code>
+            <code className={classes.code}>{data4SDGToken}</code>
           </Grid>
         </Grid>
         <Grid item xs={12} className={classes.wiki}>

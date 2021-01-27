@@ -10,7 +10,7 @@ import DataArchives from 'components/DataArchives/DataArchives';
 import Tokens from 'components/Tokens';
 import Footer from 'components/Footer';
 
-function Data() {
+function Data({ tokens }) {
   const [session, loading] = useSession();
   if (loading) return null;
 
@@ -22,11 +22,25 @@ function Data() {
     <>
       <Navbar />
       <DataArchivesHeader />
-      <Tokens />
+      <Tokens tokens={tokens} />
       <DataArchives />
       <Footer />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const purpleAirToken = process.env.PURPLE_AIR;
+  const airQOToken = process.env.AIRQO;
+  const openAQToken = process.env.OPENAQ;
+  const data4SDGToken = process.env.DATA4_DSGS;
+
+  // Pass data to the page via props
+  return {
+    props: {
+      tokens: { purpleAirToken, airQOToken, openAQToken, data4SDGToken },
+    },
+  };
 }
 
 export default Data;
