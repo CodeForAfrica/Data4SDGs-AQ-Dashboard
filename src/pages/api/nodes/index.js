@@ -4,7 +4,7 @@ import apiMiddleware from 'lib/apiMiddleware';
 
 const cors = apiMiddleware(
   Cors({
-    methods: ['GET'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     origin: 'https://wb.map.sensors.africa',
   })
 );
