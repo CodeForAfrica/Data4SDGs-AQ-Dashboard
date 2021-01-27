@@ -9,13 +9,14 @@ import { useSession } from 'next-auth/client';
 
 import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 
-import Navbar from 'components/Header/Navbar';
-import Footer from 'components/Footer';
-import SensorMap from 'components/SensorMap';
-import QualityStatsGraph from 'components/City/QualityStatsGraph';
-import HazardReading from 'components/City/HazardReadings';
 import AQIndex from 'components/City/AQIndex';
+import Footer from 'components/Footer';
+import HazardReading from 'components/City/HazardReadings';
+import Navbar from 'components/Header/Navbar';
 import Resources from 'components/Resources';
+import SensorMap from 'components/SensorMap';
+import Ticker from 'components/Ticker';
+import QualityStatsGraph from 'components/City/QualityStatsGraph';
 
 import NotFound from 'pages/404';
 import config from '../../config';
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '82rem',
     width: '100%',
     color: 'black',
+    marginTop: theme.typography.pxToRem(50),
     textAlign: 'center',
     scrollMarginTop: '5.9rem',
     [theme.breakpoints.down('xs')]: {
@@ -53,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   topMargin: {
-    marginTop: '5rem',
-    [theme.breakpoints.down('xs')]: {
-      marginTop: '8.1rem',
+    marginTop: '4.2rem',
+    [theme.breakpoints.up('md')]: {
+      marginTop: '1rem',
     },
   },
   loading: {
@@ -74,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DASHBOARD_PATHNAME = '/dashboard';
 
-function Country({ country: countrySlug, data, errorCode, ...props }) {
+function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
   const classes = useStyles(props);
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
@@ -124,6 +126,46 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
             location={COUNTRIES_LOCATION[country].label}
           />
         </Grid>
+        {meta && meta.database_last_updated?.length ? (
+          <Grid item xs={12} id="ticker" className={classes.section}>
+            <Ticker
+              title="Sensors in Africa"
+              lastUpdated={meta.database_last_updated}
+              statuses={[
+                {
+                  highlight: true,
+                  name: 'Data Points',
+                  status: 'Collected',
+                  slug: 'data-values',
+                },
+                {
+                  highlight: true,
+                  name: 'AQ Sensors',
+                  status: 'Monitored',
+                  slug: 'sensors',
+                },
+                {
+                  highlight: true,
+                  name: 'AQ Nodes',
+                  status: 'Monitored',
+                  slug: 'nodes',
+                },
+                {
+                  highlight: true,
+                  name: 'Sensor Networks',
+                  status: 'Total',
+                  slug: 'networks',
+                },
+              ]}
+              values={{
+                'data-values': meta.sensor_data_count,
+                sensors: meta.sensors_count,
+                nodes: meta.nodes_count,
+                networks: meta.sensor_networks.count,
+              }}
+            />
+          </Grid>
+        ) : null}
         <Grid
           item
           justify="center"
@@ -185,6 +227,7 @@ Country.propTypes = {
     weeklyP2: PropTypes.shape({}).isRequired,
   }),
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  meta: PropTypes.shape({}).isRequired,
 };
 
 Country.defaultProps = {
@@ -220,8 +263,15 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
   const data = { air, weeklyData };
 
+  const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
+  errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
+  const meta = (!errorCode && (await metaRes.json())) || {};
+
   // Pass data to the page via props
-  return { props: { errorCode, country, data } };
+  return {
+    props: { errorCode, country, data, meta },
+    revalidate: 300, // seconds
+  };
 }
 
 export default Country;
