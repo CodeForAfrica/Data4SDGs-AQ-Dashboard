@@ -64,7 +64,7 @@ function HambugerMenu({ handleToggle, menuOpen }) {
           disableAutoFocus
         >
           <MenuList className={classes.menuList}>
-            <Link href="#map" className={classes.link}>
+            <Link href="/dashboard" className={classes.link}>
               <MenuItem className={classes.menuListItem}>
                 <Typography className={classes.typography} variant="subtitle1">
                   MAP
@@ -72,7 +72,7 @@ function HambugerMenu({ handleToggle, menuOpen }) {
               </MenuItem>
             </Link>
 
-            <Link href="#resources" className={classes.link}>
+            <Link href="/dashboard#resources" className={classes.link}>
               <MenuItem className={classes.menuListItem}>
                 <Typography className={classes.typography} variant="subtitle1">
                   RESOURCES
@@ -80,18 +80,10 @@ function HambugerMenu({ handleToggle, menuOpen }) {
               </MenuItem>
             </Link>
 
-            <Link href="#partners" className={classes.link}>
+            <Link href="/dashboard/docs" className={classes.link}>
               <MenuItem className={classes.menuListItem}>
                 <Typography className={classes.typography} variant="subtitle1">
-                  PARTNERS
-                </Typography>
-              </MenuItem>
-            </Link>
-
-            <Link href="#contacts" className={classes.link}>
-              <MenuItem className={classes.menuListItem}>
-                <Typography className={classes.typography} variant="subtitle1">
-                  CONTACT
+                  DOCS
                 </Typography>
               </MenuItem>
             </Link>
