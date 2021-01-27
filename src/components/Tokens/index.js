@@ -7,6 +7,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: 'white',
+    marginTop: '6rem',
+    [theme.breakpoints.up('md')]: {
+      marginTop: '3rem',
+    },
   },
   main: {
     paddingBottom: '3rem',
@@ -107,7 +111,7 @@ function DataArchives() {
       >
         <Grid item xs={12}>
           <Typography
-            variant="h6"
+            variant="h5"
             className={classes.typography}
             component="h2"
           >
@@ -115,30 +119,28 @@ function DataArchives() {
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
-          <Typography variant="body2" component="h3">
-            {/* To access the various Network, you will have to pass the
-            Authorization Token for that network in the header file */}
-            Accessing private data from the sensors.AFRICA{' '}
+          <Typography variant="body2">
             <a
               href="http://api.sensors.africa"
               target="_blank"
               rel="noopener noreferrer"
             >
-              API
+              sensors.AFRICA
             </a>{' '}
-            is authorized by the use of a token.
+            collects data from different sensor networks and stores them as
+            private data. To interact with this private data, you require an
+            access token. Place a token for a particular network in the HTTP
+            authorization header.
             <br />
             <br />
-            While we collect data from various sensor networks, we also allow
-            access to data from a particular network. Place the token in the
-            Authorization header while making a request and the API will return
-            data from that network only. An example using curl would be:
+            An example using <code>curl</code> would be:
             <br />
             <pre className={classes.queryParam}>
               {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}
             </pre>
-            that would return all nodes belonging to the network identified by
-            the <code>ACCESS_TOKEN</code>
+            <br />
+            The above API call would then return all nodes belonging to the
+            network identified by the <code>ACCESS_TOKEN</code>
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
