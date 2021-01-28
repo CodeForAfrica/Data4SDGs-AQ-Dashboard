@@ -20,7 +20,6 @@ function Data({ tokens }) {
   return (
     <>
       <Navbar />
-      <Tokens />
       <Tokens tokens={tokens} />
       <DataArchives />
       <Footer />
