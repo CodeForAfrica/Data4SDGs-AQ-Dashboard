@@ -152,7 +152,7 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
                 },
                 {
                   highlight: true,
-                  name: 'Sensor Networks',
+                  name: 'Networks',
                   status: 'Total',
                   slug: 'networks',
                 },
@@ -162,6 +162,10 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
                 sensors: meta.sensors_count,
                 nodes: meta.nodes_count,
                 networks: meta.sensor_networks.count,
+              }}
+              valueTexts={{
+                'data-values': `in a ${meta.database_size} database`,
+                networks: `in ${meta.sensors_locations?.length} countries`,
               }}
             />
           </Grid>
