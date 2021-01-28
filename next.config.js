@@ -11,9 +11,6 @@ module.exports = withImages({
     }
     return config;
   },
-});
-
-module.exports = {
   async headers() {
     return [
       {
@@ -38,4 +35,4 @@ module.exports = {
       },
     ];
   },
-};
+});
