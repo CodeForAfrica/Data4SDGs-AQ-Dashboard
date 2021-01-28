@@ -94,8 +94,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DataArchives({ tokens }) {
-  const { purpleAirToken, airQOToken, openAQToken, data4SDGToken } = tokens;
+  const {
+    airNowToken,
+    airQOToken,
+    data4SDGToken,
+    purpleAirToken,
+    smartCitizenToken,
+  } = tokens;
   const classes = useStyles();
+
   return (
     <Grid
       container
@@ -159,12 +166,12 @@ function DataArchives({ tokens }) {
         >
           <Grid className={classes.dt}>
             <Typography variant="body2" component="p">
-              Purple Air
+              AirNow
             </Typography>
           </Grid>
 
           <Grid item className={classes.dd}>
-            <code className={classes.code}>{purpleAirToken}</code>
+            <code className={classes.code}>{airNowToken}</code>
           </Grid>
         </Grid>
         <Grid
@@ -195,12 +202,12 @@ function DataArchives({ tokens }) {
         >
           <Grid className={classes.dt}>
             <Typography variant="body2" component="p">
-              OpenAQ
+              Data4DSGs*
             </Typography>
           </Grid>
 
           <Grid item className={classes.dd}>
-            <code className={classes.code}>{openAQToken}</code>
+            <code className={classes.code}>{data4SDGToken}</code>
           </Grid>
         </Grid>
         <Grid
@@ -213,12 +220,30 @@ function DataArchives({ tokens }) {
         >
           <Grid className={classes.dt}>
             <Typography variant="body2" component="p">
-              Data4DSGs*
+              PurpleAir
             </Typography>
           </Grid>
 
           <Grid item className={classes.dd}>
-            <code className={classes.code}>{data4SDGToken}</code>
+            <code className={classes.code}>{purpleAirToken}</code>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          container
+          justify="flex-start"
+          alignItems="flex-start"
+          className={classes.dl}
+        >
+          <Grid className={classes.dt}>
+            <Typography variant="body2" component="p">
+              SmartCitizen
+            </Typography>
+          </Grid>
+
+          <Grid item className={classes.dd}>
+            <code className={classes.code}>{smartCitizenToken}</code>
           </Grid>
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
