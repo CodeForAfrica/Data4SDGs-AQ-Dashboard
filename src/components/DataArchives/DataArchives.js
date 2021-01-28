@@ -91,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
 
 const sensors = 'https://api.sensors.africa/v1/sensors/{sensor_id}/';
 const query = 'https://api.sensors.africa/v1/filter?city=&country=&type=';
-const data = 'https://api.sensors.africa/v1/data/';
 const now = 'https://api.sensors.africa/v1/now/';
 const type = '{sensor type}';
 const city = '{city}';
@@ -130,7 +129,7 @@ function DataArchives() {
       >
         <Grid item xs={12}>
           <Typography
-            variant="h6"
+            variant="h5"
             className={classes.typography}
             component="h2"
           >
@@ -238,16 +237,6 @@ function DataArchives() {
                 <code className={classes.var}>nairobi</code> ,
                 <code className={classes.var}>lagos</code>
               </li>
-              {/* <li className={classes.query}>
-                <code className={classes.queryParam}>area</code> ={' '}
-                <code>{area}</code>: provides all sensors within a max radius.
-              </li> */}
-              {/* } <li className={classes.query}>
-                <code className={classes.queryParam}>box</code>={' '}
-                <code className={classes.queryDescription}>{box}</code>:
-                provides all sensors in a &lsquo;box&rsquo; with the given
-                coordinates.
-              </li> */}
               <li className={classes.query}>
                 {' '}
                 <code className={classes.queryParam}>country</code>={' '}
@@ -262,32 +251,6 @@ function DataArchives() {
                 <code className={classes.var}>SDS011</code> ,
                 <code className={classes.var}> DHT22</code>
               </li>
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="http://api.sensors.africa/v1/data/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{data}</code>
-            </a>
-          </Grid>
-          <Grid className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides all measurements for all publicly accessible sensors
-              stored in our database.
             </Typography>
           </Grid>
         </Grid>

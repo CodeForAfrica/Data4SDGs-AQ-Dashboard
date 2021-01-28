@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     height: 50,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: 40,
     },
   },

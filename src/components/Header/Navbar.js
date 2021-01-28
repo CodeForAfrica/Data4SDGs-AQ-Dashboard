@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { signOut } from 'next-auth/client';
+
 import {
   AppBar,
   Grid,
@@ -8,13 +10,13 @@ import {
   Hidden,
   Button,
   Typography,
-  Link,
 } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
 import IconLogo from 'components/IconLogo';
-import SearchBar from 'components/SearchBar';
+import Link from 'components/Link';
 import MenuBar from 'components/Header/MenuBar';
-import { signOut } from 'next-auth/client';
+import SearchBar from 'components/SearchBar';
 
 const useStyles = makeStyles((theme) => ({
   navBarText: {
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logoGrid: {
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       position: 'absolute',
       top: 0,
       left: 0,
@@ -51,12 +53,9 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: '8%',
       paddingLeft: '8%',
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       padding: '0 5px',
-    },
-    [theme.breakpoints.between('sm', 'md')]: {
-      padding: '0 20px',
     },
   },
   root: {
@@ -69,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navBarRoot: {
     display: 'flex',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       padding: '10px 0',
     },
   },
@@ -87,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px 0',
     display: 'flex',
     justifyContent: 'flex-end',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
       order: 2,
       padding: 0,
@@ -99,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '2rem',
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexGrow: 1,
     },
   },
@@ -152,45 +151,44 @@ function Navbar({ handleSearch, ...props }) {
                 justify="space-between"
                 classes={{ root: classes.navBarRoot }}
               >
-                <Hidden only={['xs']}>
-                  <Grid item lg={7} classes={{ root: classes.navBarRoot }}>
+                <Hidden only={['xs', 'sm']}>
+                  <Grid item md={7} classes={{ root: classes.navBarRoot }}>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="/dashboard#map" className={classes.navLink}>
+                      <Link
+                        href="/dashboard#__next"
+                        passHref
+                        className={classes.navLink}
+                      >
                         MAP
-                      </a>
+                      </Link>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a
+                      <Link
                         href="/dashboard#resources"
+                        passHref
                         className={classes.navLink}
                       >
                         RESOURCES
-                      </a>
+                      </Link>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="/dashboard#partners" className={classes.navLink}>
-                        PARTNERS
-                      </a>
-                    </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
-                      <a href="/dashboard#contacts" className={classes.navLink}>
-                        CONTACT
-                      </a>
-                    </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
-                      <Link href="/dashboard/docs" className={classes.navLink}>
+                      <Link
+                        href="/dashboard/docs"
+                        passHref
+                        className={classes.navLink}
+                      >
                         DOCUMENTATION
                       </Link>
                     </MenuItem>
                   </Grid>
                 </Hidden>
-                <Grid item lg={5} classes={{ root: classes.searchBar }}>
+                <Grid item md={5} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
                     placeholder="Search for country"
                     classes={{ root: classes.searchBarRoot }}
                   />
-                  <Hidden only={['xs']}>
+                  <Hidden only={['xs', 'sm']}>
                     <Button
                       variant="text"
                       onClick={signOut}
@@ -204,7 +202,7 @@ function Navbar({ handleSearch, ...props }) {
                     </Button>
                   </Hidden>
                 </Grid>
-                <Hidden only={['sm', 'md', 'lg', 'xl']}>
+                <Hidden only={['md', 'lg', 'xl']}>
                   <MenuBar />
                 </Hidden>
               </Grid>

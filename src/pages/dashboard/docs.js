@@ -5,7 +5,6 @@ import Router from 'next/router';
 import { useSession } from 'next-auth/client';
 
 import Navbar from 'components/Header/Navbar';
-import DataArchivesHeader from 'components/DataArchives/DataArchivesHeader';
 import DataArchives from 'components/DataArchives/DataArchives';
 import Tokens from 'components/Tokens';
 import Footer from 'components/Footer';
@@ -21,7 +20,7 @@ function Data({ tokens }) {
   return (
     <>
       <Navbar />
-      <DataArchivesHeader />
+      <Tokens />
       <Tokens tokens={tokens} />
       <DataArchives />
       <Footer />
@@ -40,6 +39,7 @@ export async function getStaticProps() {
     props: {
       tokens: { purpleAirToken, airQOToken, openAQToken, data4SDGToken },
     },
+    revalidate: 300, // seconds
   };
 }
 
