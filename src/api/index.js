@@ -194,7 +194,7 @@ function dataByCountry(data, country) {
 function dataByCountries(data) {
   /* eslint-disable no-param-reassign */
   return data.reduce((results, item) => {
-    const key = item.location.country.toLowerCase();
+    const key = item.location?.country?.toLowerCase() || "other";
     results[key] = results[key] || []; // create array if not exists
     results[key].push(item); // push item
     return results;
