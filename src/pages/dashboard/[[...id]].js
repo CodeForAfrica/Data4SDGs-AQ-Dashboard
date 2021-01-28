@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Router from 'next/router';
@@ -12,6 +12,7 @@ import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
 import AQIndex from 'components/City/AQIndex';
 import Footer from 'components/Footer';
 import HazardReading from 'components/City/HazardReadings';
+import Insights from 'components/Insights';
 import Navbar from 'components/Header/Navbar';
 import Resources from 'components/Resources';
 import SensorMap from 'components/SensorMap';
@@ -78,16 +79,16 @@ const DASHBOARD_PATHNAME = '/dashboard';
 
 function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
   const classes = useStyles(props);
-  const [session] = useSession();
+  const [session, loading] = useSession();
   const [country, setCountry] = useState(countrySlug);
 
-  const { weeklyData } = data;
+  if (loading) return null;
 
-  useEffect(() => {
-    if (!session) {
-      Router.push('/');
-    }
-  }, [session]);
+  if (!loading && !session) {
+    Router.push('/');
+  }
+
+  const { weeklyData } = data;
 
   // if !data, 404
   if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
@@ -129,8 +130,8 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
         {meta && meta.database_last_updated?.length ? (
           <Grid item xs={12} id="ticker" className={classes.section}>
             <Ticker
-              title="Sensors in Africa"
-              lastUpdated={meta.database_last_updated}
+              title="Executive Summary"
+              subtitle={`Database Size: ${meta.database_size}`}
               statuses={[
                 {
                   highlight: true,
@@ -164,7 +165,9 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
                 networks: meta.sensor_networks.count,
               }}
               valueTexts={{
-                'data-values': `in a ${meta.database_size} database`,
+                'data-values': `Updated: ${new Date(
+                  meta.database_last_updated
+                ).toISOString()}`,
                 networks: `in ${meta.sensors_locations?.length} countries`,
               }}
             />
@@ -212,6 +215,9 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
           <Grid item lg={12} justify="center">
             <AQIndex />
           </Grid>
+        </Grid>
+        <Grid item id="insights" className={classes.section} xs={12}>
+          <Insights />
         </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />
