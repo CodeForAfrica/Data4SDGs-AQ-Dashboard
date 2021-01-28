@@ -1,6 +1,4 @@
 export default async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://wb.map.sensors.africa');
-
   const token = process.env.DATA4_DSGS;
 
   const myHeaders = new Headers();
