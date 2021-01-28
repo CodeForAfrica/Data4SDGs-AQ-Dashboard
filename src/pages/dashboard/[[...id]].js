@@ -7,7 +7,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
+import API, { COUNTRIES_LOCATION, dataByCountries } from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import Footer from 'components/Footer';
@@ -18,14 +18,13 @@ import AQIndex from 'components/City/AQIndex';
 import Resources from 'components/Resources';
 
 import NotFound from 'pages/404';
-import config from '../../config';
+import Filter from 'components/Filter';
 
 const DEFAULT_COUNTRY = 'africa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-
     // TODO(kilemensi): This is hack to force the page to be 100% wide w/o
     //                  horizontal scrollbars.
     position: 'absolute',
@@ -78,9 +77,11 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
   const classes = useStyles(props);
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
-
-  const { weeklyData } = data;
-
+  const [yAxisLabels, setYAxisLAbel] = useState({
+    yName: 'P1',
+    yLabel: 'PM10',
+  });
+  const { sensorsDataByCountry, africaData } = data;
   useEffect(() => {
     if (!session) {
       Router.push('/');
@@ -133,24 +134,25 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           className={classes.graphContainer}
         >
           <Grid item xs={12} lg={6}>
-            {weeklyData.length > 0 ? (
+            {sensorsDataByCountry ? (
               <div>
+                <Filter
+                  onChange={(value) => {
+                    setYAxisLAbel(JSON.parse(value));
+                  }}
+                />
                 <Typography>
                   Air Quality in {COUNTRIES_LOCATION[country].label}
                 </Typography>
                 <QualityStatsGraph
-                  yLabel="PM2.5"
+                  {...yAxisLabels}
                   xLabel="Date"
-                  data={{ name: country, data: weeklyData }}
+                  data={sensorsDataByCountry}
                 />
               </div>
             ) : null}
             <Typography> Air Quality in Africa</Typography>
-            <QualityStatsGraph
-              yLabel="PM10"
-              xLabel="Date"
-              data={config.multiAirData}
-            />
+            <QualityStatsGraph {...yAxisLabels} data={africaData} />
           </Grid>
           <Grid
             container
@@ -207,18 +209,20 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
   const country = countryProps || DEFAULT_COUNTRY;
-  const { city } = COUNTRIES_LOCATION[country];
-  const airRes = await API.getAirData(city);
-  const weeklyP2Res = await API.getWeeklyP2Data(city);
-  let errorCode = airRes.statusCode > 200 && airRes.statusCode;
+  // const t0 = Date.now();
+  const sensorsData = await API.getData();
+  // const t1 = Date.now();
+  // console.log(`Call to getData took ${t1 - t0} milliseconds.`);
 
-  errorCode =
-    !errorCode && weeklyP2Res.statusCode > 200 && weeklyP2Res.statusCode;
-  const air = (!errorCode && (await airRes.json())) || {};
-  const weeklyP2 = (!errorCode && (await weeklyP2Res.json())) || {};
+  const { id } = COUNTRIES_LOCATION[country];
+  const sensorsDataByCountry = dataByCountries(sensorsData);
+  const countryData = sensorsDataByCountry[id || 76];
 
-  const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
-  const data = { air, weeklyData };
+  const errorCode = countryData ? 200 : 404;
+  // errorCode =
+  //   !errorCode && weeklyP2Res.statusCode > 200 && weeklyP2Res.statusCode;
+  const africaData = { Africa: sensorsData };
+  const data = { sensorsDataByCountry, countryData, africaData };
 
   // Pass data to the page via props
   return { props: { errorCode, country, data } };

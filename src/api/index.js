@@ -187,10 +187,75 @@ const COUNTRIES_LOCATION = {
   },
 };
 
+function dataByCountry(data, country) {
+  return data.filter((datum) => datum.location === country) || [];
+}
+
+function dataByCountries(data) {
+  /* eslint-disable no-param-reassign */
+  return data.reduce((results, item) => {
+    const key = item.location;
+    results[key] = results[key] || []; // create array if not exists
+    results[key].push(item); // push item
+    return results;
+  }, {});
+  /* eslint-enable no-param-reassign */
+}
+
+const headers = new Headers();
+
+headers.append(
+  'Authorization',
+  `token d6131e220048fb5a7677f283582c82db992866d5`
+);
+
+async function getData(
+  url = `https://api.sensors.africa/v2/data`,
+  timestamp = '2021-01-14T16:22:02.018Z',
+  times = 0
+) {
+  let timestampQuery = '';
+  if (timestamp) {
+    timestampQuery = `?timestamp__gte=${timestamp}`;
+  }
+  const response = await fetch(url + timestampQuery, {
+    headers,
+  });
+  const resjson = await response.json();
+
+  const data = resjson.results.map((readings) => {
+    const P1 =
+      readings.sensordatavalues.find(
+        (dataValue) => dataValue.value_type === 'P1'
+      )?.value || 0;
+    const P2 =
+      readings.sensordatavalues.find(
+        (dataValue) => dataValue.value_type === 'P2'
+      )?.value || 0;
+    const date = new Date(readings.timestamp)
+      .toDateString()
+      .split(' ')
+      .slice(1)
+      .join(' ');
+    const time = new Date(readings.timestamp).toLocaleTimeString();
+    return {
+      ...readings,
+      P1: Number(P1),
+      P2: Number(P2),
+      dateLabel: `${date} \n ${time}`,
+    };
+  });
+  if (resjson.next) {
+    return data.concat(await getData(resjson.next, timestamp, times + 1));
+  }
+  return data;
+}
+
 const API = {
   getAirData(city) {
     return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
   },
+  getData,
   getWeeklyP2Data(city) {
     const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
       .toISOString()
@@ -208,5 +273,7 @@ export {
   getFormattedP2Stats,
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
+  dataByCountry,
+  dataByCountries,
 };
 export default API;
