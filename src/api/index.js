@@ -194,7 +194,7 @@ function dataByCountry(data, country) {
 function dataByCountries(data) {
   /* eslint-disable no-param-reassign */
   return data.reduce((results, item) => {
-    const key = item.location.country;
+    const key = item.location.country.toLowerCase();
     results[key] = results[key] || []; // create array if not exists
     results[key].push(item); // push item
     return results;
@@ -211,7 +211,7 @@ headers.append(
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
-  timestamp = '2021-01-28T09:22:02.018Z',
+  timestamp = '2021-01-28T00:22:02.018Z',
   times = 0
 ) {
   const timestampQuery = '';

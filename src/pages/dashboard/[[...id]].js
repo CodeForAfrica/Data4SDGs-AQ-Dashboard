@@ -206,27 +206,26 @@ export async function getStaticPaths() {
   return { fallback, paths };
 }
 
-export async function getStaticProps({ params: { id: countryQueryProp } }) {
+export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
-  const countryProp = countryQueryProp || DEFAULT_COUNTRY;
-  const { country } = COUNTRIES_LOCATION[countryProp];
-  let errorCode = country ? 200 : 404;
-
-  // const t0 = Date.now();
+  const countryProp = countryProps || DEFAULT_COUNTRY;
+  const { slug } = COUNTRIES_LOCATION[countryProp];
+  let errorCode = slug ? 200 : 404;
+  const t0 = Date.now();
   const sensorsData = await API.getData();
-  // const t1 = Date.now();
-  // console.log(`Call to getData took ${t1 - t0} milliseconds.`);
+  const t1 = Date.now();
+  console.log(`Call to getData took ${t1 - t0} milliseconds.`);
 
   const sensorsDataByCountry = dataByCountries(sensorsData);
   let countryData;
-  if (country !== 'africa') {
-    countryData = sensorsDataByCountry[country];
+  if (slug !== 'africa') {
+    countryData = sensorsDataByCountry[slug];
     errorCode = countryData ? 200 : 404;
   }
   const africaData = { Africa: sensorsData };
   const data = { sensorsDataByCountry, africaData };
 
-  return { props: { errorCode, country, data } };
+  return { props: { errorCode, country: slug, data } };
 }
 
 export default Country;
