@@ -49,7 +49,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Ticker({ lastUpdated, statuses, title, values, ...props }) {
+function Ticker({
+  lastUpdated,
+  statuses,
+  title,
+  valueTexts,
+  values,
+  ...props
+}) {
   const classes = useStyles(props);
   const theme = useTheme();
   const isMobile = !useMediaQuery(theme.breakpoints.up('md'));
@@ -83,6 +90,7 @@ function Ticker({ lastUpdated, statuses, title, values, ...props }) {
                 <Status
                   {...status}
                   value={values[status.slug]}
+                  valueText={valueTexts[status.slug]}
                   classes={{
                     root: classNames(
                       classes.status,
@@ -126,6 +134,7 @@ Ticker.propTypes = {
   lastUpdated: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     .isRequired,
   title: PropTypes.string.isRequired,
+  valueTexts: PropTypes.shape({}).isRequired,
   values: PropTypes.shape({}).isRequired,
 };
 

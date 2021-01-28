@@ -20,9 +20,13 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit',
     lineHeight: '6.25rem',
   },
+  valueText: {
+    color: '#9D9C9C',
+    fontFamily: theme.typography.h3.fontFamily,
+  },
 }));
 
-function Status({ name, status, value, ...props }) {
+function Status({ name, status, value, valueText, ...props }) {
   const classes = useStyles(props);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
@@ -51,6 +55,15 @@ function Status({ name, status, value, ...props }) {
         <Typography variant={isDesktop ? 'h3' : 'h5'} className={classes.value}>
           {value.toLocaleString()}
         </Typography>
+        {valueText?.length ? (
+          <Typography
+            variant="caption"
+            size="small"
+            className={classes.valueText}
+          >
+            {valueText}
+          </Typography>
+        ) : null}
       </Grid>
     </Grid>
   );
@@ -60,6 +73,11 @@ Status.propTypes = {
   name: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
+  valueText: PropTypes.string,
+};
+
+Status.defaultProps = {
+  valueText: undefined,
 };
 
 export default Status;
