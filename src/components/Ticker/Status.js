@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   },
   name: {
     color: 'inherit',
-    // textTransform: 'none',
   },
   status: {
     color: 'inherit',

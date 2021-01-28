@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       width: '76.125rem',
     },
-    [theme.breakpoints.up('lg')]: {
-      // width: '26.5rem',
-    },
   },
   ticker: {
     border: '1px solid #D6D6D6',
@@ -46,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
   statuses: {
     marginTop: '1.125rem',
-    [theme.breakpoints.up('md')]: {
-      // marginTop: '2.625rem',
-    },
   },
   title: {
     textTransform: 'uppercase',
