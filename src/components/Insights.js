@@ -40,8 +40,8 @@ function Insights(props) {
         <Grid item className={classes.section}>
           <Typography variant="body1" className={classes.text}>
             Use the
-            <Link href="/dashboard/docs">API</Link>
-            to access raw data and create real-time insights.
+            <Link href="/dashboard/docs">API</Link> to access raw data and
+            create real-time insights.
           </Typography>
         </Grid>
       </Grid>
