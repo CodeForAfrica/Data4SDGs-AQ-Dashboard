@@ -188,13 +188,13 @@ const COUNTRIES_LOCATION = {
 };
 
 function dataByCountry(data, country) {
-  return data.filter((datum) => datum.location === country) || [];
+  return data.filter((datum) => datum.location.country === country) || [];
 }
 
 function dataByCountries(data) {
   /* eslint-disable no-param-reassign */
   return data.reduce((results, item) => {
-    const key = item.location;
+    const key = item.location.country;
     results[key] = results[key] || []; // create array if not exists
     results[key].push(item); // push item
     return results;
@@ -211,13 +211,13 @@ headers.append(
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
-  timestamp = '2021-01-14T16:22:02.018Z',
+  timestamp = '2021-01-28T09:22:02.018Z',
   times = 0
 ) {
-  let timestampQuery = '';
-  if (timestamp) {
-    timestampQuery = `?timestamp__gte=${timestamp}`;
-  }
+  const timestampQuery = '';
+  // if (timestamp) {
+  //   timestampQuery = `?timestamp__gte=${timestamp}`;
+  // }
   const response = await fetch(url + timestampQuery, {
     headers,
   });
@@ -245,7 +245,7 @@ async function getData(
       dateLabel: `${date} \n ${time}`,
     };
   });
-  if (resjson.next) {
+  if (data[data.length - 1].timestamp > timestamp) {
     return data.concat(await getData(resjson.next, timestamp, times + 1));
   }
   return data;
