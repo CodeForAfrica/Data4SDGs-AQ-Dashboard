@@ -206,25 +206,26 @@ export async function getStaticPaths() {
   return { fallback, paths };
 }
 
-export async function getStaticProps({ params: { id: countryProps } }) {
+export async function getStaticProps({ params: { id: countryQueryProp } }) {
   // Fetch data from external API
-  const country = countryProps || DEFAULT_COUNTRY;
+  const countryProp = countryQueryProp || DEFAULT_COUNTRY;
+  const { country } = COUNTRIES_LOCATION[countryProp];
+  let errorCode = country ? 200 : 404;
+
   // const t0 = Date.now();
   const sensorsData = await API.getData();
   // const t1 = Date.now();
   // console.log(`Call to getData took ${t1 - t0} milliseconds.`);
 
-  const { id } = COUNTRIES_LOCATION[country];
   const sensorsDataByCountry = dataByCountries(sensorsData);
-  const countryData = sensorsDataByCountry[id || 76];
-
-  const errorCode = countryData ? 200 : 404;
-  // errorCode =
-  //   !errorCode && weeklyP2Res.statusCode > 200 && weeklyP2Res.statusCode;
+  let countryData;
+  if (country !== 'africa') {
+    countryData = sensorsDataByCountry[country];
+    errorCode = countryData ? 200 : 404;
+  }
   const africaData = { Africa: sensorsData };
-  const data = { sensorsDataByCountry, countryData, africaData };
+  const data = { sensorsDataByCountry, africaData };
 
-  // Pass data to the page via props
   return { props: { errorCode, country, data } };
 }
 
