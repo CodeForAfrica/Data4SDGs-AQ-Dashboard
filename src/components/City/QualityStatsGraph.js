@@ -113,8 +113,8 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
                   strokeWidth: 1,
                 },
                 axisLabel: {
-                  padding: 30,
-                  fontSize: 18,
+                  padding: 40,
+                  fontSize: 12,
                   fontWeight: 'bold',
                 },
                 grid: {
@@ -124,6 +124,7 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
+                  fontSize: 9,
                 },
               }}
               fixLabelOverlap

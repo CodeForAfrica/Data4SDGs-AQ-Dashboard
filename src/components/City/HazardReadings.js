@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   textStyle: {
     display: 'flex',
     justifyContent: 'space-between',
+    textTransform: 'capitalize',
   },
   title: {
     marginBottom: '4rem',
