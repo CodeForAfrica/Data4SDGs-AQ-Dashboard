@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   ticker: {
     border: '1px solid #D6D6D6',
     boxShadow: '0px 4px 4px #00000029',
+    marginTop: '1rem',
     padding: '1.125rem',
     [theme.breakpoints.up('md')]: {
       padding: '1.125rem 2.625rem 1.25rem',
@@ -33,7 +34,11 @@ const useStyles = makeStyles((theme) => ({
   lastUpdated: {
     color: '#9D9C9C',
   },
-  subtitle: {},
+  subtitle: {
+    color: '#5D5C5C',
+    fontFamily: theme.typography.h3.fontFamily,
+    textTransform: 'uppercase',
+  },
   status: {},
   statusBorderRight: {
     borderRight: '1px solid #D6D6D6',
@@ -53,7 +58,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Ticker({ statuses, subtitle, title, valueTexts, values, ...props }) {
+function Ticker({
+  description,
+  statuses,
+  subtitle,
+  title,
+  valueTexts,
+  values,
+  ...props
+}) {
   const classes = useStyles(props);
   const theme = useTheme();
   const isMobile = !useMediaQuery(theme.breakpoints.up('md'));
@@ -70,21 +83,28 @@ function Ticker({ statuses, subtitle, title, valueTexts, values, ...props }) {
           alignItems="center"
           className={classes.ticker}
         >
-          <Grid item xs={12} container justify="center">
-            <Grid item>
-              <Typography variant="h5" component="h2" className={classes.title}>
-                {title}
+          <Grid item xs={12}>
+            <Typography variant="h5" component="h2" className={classes.title}>
+              {title}
+            </Typography>
+            {subtitle?.length ? (
+              <Typography
+                variant="subtitle2"
+                component="h3"
+                className={classes.subtitle}
+              >
+                {subtitle}
               </Typography>
-              {subtitle?.length ? (
-                <Typography
-                  variant="subtitle2"
-                  component="h3"
-                  className={classes.subtitle}
-                >
-                  {subtitle}
-                </Typography>
-              ) : null}
-            </Grid>
+            ) : null}
+            {description?.length ? (
+              <Typography
+                variant="caption"
+                component="p"
+                className={classes.description}
+              >
+                {description}
+              </Typography>
+            ) : null}
           </Grid>
           <Grid item xs={12} container className={classes.statuses}>
             {statuses.map((status, index) => (
@@ -116,6 +136,8 @@ function Ticker({ statuses, subtitle, title, valueTexts, values, ...props }) {
 }
 
 Ticker.propTypes = {
+  description: PropTypes.string,
+  subtitle: PropTypes.string,
   statuses: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -128,6 +150,11 @@ Ticker.propTypes = {
   title: PropTypes.string.isRequired,
   valueTexts: PropTypes.shape({}).isRequired,
   values: PropTypes.shape({}).isRequired,
+};
+
+Ticker.defaultProps = {
+  description: undefined,
+  subtitle: undefined,
 };
 
 export default Ticker;
