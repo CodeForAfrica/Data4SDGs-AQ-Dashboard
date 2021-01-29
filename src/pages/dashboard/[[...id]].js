@@ -133,7 +133,7 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
               title="Executive Summary"
               subtitle={`Database Size: ${meta.database_size}`}
               description={`
-             This dashboard tracks air quality data aggregated (via API or regular manual data uploads) from independent citizen science or academic research networks across Africa. The dashboard is intended to give users an overview of network coverage and data trends, as well as to help researchers understand gaps in the networks and grassroots challenges around keeping sensors online/updated.sensors.AFRICA is custodian of the dashboard. We are happy to receive requests/suggestions for new networks to be added to the repository. 
+             This dashboard tracks air quality data aggregated (via API or regular manual data uploads) from independent citizen science or academic research networks across Africa. The dashboard is intended to give users an overview of network coverage and data trends, as well as to help researchers understand gaps in the networks and grassroots challenges around keeping sensors online / updated. sensors.AFRICA is custodian of the dashboard. We are happy to receive requests/suggestions for new networks to be added to the repository. 
               `}
               statuses={[
                 {
