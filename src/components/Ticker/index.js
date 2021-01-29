@@ -77,63 +77,57 @@ function Ticker({
   return (
     <div className={classes.root}>
       <div className={classes.section}>
-        <Grid container justify="center" alignItems="center">
-          <Grid item xs={12} container justify="center">
-            <Grid item>
-              <Typography variant="h3" component="h2" className={classes.title}>
-                {title}
+        <Grid
+          container
+          justify="center"
+          alignItems="center"
+          className={classes.ticker}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h5" component="h2" className={classes.title}>
+              {title}
+            </Typography>
+            {subtitle?.length ? (
+              <Typography
+                variant="subtitle2"
+                component="h3"
+                className={classes.subtitle}
+              >
+                {subtitle}
               </Typography>
-              {subtitle?.length ? (
-                <Typography
-                  variant="subtitle2"
-                  component="h3"
-                  className={classes.subtitle}
-                >
-                  {subtitle}
-                </Typography>
-              ) : null}
-              {description?.length ? (
-                <Typography
-                  variant="caption"
-                  component="p"
-                  className={classes.description}
-                >
-                  {description}
-                </Typography>
-              ) : null}
-            </Grid>
+            ) : null}
+            {description?.length ? (
+              <Typography
+                variant="caption"
+                component="p"
+                className={classes.description}
+              >
+                {description}
+              </Typography>
+            ) : null}
           </Grid>
-          <Grid
-            item
-            xs={12}
-            container
-            justify="center"
-            alignItems="center"
-            className={classes.ticker}
-          >
-            <Grid item xs={12} container className={classes.statuses}>
-              {statuses.map((status, index) => (
-                <Grid key={status.name} item xs={6} md={3}>
-                  <Status
-                    {...status}
-                    value={values[status.slug]}
-                    valueText={valueTexts[status.slug]}
-                    classes={{
-                      root: classNames(
-                        classes.status,
-                        {
-                          [classes.statusBorderRight]: isMobile
-                            ? index % 2 === 0
-                            : index < statuses.length - 1,
-                        },
-                        { [classes.statusBorderTop]: isMobile && index > 1 },
-                        { [classes.statusHighlight]: status.highlight }
-                      ),
-                    }}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+          <Grid item xs={12} container className={classes.statuses}>
+            {statuses.map((status, index) => (
+              <Grid key={status.name} item xs={6} md={3}>
+                <Status
+                  {...status}
+                  value={values[status.slug]}
+                  valueText={valueTexts[status.slug]}
+                  classes={{
+                    root: classNames(
+                      classes.status,
+                      {
+                        [classes.statusBorderRight]: isMobile
+                          ? index % 2 === 0
+                          : index < statuses.length - 1,
+                      },
+                      { [classes.statusBorderTop]: isMobile && index > 1 },
+                      { [classes.statusHighlight]: status.highlight }
+                    ),
+                  }}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </div>
