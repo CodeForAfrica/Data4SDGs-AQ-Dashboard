@@ -7,7 +7,11 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION, dataByCountries } from 'api';
+import API, {
+  COUNTRIES_LOCATION,
+  dataByCountries,
+  calculateAverage,
+} from 'api';
 
 import Navbar from 'components/Header/Navbar';
 import Footer from 'components/Footer';
@@ -222,7 +226,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
     countryData = sensorsDataByCountry[slug];
     errorCode = countryData ? 200 : 404;
   }
-  const africaData = { Africa: sensorsData };
+  const africaData = { Africa: calculateAverage(sensorsData) };
   const data = { sensorsDataByCountry, africaData };
 
   return { props: { errorCode, country: slug, data } };

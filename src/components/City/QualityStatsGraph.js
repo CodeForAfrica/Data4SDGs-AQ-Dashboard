@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import { formatDateTime } from 'lib';
 
 import {
   VictoryChart,
@@ -11,7 +12,6 @@ import {
   VictoryLine,
   VictoryAxis,
   VictoryLegend,
-  VictoryLabel,
 } from 'victory';
 import getRandomColor from '../../utils';
 
@@ -77,8 +77,12 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
             width={chartWidth}
           >
             <VictoryAxis
-              tickCount={2}
-              tickLabelComponent={<VictoryLabel />}
+              tickCount={5}
+              tickFormat={(timestamp) =>
+                `${formatDateTime(timestamp).date} \n  ${
+                  formatDateTime(timestamp).time
+                }`
+              }
               style={{
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',
@@ -141,7 +145,8 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
             {legend.map((_, i) => (
               <VictoryLine
                 data={dataProps[_.name]}
-                name="sdsd"
+                name={_.name}
+                interpolation="natural"
                 x={xName}
                 y={yName}
                 style={{

@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import { formatDateTime } from 'lib';
 
 const HUMIDITY_READING = 'humidity';
 const TEMPERATURE_READING = 'temperature';
@@ -194,7 +195,7 @@ function dataByCountry(data, country) {
 function dataByCountries(data) {
   /* eslint-disable no-param-reassign */
   return data.reduce((results, item) => {
-    const key = item.location?.country?.toLowerCase() || "other";
+    const key = item.location?.country?.toLowerCase() || 'other';
     results[key] = results[key] || []; // create array if not exists
     results[key].push(item); // push item
     return results;
@@ -211,7 +212,7 @@ headers.append(
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
-  timestamp = '2021-01-28T00:22:02.018Z',
+  timestamp = '2021-01-29T04:58:02.018Z',
   times = 0
 ) {
   const timestampQuery = '';
@@ -232,12 +233,7 @@ async function getData(
       readings.sensordatavalues.find(
         (dataValue) => dataValue.value_type === 'P2'
       )?.value || 0;
-    const date = new Date(readings.timestamp)
-      .toDateString()
-      .split(' ')
-      .slice(1)
-      .join(' ');
-    const time = new Date(readings.timestamp).toLocaleTimeString();
+    const { date, time } = formatDateTime(readings.timestamp);
     return {
       ...readings,
       P1: Number(P1),
@@ -245,10 +241,43 @@ async function getData(
       dateLabel: `${date} \n ${time}`,
     };
   });
+
   if (data[data.length - 1].timestamp > timestamp) {
     return data.concat(await getData(resjson.next, timestamp, times + 1));
   }
-  return data;
+  return data.reverse();
+}
+
+function calculateAverage(data, chunk = 100) {
+  const results = [];
+
+  for (let i = 0; i < data.length; i += chunk) {
+    const tempData = data.slice(i, i + chunk);
+    const sum = tempData.reduce(
+      (acc, current) => {
+        return {
+          P1: acc.P1 + current.P1,
+          P2: acc.P2 + current.P2,
+          timestamp:
+            new Date(acc.timestamp).getTime() +
+            new Date(current.timestamp).getTime(),
+        };
+      },
+      { P1: 0, P2: 0, timestamp: 0 }
+    );
+
+    const average = {
+      P1: sum.P1 / tempData.length,
+      P2: sum.P2 / tempData.length,
+      timestamp: new Date(
+        Math.round(sum.timestamp / tempData.length)
+      ).toISOString(),
+    };
+    const { date, time } = formatDateTime(average.timestamp);
+    average.dateLabel = `${date} \n ${time}`;
+    results.push(average);
+  }
+  return results;
 }
 
 const API = {
@@ -275,5 +304,6 @@ export {
   getFormattedWeeklyP2Stats,
   dataByCountry,
   dataByCountries,
+  calculateAverage,
 };
 export default API;
