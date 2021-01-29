@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 function Status({ name, status, value, valueText, ...props }) {
   const classes = useStyles(props);
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const isTablet = useMediaQuery(theme.breakpoints.only('md'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <Grid container className={classes.root}>
@@ -52,7 +53,10 @@ function Status({ name, status, value, valueText, ...props }) {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant={isDesktop ? 'h3' : 'h5'} className={classes.value}>
+        <Typography
+          variant={isDesktop ? 'h3' : isTablet ? 'h4' : 'h5'}
+          className={classes.value}
+        >
           {value.toLocaleString()}
         </Typography>
         {valueText?.length ? (

@@ -28,15 +28,22 @@ function Data({ tokens }) {
 }
 
 export async function getStaticProps() {
-  const purpleAirToken = process.env.PURPLE_AIR;
-  const airQOToken = process.env.AIRQO;
-  const openAQToken = process.env.OPENAQ;
-  const data4SDGToken = process.env.DATA4_DSGS;
+  const airNowToken = process.env.AIR_NOW || null;
+  const airQOToken = process.env.AIRQO || null;
+  const data4SDGToken = process.env.DATA4_DSGS || null;
+  const purpleAirToken = process.env.PURPLE_AIR || null;
+  const smartCitizenToken = process.env.SMART_CITIZEN || null;
 
   // Pass data to the page via props
   return {
     props: {
-      tokens: { purpleAirToken, airQOToken, openAQToken, data4SDGToken },
+      tokens: {
+        airNowToken,
+        airQOToken,
+        data4SDGToken,
+        purpleAirToken,
+        smartCitizenToken,
+      },
     },
     revalidate: 300, // seconds
   };

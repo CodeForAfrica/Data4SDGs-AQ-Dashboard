@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     width: '100%',
     [theme.breakpoints.up('md')]: {
+      width: '59.625rem',
+    },
+    [theme.breakpoints.up('lg')]: {
       width: '76.125rem',
     },
   },
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   lastUpdated: {
     color: '#9D9C9C',
   },
+  subtitle: {},
   status: {},
   statusBorderRight: {
     borderRight: '1px solid #D6D6D6',
@@ -49,14 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Ticker({
-  lastUpdated,
-  statuses,
-  title,
-  valueTexts,
-  values,
-  ...props
-}) {
+function Ticker({ statuses, subtitle, title, valueTexts, values, ...props }) {
   const classes = useStyles(props);
   const theme = useTheme();
   const isMobile = !useMediaQuery(theme.breakpoints.up('md'));
@@ -73,15 +70,20 @@ function Ticker({
           alignItems="center"
           className={classes.ticker}
         >
-          <Grid item xs={12} container justify="space-between">
+          <Grid item xs={12} container justify="center">
             <Grid item>
-              <Typography
-                variant="subtitle2"
-                component="h2"
-                className={classes.title}
-              >
+              <Typography variant="h5" component="h2" className={classes.title}>
                 {title}
               </Typography>
+              {subtitle?.length ? (
+                <Typography
+                  variant="subtitle2"
+                  component="h3"
+                  className={classes.subtitle}
+                >
+                  {subtitle}
+                </Typography>
+              ) : null}
             </Grid>
           </Grid>
           <Grid item xs={12} container className={classes.statuses}>
@@ -106,16 +108,6 @@ function Ticker({
                 />
               </Grid>
             ))}
-          </Grid>
-          <Grid item xs={12} container justify="flex-start">
-            <Typography
-              variant="caption"
-              size="small"
-              underline="none"
-              className={classes.lastUpdated}
-            >
-              Last update: {new Date(lastUpdated).toISOString()}
-            </Typography>
           </Grid>
         </Grid>
       </div>
