@@ -203,6 +203,10 @@ function dataByCountries(data) {
   /* eslint-enable no-param-reassign */
 }
 
+// function averagedDataByCountries(data){
+
+// }
+
 const headers = new Headers();
 
 headers.append(
@@ -212,7 +216,7 @@ headers.append(
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
-  timestamp = '2021-01-29T04:58:02.018Z',
+  timestamp = '2021-01-29T11:10:02.018Z',
   times = 0
 ) {
   const timestampQuery = '';
@@ -245,14 +249,36 @@ async function getData(
   if (data[data.length - 1].timestamp > timestamp) {
     return data.concat(await getData(resjson.next, timestamp, times + 1));
   }
-  return data.reverse();
+  return data;
 }
 
-function calculateAverage(data, chunk = 100) {
-  const results = [];
+function chunkData(rawData, intervalMinutes = 5) {
+  const intervalMilli = intervalMinutes * 60 * 1000;
+  let currentBucket = 0;
+  const buckets = [];
 
-  for (let i = 0; i < data.length; i += chunk) {
-    const tempData = data.slice(i, i + chunk);
+  const data = rawData.reverse();
+  let intervalCurr =
+    new Date(data[0].timestamp).getTime() -
+    (new Date(data[0].timestamp).getTime() % intervalMilli) +
+    intervalMilli;
+
+  for (let i = 0; i < data.length; i += 1) {
+    if (new Date(data[i].timestamp).getTime() < intervalCurr) {
+      buckets[currentBucket] = buckets[currentBucket] || [];
+      buckets[currentBucket].push(data[i]);
+    } else {
+      intervalCurr += intervalMilli;
+      currentBucket += 1;
+    }
+  }
+  return buckets;
+}
+
+function calculateAverage(data, chunk = 30) {
+  const results = [];
+  const chunks = chunkData(data, chunk);
+  chunks.forEach((tempData) => {
     const sum = tempData.reduce(
       (acc, current) => {
         return {
@@ -271,12 +297,13 @@ function calculateAverage(data, chunk = 100) {
       P2: sum.P2 / tempData.length,
       timestamp: new Date(
         Math.round(sum.timestamp / tempData.length)
-      ).toISOString(),
+      ).getTime(),
     };
     const { date, time } = formatDateTime(average.timestamp);
     average.dateLabel = `${date} \n ${time}`;
     results.push(average);
-  }
+  });
+
   return results;
 }
 

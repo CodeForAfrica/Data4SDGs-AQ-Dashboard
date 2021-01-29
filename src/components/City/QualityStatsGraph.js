@@ -78,11 +78,7 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
           >
             <VictoryAxis
               tickCount={5}
-              tickFormat={(timestamp) =>
-                `${formatDateTime(timestamp).date} \n  ${
-                  formatDateTime(timestamp).time
-                }`
-              }
+              tickFormat={(timestamp) => `${formatDateTime(timestamp).time}`}
               style={{
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',

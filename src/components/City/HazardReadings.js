@@ -36,7 +36,7 @@ function HazardReading() {
         <Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              1. South Africa - 250{' '}
+              1. Uganda - 250{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'red' }} />
               </svg>
@@ -52,7 +52,7 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              3. Kenya - 155{' '}
+              3. South Africa - 155{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'purple' }} />
               </svg>
@@ -69,7 +69,7 @@ function HazardReading() {
         <Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              1. Togo - 49{' '}
+              1. Burkina Faso - 42{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
@@ -77,7 +77,7 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              2. Tanzania - 45{' '}
+              2. Gambia - 45{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
