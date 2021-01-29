@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HazardReading() {
+function HazardReading({ data, hazardReading }) {
   const classes = useStyles();
   return (
     <>
@@ -36,7 +36,10 @@ function HazardReading() {
         <Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              1. Uganda - 250{' '}
+              1. {data[data.length - 1].name} -{' '}
+              {parseFloat(
+                data[data.length - 1].data[hazardReading.name]
+              ).toFixed(2)}{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'red' }} />
               </svg>
@@ -44,7 +47,10 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              2. Nigeria - 159{' '}
+              2. {data[data.length - 2].name} - {}{' '}
+              {parseFloat(
+                data[data.length - 2].data[hazardReading.name]
+              ).toFixed(2)}{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'red' }} />
               </svg>
@@ -52,7 +58,10 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              3. South Africa - 155{' '}
+              3. {data[data.length - 3].name} -{' '}
+              {parseFloat(
+                data[data.length - 3].data[hazardReading.name]
+              ).toFixed(2)}{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'purple' }} />
               </svg>
@@ -69,7 +78,8 @@ function HazardReading() {
         <Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              1. Burkina Faso - 42{' '}
+              1. {data[0].name} -{' '}
+              {parseFloat(data[0].data[hazardReading.name]).toFixed(2)}{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
@@ -77,7 +87,8 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              2. Gambia - 45{' '}
+              2. {data[1].name} -{' '}
+              {parseFloat(data[1].data[hazardReading.name]).toFixed(2)}{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
@@ -85,7 +96,8 @@ function HazardReading() {
           </Grid>
           <Grid className={classes.country}>
             <Typography variant="body2" className={classes.textStyle}>
-              3. Ghana - 55{' '}
+              3. {data[2].name} -{' '}
+              {parseFloat(data[2].data[hazardReading.name]).toFixed(2)}{' '}
               <svg width="15" height="15">
                 <rect width="15" height="15" style={{ fill: 'yellow' }} />
               </svg>

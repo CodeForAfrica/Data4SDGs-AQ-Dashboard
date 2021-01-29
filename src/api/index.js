@@ -188,7 +188,7 @@ const COUNTRIES_LOCATION = {
   },
 };
 
-function chunkData(rawData, intervalMinutes = 5) {
+function chunkData(rawData, intervalMinutes = 30) {
   const intervalMilli = intervalMinutes * 60 * 1000;
   let currentBucket = 0;
   const buckets = [];
@@ -213,6 +213,7 @@ function chunkData(rawData, intervalMinutes = 5) {
 
 function calculateAverage(data, chunk = 30) {
   const results = [];
+
   const chunks = chunkData(data, chunk);
   chunks.forEach((tempData) => {
     const sum = tempData.reduce(
@@ -263,16 +264,31 @@ function dataByCountries(data) {
   return byCountries;
 }
 
+function sortCountries(data) {
+  const byCountries = { ...data };
+  Object.keys(byCountries).map((key) => {
+    byCountries[key] = calculateAverage(byCountries[key], new Date().getTime());
+    return null;
+  });
+  return Object.keys(byCountries)
+    .sort((a, b) => {
+      return byCountries[a][0].P1 - byCountries[b][0].P1;
+    })
+    .map((key) => ({ name: key, data: byCountries[key][0] }));
+}
+
 const headers = new Headers();
 
 headers.append(
   'Authorization',
   `token d6131e220048fb5a7677f283582c82db992866d5`
 );
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
-  timestamp = '2021-01-29T11:10:02.018Z',
+  timestamp = yesterday.toISOString(),
   times = 0
 ) {
   const timestampQuery = '';
@@ -333,5 +349,6 @@ export {
   dataByCountry,
   dataByCountries,
   calculateAverage,
+  sortCountries,
 };
 export default API;

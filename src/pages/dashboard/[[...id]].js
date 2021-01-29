@@ -11,6 +11,7 @@ import API, {
   COUNTRIES_LOCATION,
   dataByCountries,
   calculateAverage,
+  sortCountries,
 } from 'api';
 
 import Navbar from 'components/Header/Navbar';
@@ -85,7 +86,11 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
     yName: 'P1',
     yLabel: 'PM10',
   });
-  const { sensorsDataByCountry, africaData } = data;
+  const [hazardReading, setHazardReading] = useState({
+    name: 'P1',
+    label: 'PM10',
+  });
+  const { sortedCountries, sensorsDataByCountry, africaData } = data;
   useEffect(() => {
     if (!session) {
       Router.push('/');
@@ -143,6 +148,10 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
                 <Filter
                   onChange={(value) => {
                     setYAxisLAbel(JSON.parse(value));
+                    setHazardReading({
+                      label: JSON.parse(value).yLabel,
+                      name: JSON.parse(value).yName,
+                    });
                   }}
                 />
                 <Typography>
@@ -166,7 +175,10 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
             lg={6}
             className={classes.hazardContainer}
           >
-            <HazardReading />
+            <HazardReading
+              hazardReading={hazardReading}
+              data={sortedCountries}
+            />
           </Grid>
 
           <Grid item lg={12} justify="center">
@@ -227,8 +239,9 @@ export async function getStaticProps({ params: { id: countryProps } }) {
     errorCode = countryData ? 200 : 404;
   }
   const africaData = { Africa: calculateAverage(sensorsData) };
-  const data = { sensorsDataByCountry, africaData };
+  const sortedCountries = sortCountries(sensorsDataByCountry);
 
+  const data = { sortedCountries, sensorsDataByCountry, africaData };
   return { props: { errorCode, country: slug, data } };
 }
 
