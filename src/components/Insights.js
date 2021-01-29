@@ -8,12 +8,14 @@ import Link from 'components/Link';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#F3F3F3',
     margin: '0 auto',
     marginTop: theme.typography.pxToRem(50),
+    padding: `${theme.typography.pxToRem(48)} 0`,
     width: '100%',
   },
   section: {
+    backgroundColor: 'inherit',
     marginTop: theme.typography.pxToRem(24),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -23,25 +25,23 @@ const useStyles = makeStyles((theme) => ({
       width: '76.125rem',
     },
   },
-  text: {
-    textAlign: 'left',
-  },
+  text: {},
 }));
 
 function Insights(props) {
   const classes = useStyles(props);
 
   return (
-    <Grid container className={classes.root} justify="center">
+    <Grid container justify="center" className={classes.root}>
       <Grid item xs={12}>
-        <Typography variant="h3">Get Real-time Insights</Typography>
+        <Typography variant="h3">Want Real-Time Insights?</Typography>
       </Grid>
       <Grid item xs={12} container justify="center">
         <Grid item className={classes.section}>
           <Typography variant="body1" className={classes.text}>
-            Use the
-            <Link href="/dashboard/docs">API</Link> to access raw data and
-            create real-time insights.
+            Use the dashboard&apos;s{' '}
+            <Link href="/dashboard/docs">API toolkit</Link> to access the raw
+            real-time data, and extract granular insights or reports.
           </Typography>
         </Grid>
       </Grid>
