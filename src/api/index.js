@@ -188,70 +188,6 @@ const COUNTRIES_LOCATION = {
   },
 };
 
-function dataByCountry(data, country) {
-  return data.filter((datum) => datum.location.country === country) || [];
-}
-
-function dataByCountries(data) {
-  /* eslint-disable no-param-reassign */
-  return data.reduce((results, item) => {
-    const key = item.location?.country?.toLowerCase() || 'other';
-    results[key] = results[key] || []; // create array if not exists
-    results[key].push(item); // push item
-    return results;
-  }, {});
-  /* eslint-enable no-param-reassign */
-}
-
-// function averagedDataByCountries(data){
-
-// }
-
-const headers = new Headers();
-
-headers.append(
-  'Authorization',
-  `token d6131e220048fb5a7677f283582c82db992866d5`
-);
-
-async function getData(
-  url = `https://api.sensors.africa/v2/data`,
-  timestamp = '2021-01-29T11:10:02.018Z',
-  times = 0
-) {
-  const timestampQuery = '';
-  // if (timestamp) {
-  //   timestampQuery = `?timestamp__gte=${timestamp}`;
-  // }
-  const response = await fetch(url + timestampQuery, {
-    headers,
-  });
-  const resjson = await response.json();
-
-  const data = resjson.results.map((readings) => {
-    const P1 =
-      readings.sensordatavalues.find(
-        (dataValue) => dataValue.value_type === 'P1'
-      )?.value || 0;
-    const P2 =
-      readings.sensordatavalues.find(
-        (dataValue) => dataValue.value_type === 'P2'
-      )?.value || 0;
-    const { date, time } = formatDateTime(readings.timestamp);
-    return {
-      ...readings,
-      P1: Number(P1),
-      P2: Number(P2),
-      dateLabel: `${date} \n ${time}`,
-    };
-  });
-
-  if (data[data.length - 1].timestamp > timestamp) {
-    return data.concat(await getData(resjson.next, timestamp, times + 1));
-  }
-  return data;
-}
-
 function chunkData(rawData, intervalMinutes = 5) {
   const intervalMilli = intervalMinutes * 60 * 1000;
   let currentBucket = 0;
@@ -305,6 +241,71 @@ function calculateAverage(data, chunk = 30) {
   });
 
   return results;
+}
+
+function dataByCountry(data, country) {
+  return data.filter((datum) => datum.location.country === country) || [];
+}
+
+function dataByCountries(data) {
+  /* eslint-disable no-param-reassign */
+  const byCountries = data.reduce((results, item) => {
+    const key = item.location?.country?.toLowerCase() || 'other';
+    results[key] = results[key] || []; // create array if not exists
+    results[key].push(item); // push item
+    return results;
+  }, {});
+  /* eslint-enable no-param-reassign */
+  Object.keys(byCountries).map((key) => {
+    byCountries[key] = calculateAverage(byCountries[key]);
+    return null;
+  });
+  return byCountries;
+}
+
+const headers = new Headers();
+
+headers.append(
+  'Authorization',
+  `token d6131e220048fb5a7677f283582c82db992866d5`
+);
+
+async function getData(
+  url = `https://api.sensors.africa/v2/data`,
+  timestamp = '2021-01-29T11:10:02.018Z',
+  times = 0
+) {
+  const timestampQuery = '';
+  // if (timestamp) {
+  //   timestampQuery = `?timestamp__gte=${timestamp}`;
+  // }
+  const response = await fetch(url + timestampQuery, {
+    headers,
+  });
+  const resjson = await response.json();
+
+  const data = resjson.results.map((readings) => {
+    const P1 =
+      readings.sensordatavalues.find(
+        (dataValue) => dataValue.value_type === 'P1'
+      )?.value || 0;
+    const P2 =
+      readings.sensordatavalues.find(
+        (dataValue) => dataValue.value_type === 'P2'
+      )?.value || 0;
+    const { date, time } = formatDateTime(readings.timestamp);
+    return {
+      ...readings,
+      P1: Number(P1),
+      P2: Number(P2),
+      dateLabel: `${date} \n ${time}`,
+    };
+  });
+
+  if (data[data.length - 1].timestamp > timestamp) {
+    return data.concat(await getData(resjson.next, timestamp, times + 1));
+  }
+  return data;
 }
 
 const API = {
