@@ -12,12 +12,10 @@ const useStyles = makeStyles((theme) => ({
       margin: '0.625rem',
     },
   },
-  hazardContainer: {
-    marginTop: '2.313rem',
-  },
+  hazardContainer: {},
   textStyle: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     textTransform: 'capitalize',
   },
   title: {
@@ -29,7 +27,7 @@ function HazardReading({ data, hazardReading }) {
   const classes = useStyles();
   return (
     <>
-      <Grid>
+      <Grid lg={6}>
         <Typography className={classes.title}>
           {' '}
           Most Hazardous Readings in Africa
@@ -42,7 +40,7 @@ function HazardReading({ data, hazardReading }) {
                 data[data.length - 1].data[hazardReading.name]
               ).toFixed(2)}{' '}
               <svg width="15" height="15">
-                <rect width="15" height="15" style={{ fill: 'red' }} />
+                <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
             </Typography>
           </Grid>
@@ -53,7 +51,7 @@ function HazardReading({ data, hazardReading }) {
                 data[data.length - 2].data[hazardReading.name]
               ).toFixed(2)}{' '}
               <svg width="15" height="15">
-                <rect width="15" height="15" style={{ fill: 'red' }} />
+                <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
             </Typography>
           </Grid>
@@ -64,14 +62,14 @@ function HazardReading({ data, hazardReading }) {
                 data[data.length - 3].data[hazardReading.name]
               ).toFixed(2)}{' '}
               <svg width="15" height="15">
-                <rect width="15" height="15" style={{ fill: 'purple' }} />
+                <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
             </Typography>
           </Grid>
         </Grid>
       </Grid>
 
-      <Grid className={classes.hazardContainer}>
+      <Grid className={classes.hazardContainer} lg={6}>
         <Typography className={classes.title}>
           {' '}
           Least Hazardous Readings in Africa
@@ -100,7 +98,7 @@ function HazardReading({ data, hazardReading }) {
               3. {data[2].name} -{' '}
               {parseFloat(data[2].data[hazardReading.name]).toFixed(2)}{' '}
               <svg width="15" height="15">
-                <rect width="15" height="15" style={{ fill: 'yellow' }} />
+                <rect width="15" height="15" style={{ fill: 'green' }} />
               </svg>
             </Typography>
           </Grid>

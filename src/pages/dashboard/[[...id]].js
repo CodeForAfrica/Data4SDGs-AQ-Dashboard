@@ -71,9 +71,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  hazardContainer: {
-    flexDirection: 'column',
-  },
+  hazardContainer: {},
 }));
 
 const DASHBOARD_PATHNAME = '/dashboard';
@@ -142,7 +140,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           id="graph"
           className={classes.graphContainer}
         >
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12}>
             {sensorsDataByCountry ? (
               <div>
                 <Filter
@@ -172,7 +170,6 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
             alignItems="center"
             item
             xs={12}
-            lg={6}
             className={classes.hazardContainer}
           >
             <HazardReading

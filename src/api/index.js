@@ -194,10 +194,8 @@ function chunkData(rawData, intervalMinutes = 30) {
   const buckets = [];
 
   const data = rawData.reverse();
-  let intervalCurr =
-    new Date(data[0].timestamp).getTime() -
-    (new Date(data[0].timestamp).getTime() % intervalMilli) +
-    intervalMilli;
+  const startTime = new Date(data[0].timestamp).getTime();
+  let intervalCurr = startTime - (startTime % intervalMilli) + intervalMilli;
 
   for (let i = 0; i < data.length; i += 1) {
     if (new Date(data[i].timestamp).getTime() < intervalCurr) {
@@ -228,13 +226,14 @@ function calculateAverage(data, chunk = 30) {
       },
       { P1: 0, P2: 0, timestamp: 0 }
     );
+    const intervalMilli = chunk * 60 * 1000;
+    const startTime = new Date(tempData[0].timestamp).getTime();
+    const averageTime = startTime - (startTime % intervalMilli) + intervalMilli;
 
     const average = {
       P1: sum.P1 / tempData.length,
       P2: sum.P2 / tempData.length,
-      timestamp: new Date(
-        Math.round(sum.timestamp / tempData.length)
-      ).getTime(),
+      timestamp: averageTime,
     };
     const { date, time } = formatDateTime(average.timestamp);
     average.dateLabel = `${date} \n ${time}`;

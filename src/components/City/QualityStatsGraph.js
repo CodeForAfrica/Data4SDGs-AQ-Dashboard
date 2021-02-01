@@ -55,10 +55,11 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
   if (!dataProps) {
     return null;
   }
-
   const legend = Object.keys(dataProps)
     .map((key) => ({ name: key }))
-    .slice(0, 10);
+    .slice(0, 8);
+
+  const ticks = dataProps[legend[0].name].map((value) => value.timestamp);
   const colors = legend.map(() => getRandomColor());
   return (
     <Grid
@@ -75,9 +76,12 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
             style={{ parent: { width: '100%' } }}
             height={chartHeight}
             width={chartWidth}
+            minDomain={{ y: 0 }}
+            domainPadding={{ y: 100 }}
           >
             <VictoryAxis
-              tickCount={5}
+              tickCount={2}
+              tickValues={ticks}
               tickFormat={(timestamp) => `${formatDateTime(timestamp).time}`}
               style={{
                 axis: {
@@ -131,12 +135,13 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
             />
             <VictoryLegend
               x={40}
-              y={chartHeight - 20}
+              y={chartHeight - 30}
               centerTitle
               orientation="horizontal"
-              gutter={20}
+              itemsPerRow={8}
+              gutter={5}
               colorScale={colors}
-              style={{ title: { fontSize: 15 } }}
+              style={{ title: { fontSize: 5 } }}
               data={legend}
             />
             {legend.map((_, i) => (
@@ -151,6 +156,16 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
                 }}
               />
             ))}
+            {/* <VictoryLine 
+  samples={1}
+  data={[
+    { x: today.toISOString(), y: 50 },
+    { x: yesterday.toISOString(), y: 50 }]}
+
+  labels={["", "PM10 Treshold"]}
+  style={{ data: {  strokeDasharray: [5, 10] } }}
+  labelComponent={<VictoryLabel renderInPortal dx={-20} dy={-20}/>}
+  /> */}
           </VictoryChart>
         </div>
       </Grid>
