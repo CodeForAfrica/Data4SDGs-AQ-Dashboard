@@ -4,15 +4,16 @@ import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-
+import { formatDateTime } from 'lib';
+import seedColor from 'seed-color';
 import {
   VictoryChart,
   VictoryTheme,
   VictoryLine,
   VictoryAxis,
   VictoryLegend,
+  VictoryLabel,
 } from 'victory';
-import getRandomColor from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
+function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
   const classes = useStyles();
   let chartWidth = window.innerWidth;
   let labelAngle = 45;
@@ -49,20 +50,17 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
       chartWidth = 79.5 * 8;
     }
   }
-  const chartHeight = chartWidth * (6 / 16) + 20;
+  const chartHeight = chartWidth * (6 / 12) + 20;
 
-  let dataArray = [];
   if (!dataProps) {
     return null;
   }
-  if (dataProps[0]?.data) {
-    dataArray = dataProps;
-  } else if (dataProps?.data) {
-    dataArray = [dataProps];
-  }
+  const legend = Object.keys(dataProps)
+    .map((key) => ({ name: key }))
+    .slice(0, 8);
 
-  const colors = dataArray.map(() => getRandomColor());
-  const legend = dataArray.map((data) => ({ name: data.name }));
+  const ticks = dataProps[legend[0].name].map((value) => value.timestamp);
+  const colors = legend.map((value) => seedColor(value.name).toHex());
   return (
     <Grid
       container
@@ -78,16 +76,20 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
             style={{ parent: { width: '100%' } }}
             height={chartHeight}
             width={chartWidth}
+            minDomain={{ y: 0 }}
+            domainPadding={{ y: 100 }}
           >
             <VictoryAxis
-              label={xLabel}
+              tickCount={2}
+              tickValues={ticks}
+              tickFormat={(timestamp) => `${formatDateTime(timestamp).time}`}
               style={{
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',
                   strokeWidth: 1,
                 },
                 axisLabel: {
-                  padding: 30,
+                  padding: 40,
                   fontSize: 18,
                   fontWeight: 'bold',
                 },
@@ -96,12 +98,13 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
                   strokeDasharray: '',
                 },
                 ticks: {
-                  // padding: 20
+                  padding: -8,
                 },
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
                   angle: labelAngle,
+                  fontSize: 10,
                 },
               }}
             />
@@ -114,8 +117,8 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
                   strokeWidth: 1,
                 },
                 axisLabel: {
-                  padding: 30,
-                  fontSize: 18,
+                  padding: 40,
+                  fontSize: 12,
                   fontWeight: 'bold',
                 },
                 grid: {
@@ -125,31 +128,44 @@ function QualityStatsGraph({ data: dataProps, width, xLabel, yLabel }) {
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
+                  fontSize: 9,
                 },
               }}
               fixLabelOverlap
             />
             <VictoryLegend
               x={40}
-              y={chartHeight - 20}
+              y={chartHeight - 30}
               centerTitle
               orientation="horizontal"
-              gutter={20}
+              itemsPerRow={8}
+              gutter={5}
               colorScale={colors}
-              style={{ title: { fontSize: 15 } }}
+              style={{ title: { fontSize: 5 } }}
               data={legend}
             />
-            {dataArray.map((data, i) => (
+            {legend.map((_, i) => (
               <VictoryLine
-                data={data.data}
-                name="sdsd"
-                x="date"
-                y="averagePM"
+                data={dataProps[_.name]}
+                name={_.name}
+                interpolation="natural"
+                x={xName}
+                y={yName}
                 style={{
                   data: { stroke: colors[i] },
                 }}
               />
             ))}
+            <VictoryLine
+              samples={1}
+              data={[
+                { x: ticks[0], y: 50 },
+                { x: ticks[ticks.length - 1], y: 50 },
+              ]}
+              labels={['', 'AQG Treshold']}
+              style={{ data: { strokeDasharray: [5, 10] } }}
+              labelComponent={<VictoryLabel renderInPortal dx={-20} dy={-20} />}
+            />
           </VictoryChart>
         </div>
       </Grid>
@@ -163,13 +179,15 @@ QualityStatsGraph.propTypes = {
     PropTypes.arrayOf(PropTypes.shape({})),
   ]).isRequired,
   width: PropTypes.string.isRequired,
-  xLabel: PropTypes.string,
   yLabel: PropTypes.string,
+  xName: PropTypes.string,
+  yName: PropTypes.string,
 };
 
 QualityStatsGraph.defaultProps = {
-  xLabel: 'Date',
   yLabel: 'Quality',
+  xName: 'timestamp',
+  yName: 'P2',
 };
 
 export default withWidth()(QualityStatsGraph);

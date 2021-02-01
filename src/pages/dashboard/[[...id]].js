@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Router from 'next/router';
@@ -7,7 +7,12 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
-import API, { COUNTRIES_LOCATION, getFormattedWeeklyP2Stats } from 'api';
+import API, {
+  COUNTRIES_LOCATION,
+  dataByCountries,
+  calculateAverage,
+  sortCountries,
+} from 'api';
 
 import AQIndex from 'components/City/AQIndex';
 import Footer from 'components/Footer';
@@ -20,14 +25,13 @@ import Ticker from 'components/Ticker';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
 
 import NotFound from 'pages/404';
-import config from '../../config';
+import Filter from 'components/Filter';
 
 const DEFAULT_COUNTRY = 'africa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-
     // TODO(kilemensi): This is hack to force the page to be 100% wide w/o
     //                  horizontal scrollbars.
     position: 'absolute',
@@ -70,13 +74,25 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  hazardContainer: {
-    flexDirection: 'column',
-  },
+  hazardContainer: {},
+  chartTitle:{
+    fontWeight:"bold"
+  }
 }));
 
 function Country({ country: location, data, errorCode, meta, ...props }) {
   const classes = useStyles(props);
+  const [country, setCountry] = useState(location);
+  const [yAxisLabels, setYAxisLAbel] = useState({
+    yName: 'P1',
+    yLabel: 'PM10',
+  });
+  const [hazardReading, setHazardReading] = useState({
+    name: 'P1',
+    label: 'PM10',
+  });
+  const { sortedCountries, sensorsDataByCountry } = data;
+ 
   const [session, loading] = useSession();
 
   if (loading) return null;
@@ -171,35 +187,42 @@ function Country({ country: location, data, errorCode, meta, ...props }) {
           id="graph"
           className={classes.graphContainer}
         >
-          <Grid item xs={12} lg={6}>
-            {weeklyData.length > 0 ? (
+          <Grid item xs={12}>
+            {sensorsDataByCountry ? (
               <div>
-                <Typography>
-                  Air Quality in {COUNTRIES_LOCATION[location].label}
+                <Filter
+                  onChange={(value) => {
+                    setYAxisLAbel(JSON.parse(value));
+                    setHazardReading({
+                      label: JSON.parse(value).yLabel,
+                      name: JSON.parse(value).yName,
+                    });
+                  }}
+                />
+                <Typography className={classes.chartTitle}>
+                  Air Quality in {COUNTRIES_LOCATION[country].label}
                 </Typography>
                 <QualityStatsGraph
-                  yLabel="PM2.5"
+                  {...yAxisLabels}
                   xLabel="Date"
-                  data={{ name: location, data: weeklyData }}
+                  data={sensorsDataByCountry}
                 />
               </div>
             ) : null}
-            <Typography> Air Quality in Africa</Typography>
-            <QualityStatsGraph
-              yLabel="PM10"
-              xLabel="Date"
-              data={config.multiAirData}
-            />
+            {/* <Typography> Air Quality in Africa</Typography>
+            <QualityStatsGraph {...yAxisLabels} data={africaData} /> */}
           </Grid>
           <Grid
             container
             alignItems="center"
             item
             xs={12}
-            lg={6}
             className={classes.hazardContainer}
           >
-            <HazardReading />
+            <HazardReading
+              hazardReading={hazardReading}
+              data={sortedCountries}
+            />
           </Grid>
 
           <Grid item lg={12} justify="center">
@@ -249,29 +272,32 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
-  const country = countryProps || DEFAULT_COUNTRY;
-  const { city } = COUNTRIES_LOCATION[country];
-  const airRes = await API.getAirData(city);
-  const weeklyP2Res = await API.getWeeklyP2Data(city);
-  let errorCode = airRes.statusCode > 200 && airRes.statusCode;
+  const countryProp = countryProps || DEFAULT_COUNTRY;
+  const { slug } = COUNTRIES_LOCATION[countryProp];
+  let errorCode = slug ? 200 : 404;
+  const t0 = Date.now();
+  const sensorsData = await API.getData();
+  const t1 = Date.now();
+  console.log(`Call to getData took ${t1 - t0} milliseconds.`);
 
-  errorCode =
-    !errorCode && weeklyP2Res.statusCode > 200 && weeklyP2Res.statusCode;
-  const air = (!errorCode && (await airRes.json())) || {};
-  const weeklyP2 = (!errorCode && (await weeklyP2Res.json())) || {};
+  const sensorsDataByCountry = dataByCountries(sensorsData);
+  let countryData;
+  if (slug !== 'africa') {
+    countryData = sensorsDataByCountry[slug];
+    errorCode = countryData ? 200 : 404;
+  }
+  const africaData = { Africa: calculateAverage(sensorsData) };
+  const sortedCountries = sortCountries(sensorsDataByCountry);
 
-  const weeklyData = getFormattedWeeklyP2Stats(weeklyP2);
-  const data = { air, weeklyData };
+  const data = { sortedCountries, sensorsDataByCountry, africaData };
 
   const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
   errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
   const meta = (!errorCode && (await metaRes.json())) || {};
 
-  // Pass data to the page via props
-  return {
-    props: { errorCode, country, data, meta },
-    revalidate: 300, // seconds
-  };
+  return { props: { errorCode, country: slug, data,meta },
+  revalidate: 300, // seconds
+};
 }
 
 export default Country;

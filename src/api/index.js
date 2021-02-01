@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import { formatDateTime } from 'lib';
 
 const HUMIDITY_READING = 'humidity';
 const TEMPERATURE_READING = 'temperature';
@@ -187,10 +188,144 @@ const COUNTRIES_LOCATION = {
   },
 };
 
+function chunkData(rawData, intervalMinutes = 60) {
+  const intervalMilli = intervalMinutes * 60 * 1000;
+  let currentBucket = 0;
+  const buckets = [];
+
+  const data = rawData.reverse();
+  const startTime = new Date(data[0].timestamp).getTime();
+  let intervalCurr = startTime - (startTime % intervalMilli) + intervalMilli;
+
+  for (let i = 0; i < data.length; i += 1) {
+    if (new Date(data[i].timestamp).getTime() < intervalCurr) {
+      buckets[currentBucket] = buckets[currentBucket] || [];
+      buckets[currentBucket].push(data[i]);
+    } else {
+      intervalCurr += intervalMilli;
+      currentBucket += 1;
+    }
+  }
+  return buckets;
+}
+
+function calculateAverage(data, chunk = 60) {
+  const results = [];
+
+  const chunks = chunkData(data, chunk);
+  chunks.forEach((tempData) => {
+    const sum = tempData.reduce(
+      (acc, current) => {
+        return {
+          P1: acc.P1 + current.P1,
+          P2: acc.P2 + current.P2,
+          timestamp:
+            new Date(acc.timestamp).getTime() +
+            new Date(current.timestamp).getTime(),
+        };
+      },
+      { P1: 0, P2: 0, timestamp: 0 }
+    );
+    const intervalMilli = chunk * 60 * 1000;
+    const startTime = new Date(tempData[0].timestamp).getTime();
+    const averageTime = startTime - (startTime % intervalMilli) + intervalMilli;
+
+    const average = {
+      P1: sum.P1 / tempData.length,
+      P2: sum.P2 / tempData.length,
+      timestamp: averageTime,
+    };
+    const { date, time } = formatDateTime(average.timestamp);
+    average.dateLabel = `${date} \n ${time}`;
+    results.push(average);
+  });
+
+  return results;
+}
+
+function dataByCountry(data, country) {
+  return data.filter((datum) => datum.location.country === country) || [];
+}
+
+function dataByCountries(data) {
+  /* eslint-disable no-param-reassign */
+  const byCountries = data.reduce((results, item) => {
+    const key = item.location?.country?.toLowerCase() || 'other';
+    results[key] = results[key] || []; // create array if not exists
+    results[key].push(item); // push item
+    return results;
+  }, {});
+  /* eslint-enable no-param-reassign */
+  Object.keys(byCountries).map((key) => {
+    byCountries[key] = calculateAverage(byCountries[key]);
+    return null;
+  });
+  return byCountries;
+}
+
+function sortCountries(data) {
+  const byCountries = { ...data };
+  Object.keys(byCountries).map((key) => {
+    byCountries[key] = calculateAverage(byCountries[key], new Date().getTime());
+    return null;
+  });
+  return Object.keys(byCountries)
+    .sort((a, b) => {
+      return byCountries[a][0].P1 - byCountries[b][0].P1;
+    })
+    .map((key) => ({ name: key, data: byCountries[key][0] }))
+    .filter((datum) => datum.data.P1 && datum.data.P2);
+}
+
+const headers = new Headers();
+
+headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
+const defaultTimestampGte = new Date();
+defaultTimestampGte.setDate(defaultTimestampGte.getDate() - 1);
+
+async function getData(
+  url = `https://api.sensors.africa/v2/data`,
+  timestamp = defaultTimestampGte.toISOString(),
+  times = 0
+) {
+  const timestampQuery = '';
+  // if (timestamp) {
+  //   timestampQuery = `?timestamp__gte=${timestamp}`;
+  // }
+  const response = await fetch(url + timestampQuery, {
+    headers,
+  });
+  const resjson = await response.json();
+
+  const data = resjson.results.map((readings) => {
+    const P1 =
+      readings.sensordatavalues.find(
+        (dataValue) => dataValue.value_type === 'P1'
+      )?.value || 0;
+    const P2 =
+      readings.sensordatavalues.find(
+        (dataValue) => dataValue.value_type === 'P2'
+      )?.value || 0;
+    const { date, time } = formatDateTime(readings.timestamp);
+    return {
+      ...readings,
+      P1: Number(P1),
+      P2: Number(P2),
+      dateLabel: `${date} \n ${time}`,
+    };
+  });
+
+  if (data[data.length - 1].timestamp > timestamp) {
+    return data.concat(await getData(resjson.next, timestamp, times + 1));
+  }
+  return data;
+}
+
 const API = {
   getAirData(city) {
     return fetch(`https://api.sensors.africa/v2/data/air/?city=${city}`);
   },
+  getData,
   getWeeklyP2Data(city) {
     const fromDate = new Date(Date.now() - 7 * 24 * 3600 * 1000)
       .toISOString()
@@ -208,5 +343,9 @@ export {
   getFormattedP2Stats,
   getFormattedTemperatureStats,
   getFormattedWeeklyP2Stats,
+  dataByCountry,
+  dataByCountries,
+  calculateAverage,
+  sortCountries,
 };
 export default API;
