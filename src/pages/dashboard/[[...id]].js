@@ -72,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   hazardContainer: {},
+  chartTitle:{
+    fontWeight:"bold"
+  }
 }));
 
 const DASHBOARD_PATHNAME = '/dashboard';
@@ -152,7 +155,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
                     });
                   }}
                 />
-                <Typography>
+                <Typography className={classes.chartTitle}>
                   Air Quality in {COUNTRIES_LOCATION[country].label}
                 </Typography>
                 <QualityStatsGraph
