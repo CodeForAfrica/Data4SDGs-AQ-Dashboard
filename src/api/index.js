@@ -280,12 +280,12 @@ function sortCountries(data) {
 const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
-const yesterday = new Date();
-yesterday.setMinutes(yesterday.getMinutes() - 5);
+const defaultTimestampGte = new Date();
+defaultTimestampGte.setDate(defaultTimestampGte.getDate() - 1);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
-  timestamp = yesterday.toISOString(),
+  timestamp = defaultTimestampGte.toISOString(),
   times = 0
 ) {
   const timestampQuery = '';
