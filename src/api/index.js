@@ -278,12 +278,9 @@ function sortCountries(data) {
 
 const headers = new Headers();
 
-headers.append(
-  'Authorization',
-  `token d6131e220048fb5a7677f283582c82db992866d5`
-);
+headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
+yesterday.setMinutes(15);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
