@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Router from 'next/router';
@@ -14,13 +14,15 @@ import API, {
   sortCountries,
 } from 'api';
 
-import Navbar from 'components/Header/Navbar';
-import Footer from 'components/Footer';
-import SensorMap from 'components/SensorMap';
-import QualityStatsGraph from 'components/City/QualityStatsGraph';
-import HazardReading from 'components/City/HazardReadings';
 import AQIndex from 'components/City/AQIndex';
+import Footer from 'components/Footer';
+import HazardReading from 'components/City/HazardReadings';
+import Insights from 'components/Insights';
+import Navigation from 'components/Navigation';
 import Resources from 'components/Resources';
+import SensorMap from 'components/SensorMap';
+import Ticker from 'components/Ticker';
+import QualityStatsGraph from 'components/City/QualityStatsGraph';
 
 import NotFound from 'pages/404';
 import Filter from 'components/Filter';
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '82rem',
     width: '100%',
     color: 'black',
+    marginTop: theme.typography.pxToRem(50),
     textAlign: 'center',
     scrollMarginTop: '5.9rem',
     [theme.breakpoints.down('xs')]: {
@@ -57,9 +60,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   topMargin: {
-    marginTop: '5rem',
-    [theme.breakpoints.down('xs')]: {
-      marginTop: '8.1rem',
+    marginTop: '4.2rem',
+    [theme.breakpoints.up('md')]: {
+      marginTop: '1rem',
     },
   },
   loading: {
@@ -77,9 +80,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const DASHBOARD_PATHNAME = '/dashboard';
-
-function Country({ country: countrySlug, data, errorCode, ...props }) {
+function Country({ country: location, data, errorCode, meta, ...props }) {
   const classes = useStyles(props);
   const [session] = useSession();
   const [country, setCountry] = useState(countrySlug);
@@ -92,30 +93,25 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
     label: 'PM10',
   });
   const { sortedCountries, sensorsDataByCountry } = data;
-  useEffect(() => {
-    if (!session) {
-      Router.push('/');
-    }
-  }, [session]);
+ 
+  const [session, loading] = useSession();
+
+  if (loading) return null;
+
+  if (!loading && !session) {
+    Router.push('/');
+  }
+
+  const { weeklyData } = data;
 
   // if !data, 404
-  if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
+  if (!COUNTRIES_LOCATION[location] || errorCode >= 400) {
     return <NotFound />;
   }
 
-  const handleSearch = (option) => {
-    const searchedCountry = (option && option.value) || DEFAULT_COUNTRY;
-    if (searchedCountry !== country) {
-      setCountry(searchedCountry);
-      const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
-      const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
-      Router.push(countryUrl, countryAs);
-    }
-  };
-
   return (
     <>
-      <Navbar handleSearch={handleSearch} />
+      <Navigation location={location} />
       <Grid
         className={classes.root}
         justify="center"
@@ -129,12 +125,61 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
           className={`${classes.section} ${classes.topMargin}`}
         >
           <SensorMap
-            zoom={COUNTRIES_LOCATION[country].zoom}
-            latitude={COUNTRIES_LOCATION[country].latitude}
-            longitude={COUNTRIES_LOCATION[country].longitude}
-            location={COUNTRIES_LOCATION[country].label}
+            zoom={COUNTRIES_LOCATION[location].zoom}
+            latitude={COUNTRIES_LOCATION[location].latitude}
+            longitude={COUNTRIES_LOCATION[location].longitude}
+            location={COUNTRIES_LOCATION[location].label}
           />
         </Grid>
+        {meta && meta.database_last_updated?.length ? (
+          <Grid item xs={12} id="ticker" className={classes.section}>
+            <Ticker
+              title="Executive Summary"
+              subtitle={`Database Size: ${meta.database_size}`}
+              description={`
+             This dashboard tracks air quality data aggregated (via API or regular manual data uploads) from independent citizen science or academic research networks across Africa. The dashboard is intended to give users an overview of network coverage and data trends, as well as to help researchers understand gaps in the networks and grassroots challenges around keeping sensors online / updated. sensors.AFRICA is custodian of the dashboard. We are happy to receive requests/suggestions for new networks to be added to the repository. 
+              `}
+              statuses={[
+                {
+                  highlight: true,
+                  name: 'Data Points',
+                  status: 'Collected',
+                  slug: 'data-values',
+                },
+                {
+                  highlight: true,
+                  name: 'AQ Sensors',
+                  status: 'Monitored',
+                  slug: 'sensors',
+                },
+                {
+                  highlight: true,
+                  name: 'AQ Nodes',
+                  status: 'Monitored',
+                  slug: 'nodes',
+                },
+                {
+                  highlight: true,
+                  name: 'Networks',
+                  status: 'Total',
+                  slug: 'networks',
+                },
+              ]}
+              values={{
+                'data-values': meta.sensor_data_count,
+                sensors: meta.sensors_count,
+                nodes: meta.nodes_count,
+                networks: meta.sensor_networks.count,
+              }}
+              valueTexts={{
+                'data-values': `Updated: ${new Date(
+                  meta.database_last_updated
+                ).toISOString()}`,
+                networks: `in ${meta.sensors_locations?.length} countries`,
+              }}
+            />
+          </Grid>
+        ) : null}
         <Grid
           item
           justify="center"
@@ -185,6 +230,9 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
             <AQIndex />
           </Grid>
         </Grid>
+        <Grid item id="insights" className={classes.section} xs={12}>
+          <Insights />
+        </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />
         </Grid>
@@ -203,6 +251,7 @@ Country.propTypes = {
     weeklyP2: PropTypes.shape({}).isRequired,
   }),
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  meta: PropTypes.shape({}).isRequired,
 };
 
 Country.defaultProps = {

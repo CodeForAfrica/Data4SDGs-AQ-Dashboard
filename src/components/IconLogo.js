@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Link from 'components/Link';
 
-import logo from 'assets/images/logos/sensorsLogo.png';
+import logo from 'assets/images/logo.png';
 
 const useStyles = makeStyles((theme) => ({
   defaultBadge: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     height: 50,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: 40,
     },
   },

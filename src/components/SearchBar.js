@@ -32,11 +32,8 @@ const styles = (theme) => ({
     backgroundColor: '#fff',
     paddingTop: theme.spacing(2),
     width: 280,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '80vw',
-    },
-    [theme.breakpoints.between('sm', 'sm')]: {
-      width: 180,
     },
   },
   chip: {
