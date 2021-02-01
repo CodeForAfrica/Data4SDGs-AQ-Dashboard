@@ -280,7 +280,7 @@ const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const yesterday = new Date();
-yesterday.setMinutes(15);
+yesterday.setDate(yesterday.getDate() - 1);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
