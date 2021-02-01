@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Router from 'next/router';
@@ -13,7 +13,7 @@ import AQIndex from 'components/City/AQIndex';
 import Footer from 'components/Footer';
 import HazardReading from 'components/City/HazardReadings';
 import Insights from 'components/Insights';
-import Navbar from 'components/Header/Navbar';
+import Navigation from 'components/Navigation';
 import Resources from 'components/Resources';
 import SensorMap from 'components/SensorMap';
 import Ticker from 'components/Ticker';
@@ -75,12 +75,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DASHBOARD_PATHNAME = '/dashboard';
-
-function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
+function Country({ country: location, data, errorCode, meta, ...props }) {
   const classes = useStyles(props);
   const [session, loading] = useSession();
-  const [country, setCountry] = useState(countrySlug);
 
   if (loading) return null;
 
@@ -91,23 +88,13 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
   const { weeklyData } = data;
 
   // if !data, 404
-  if (!COUNTRIES_LOCATION[country] || errorCode >= 400) {
+  if (!COUNTRIES_LOCATION[location] || errorCode >= 400) {
     return <NotFound />;
   }
 
-  const handleSearch = (option) => {
-    const searchedCountry = (option && option.value) || DEFAULT_COUNTRY;
-    if (searchedCountry !== country) {
-      setCountry(searchedCountry);
-      const countryUrl = `${DASHBOARD_PATHNAME}/[id]`;
-      const countryAs = `${DASHBOARD_PATHNAME}/${searchedCountry}`;
-      Router.push(countryUrl, countryAs);
-    }
-  };
-
   return (
     <>
-      <Navbar handleSearch={handleSearch} />
+      <Navigation location={location} />
       <Grid
         className={classes.root}
         justify="center"
@@ -121,10 +108,10 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
           className={`${classes.section} ${classes.topMargin}`}
         >
           <SensorMap
-            zoom={COUNTRIES_LOCATION[country].zoom}
-            latitude={COUNTRIES_LOCATION[country].latitude}
-            longitude={COUNTRIES_LOCATION[country].longitude}
-            location={COUNTRIES_LOCATION[country].label}
+            zoom={COUNTRIES_LOCATION[location].zoom}
+            latitude={COUNTRIES_LOCATION[location].latitude}
+            longitude={COUNTRIES_LOCATION[location].longitude}
+            location={COUNTRIES_LOCATION[location].label}
           />
         </Grid>
         {meta && meta.database_last_updated?.length ? (
@@ -188,12 +175,12 @@ function Country({ country: countrySlug, data, errorCode, meta, ...props }) {
             {weeklyData.length > 0 ? (
               <div>
                 <Typography>
-                  Air Quality in {COUNTRIES_LOCATION[country].label}
+                  Air Quality in {COUNTRIES_LOCATION[location].label}
                 </Typography>
                 <QualityStatsGraph
                   yLabel="PM2.5"
                   xLabel="Date"
-                  data={{ name: country, data: weeklyData }}
+                  data={{ name: location, data: weeklyData }}
                 />
               </div>
             ) : null}
