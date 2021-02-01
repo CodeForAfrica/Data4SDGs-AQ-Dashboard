@@ -135,10 +135,11 @@ function DataArchives({ tokens }) {
             >
               sensors.AFRICA
             </a>{' '}
-            collects data from different sensor networks and stores them as
-            private data. To interact with this private data, you require an
-            access token. Place a token for a particular network in the HTTP
-            authorization header.
+            collects data from different sensor networks across the continent
+            and stores them as private data. To access this private data, you
+            require an access token. Place the token in the HTTP authorization
+            header when making a requests and the API will return all the data
+            authorized for the token.
             <br />
             <br />
             An example using <code>curl</code> would be:
