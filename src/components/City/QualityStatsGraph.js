@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Grid } from '@material-ui/core';
@@ -42,6 +42,16 @@ const useStyles = makeStyles((theme) => ({
 function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
   const classes = useStyles();
   let chartWidth = window.innerWidth;
+  const [threshold, setThreshold] = useState();
+
+  useEffect(() => {
+    if (yName === 'P1') {
+      setThreshold(50);
+    } else if (yName === 'P2') {
+      setThreshold(25);
+    }
+  }, [yName]);
+
   let labelAngle = 45;
   if (isWidthUp('md', width)) {
     chartWidth = 59.625 * 16;
@@ -159,8 +169,8 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
             <VictoryLine
               samples={1}
               data={[
-                { x: ticks[0], y: 50 },
-                { x: ticks[ticks.length - 1], y: 50 },
+                { x: ticks[0], y: threshold },
+                { x: ticks[ticks.length - 1], y: threshold },
               ]}
               labels={['', 'AQG Treshold']}
               style={{ data: { strokeDasharray: [5, 10] } }}
