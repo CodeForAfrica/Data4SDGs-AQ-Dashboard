@@ -88,7 +88,7 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
     name: 'P1',
     label: 'PM10',
   });
-  const { sortedCountries, sensorsDataByCountry, africaData } = data;
+  const { sortedCountries, sensorsDataByCountry } = data;
   useEffect(() => {
     if (!session) {
       Router.push('/');
@@ -162,8 +162,8 @@ function Country({ country: countrySlug, data, errorCode, ...props }) {
                 />
               </div>
             ) : null}
-            <Typography> Air Quality in Africa</Typography>
-            <QualityStatsGraph {...yAxisLabels} data={africaData} />
+            {/* <Typography> Air Quality in Africa</Typography>
+            <QualityStatsGraph {...yAxisLabels} data={africaData} /> */}
           </Grid>
           <Grid
             container
