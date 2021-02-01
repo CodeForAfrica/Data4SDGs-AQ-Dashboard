@@ -273,14 +273,15 @@ function sortCountries(data) {
     .sort((a, b) => {
       return byCountries[a][0].P1 - byCountries[b][0].P1;
     })
-    .map((key) => ({ name: key, data: byCountries[key][0] }));
+    .map((key) => ({ name: key, data: byCountries[key][0] }))
+    .filter((datum) => datum.data.P1 && datum.data.P2);
 }
 
 const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
+yesterday.setMinutes(yesterday.getMinutes() - 5);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
