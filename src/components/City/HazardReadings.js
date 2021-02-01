@@ -15,8 +15,10 @@ const useStyles = makeStyles((theme) => ({
   hazardContainer: {},
   textStyle: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     textTransform: 'capitalize',
+    marginLeft: '4rem',
+    marginRight: '4rem',
   },
   title: {
     marginBottom: '4rem',
