@@ -89,27 +89,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const sensors = 'https://api.sensors.africa/v1/sensors/{sensor_id}/';
-const query = 'https://api.sensors.africa/v1/filter?city=&country=&type=';
-const now = 'https://api.sensors.africa/v1/now/';
-const type = '{sensor type}';
-const city = '{city}';
-const countryCode = '{country name}';
-
-const allCities = 'http://api.sensors.africa/v2/cities';
-const specificCities = 'https://api.sensors.africa/v2/data/air?city={slug}&';
-const nodes = 'https://api.sensors.africa/v2/nodes';
-const data5 = 'http://api.sensors.africa/static/v2/data.json';
-const data1 = 'http://api.sensors.africa/static/v2/data.1h.json';
-const data24 = 'http://api.sensors.africa/static/v2/data.24h.json';
-const dataDust = 'http://api.sensors.africa/static/v2/data.dust.min.json';
-const otherSensors = 'http://api.sensors.africa/static/v2/data.temp.min.json';
-
-const toFrom = '{YYYY - mm - dd}';
-const valueType = '{P1, P2, temperature, humidity}';
-
-// const area = '{lat, lon, distance}';
-// const box = '{lat1, lon1, lat2, lon2}';
+const apiV1Node =
+  'http://api.sensors.africa/v1/node?&location__country=country';
+const apiV2Data =
+  'http://api.sensors.africa/v2/data?&location__country=country&timestamp__gte=timestamp';
+const country = '{country}';
+const timestamp = '{timestamp}';
 
 function DataArchives() {
   const classes = useStyles();
@@ -138,13 +123,14 @@ function DataArchives() {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h6" className={classes.title} component="h3">
-            Accessing API Data
+            Accessing Private Data
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body2" component="p">
-            The primary way to access sensor data is via API endpoints.
-            Currently, you can access our API using:
+            The primary way to access private sensor data is via API endpoints:{' '}
+            <code className={classes.code}>/v1/node</code> and{' '}
+            <code className={classes.code}>/v2/data</code>
           </Typography>
         </Grid>
 
@@ -154,75 +140,23 @@ function DataArchives() {
           container
           justify="flex-start"
           alignItems="flex-start"
-          className={classes.dlFirst}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="http://api.sensors.africa/v1/sensor/%7BsensorID%7D/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{sensors}</code>
-            </a>{' '}
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides all measurements from the last 5 minutes for one sensor.
-              This data is only available if the sensor is publicly accessible.
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
           className={classes.dl}
         >
           <Grid item className={classes.dt}>
             <a
               className={classes.link}
-              href="http://api.sensors.africa/v1/now/"
+              href="http://api.sensors.africa/v1/node/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <code className={classes.code}>{now}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides all measurements from the last 5 minutes for all publicly
-              accessible sensors.
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="http://api.sensors.africa/v1/filter/%7Bquery%7D"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{query}</code>
+              <code className={classes.code}>{apiV1Node}</code>
             </a>
           </Grid>
 
           <Grid className={classes.dd}>
             <Typography variant="body2" component="p">
-              Provides all measurements from the last 5 minutes for all publicly
-              accessible sensors filtered by a query.
+              List all nodes belonging to the uthenticated user or network
+              identified by the provided <code>ACCESS_TOKEN</code>
             </Typography>
             <Typography variant="body2">Supported queries are:</Typography>
             <Typography
@@ -231,51 +165,12 @@ function DataArchives() {
               style={{ listStyle: 'none', marginTop: '0.5rem' }}
             >
               <li className={classes.query}>
-                <code className={classes.queryParam}>city</code> ={' '}
-                <code className={classes.queryDescription}>{city}</code>:
-                Separated list of cities i.e{' '}
-                <code className={classes.var}>nairobi</code> ,
-                <code className={classes.var}>lagos</code>
+                <code className={classes.queryParam}>location__country</code>={' '}
+                <code className={classes.queryDescription}>{country}</code>:
+                Return list of nodes located in a given country only e.g.{' '}
+                <code className={classes.var}>kenya</code> ,
+                <code className={classes.var}>uganda</code>
               </li>
-              <li className={classes.query}>
-                {' '}
-                <code className={classes.queryParam}>country</code>={' '}
-                <code className={classes.queryDescription}>{countryCode}</code>:
-                Separated list of countries i.e.{' '}
-                <code className={classes.var}>KE, TZ, NG, ZA, ... </code>
-              </li>
-              <li className={classes.query}>
-                <code className={classes.queryParam}>type</code> ={' '}
-                <code className={classes.queryDescription}>{type}</code>:
-                Separated list of sensor types, i.e{' '}
-                <code className={classes.var}>SDS011</code> ,
-                <code className={classes.var}> DHT22</code>
-              </li>
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="http://api.sensors.africa/v1/now/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{allCities}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides all measurements for all supported cities
             </Typography>
           </Grid>
         </Grid>
@@ -295,9 +190,7 @@ function DataArchives() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <code className={classes.code}>
-                https://api.sensors.africa/v2/data
-              </code>
+              <code className={classes.code}>{apiV2Data}</code>
             </a>
           </Grid>
           <Grid item className={classes.dd}>
@@ -305,208 +198,52 @@ function DataArchives() {
               Provides <em>raw</em> sensor data of all nodes from a network
               identified by the provided <code>ACCESS_TOKEN</code>
             </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="https://api.sensors.africa/v2/data/air?city={slug}"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Typography variant="body2">Supported queries are:</Typography>
+            <Typography
+              variant="body2"
+              component="ul"
+              style={{ listStyle: 'none', marginTop: '0.5rem' }}
             >
-              <code className={classes.code}>{specificCities}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides averaged air data with city query from = {toFrom}&to ={' '}
-              {toFrom}
-              &value_type={valueType}
+              <li className={classes.query}>
+                <code className={classes.queryParam}>location__country</code>={' '}
+                <code className={classes.queryDescription}>{country}</code>:
+                Return data from all sensors located in a given country only
+                e.g. <code className={classes.var}>kenya</code> ,
+              </li>
+              <li className={classes.query}>
+                {' '}
+                <code className={classes.queryParam}>timestamp__gte</code>={' '}
+                <code className={classes.queryDescription}>{timestamp}</code>:
+                Return sensor data measurements greater than or equal to the
+                given timestamp e.g.{' '}
+                <code className={classes.var}>2021-01-12T12:29:21.428563Z</code>
+              </li>
             </Typography>
           </Grid>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="http:/api.sensors.africa/v2/nodes/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{nodes}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides active sensors node data including if the sensor was
-              moved and where
-            </Typography>
-          </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6" className={classes.title} component="h3">
+            Accessing Public Data
+          </Typography>
         </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
+        <Grid item xs={12}>
+          <Typography variant="body2">
+            For a more detailed documentation on how to access API data , visit
+            the sensors.AFRICA{' '}
             <a
               className={classes.link}
-              href="https://api.sensors.africa/static/v2/data.json"
+              href="http://api.sensors.africa/docs/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <code className={classes.code}>{data5}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides averages of all measurements per sensor of the last 5
-              minutes for all sensors
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="https://api.sensors.africa/static/v2/data.1h.json"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{data1}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides average of all measurements per sensor of the last hour
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="https://api.sensors.africa/static/v2/data.24.json"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{data24}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides average of all measurements per sensor of the 24 hours
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="https://api.sensors.africa/static/v2/data.dust.min.json"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{dataDust}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides average of all measurements per sensor of the last 5
-              minutes for dust sensors
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="https://api.sensors.africa/static/v2/data.temp.min.json"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{otherSensors}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides average of all measurements per sensor of the last 5
-              minutes for temperature, humidity and air pressure sensors only
-            </Typography>
-          </Grid>
+              API Documentation
+            </a>{' '}
+            site
+          </Typography>
         </Grid>
 
         <Grid item xs={12} className={classes.wiki}>
-          <Typography variant="body2">
-            <em>
-              <strong>
-                For a more detailed documentation on how to access API data ,
-                visit the sensors.AFRICA{' '}
-                <a
-                  className={classes.link}
-                  href="https://github.com/CodeForAfrica/sensors.AFRICA/wiki/APIs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WIKI
-                </a>{' '}
-              </strong>
-            </em>
-          </Typography>
-
           <Typography variant="h6" className={classes.title} component="h3">
             Accessing Archive Data
           </Typography>
