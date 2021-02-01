@@ -12,6 +12,7 @@ import {
   VictoryLine,
   VictoryAxis,
   VictoryLegend,
+  VictoryLabel,
 } from 'victory';
 import getRandomColor from '../../utils';
 
@@ -156,16 +157,16 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
                 }}
               />
             ))}
-            {/* <VictoryLine 
-  samples={1}
-  data={[
-    { x: today.toISOString(), y: 50 },
-    { x: yesterday.toISOString(), y: 50 }]}
-
-  labels={["", "PM10 Treshold"]}
-  style={{ data: {  strokeDasharray: [5, 10] } }}
-  labelComponent={<VictoryLabel renderInPortal dx={-20} dy={-20}/>}
-  /> */}
+            <VictoryLine
+              samples={1}
+              data={[
+                { x: ticks[0], y: 50 },
+                { x: ticks[ticks.length - 1], y: 50 },
+              ]}
+              labels={['', 'AQG Treshold']}
+              style={{ data: { strokeDasharray: [5, 10] } }}
+              labelComponent={<VictoryLabel renderInPortal dx={-20} dy={-20} />}
+            />
           </VictoryChart>
         </div>
       </Grid>
