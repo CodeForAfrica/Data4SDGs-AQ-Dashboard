@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Router from 'next/router';
@@ -82,8 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Country({ country: location, data, errorCode, meta, ...props }) {
   const classes = useStyles(props);
-  const [session] = useSession();
-  const [country, setCountry] = useState(countrySlug);
+  const [country, setCountry] = useState(location);
   const [yAxisLabels, setYAxisLAbel] = useState({
     yName: 'P1',
     yLabel: 'PM10',
@@ -291,7 +290,14 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const sortedCountries = sortCountries(sensorsDataByCountry);
 
   const data = { sortedCountries, sensorsDataByCountry, africaData };
-  return { props: { errorCode, country: slug, data } };
+
+  const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
+  errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
+  const meta = (!errorCode && (await metaRes.json())) || {};
+
+  return { props: { errorCode, country: slug, data,meta },
+  revalidate: 300, // seconds
+};
 }
 
 export default Country;
