@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 120,
+    maxWidth: 240,
   },
 });
 
@@ -23,7 +23,7 @@ export default function BasicSelect({ onChange }) {
   return (
     <div className={classes.root}>
       <FormControl fullWidth>
-        <InputLabel id="particles-select-label">Particles</InputLabel>
+        <InputLabel id="particles-select-label">Particulate Matter</InputLabel>
         <Select
           labelId="particles-select-label"
           id="particles-select"
