@@ -188,7 +188,7 @@ const COUNTRIES_LOCATION = {
   },
 };
 
-function chunkData(rawData, intervalMinutes = 30) {
+function chunkData(rawData, intervalMinutes = 60) {
   const intervalMilli = intervalMinutes * 60 * 1000;
   let currentBucket = 0;
   const buckets = [];
@@ -209,7 +209,7 @@ function chunkData(rawData, intervalMinutes = 30) {
   return buckets;
 }
 
-function calculateAverage(data, chunk = 30) {
+function calculateAverage(data, chunk = 60) {
   const results = [];
 
   const chunks = chunkData(data, chunk);
