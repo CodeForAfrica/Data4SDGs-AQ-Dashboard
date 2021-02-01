@@ -281,7 +281,7 @@ const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const defaultTimestampGte = new Date();
-defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 3);
+defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 10);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
