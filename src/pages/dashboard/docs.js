@@ -4,10 +4,10 @@ import Router from 'next/router';
 
 import { useSession } from 'next-auth/client';
 
-import Navbar from 'components/Header/Navbar';
 import DataArchives from 'components/DataArchives/DataArchives';
-import Tokens from 'components/Tokens';
 import Footer from 'components/Footer';
+import Navigation from 'components/Navigation';
+import Tokens from 'components/Tokens';
 
 function Data({ tokens }) {
   const [session, loading] = useSession();
@@ -19,7 +19,7 @@ function Data({ tokens }) {
 
   return (
     <>
-      <Navbar />
+      <Navigation />
       <Tokens tokens={tokens} />
       <DataArchives />
       <Footer />
