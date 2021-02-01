@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { formatDateTime } from 'lib';
-
+import seedColor from 'seed-color';
 import {
   VictoryChart,
   VictoryTheme,
@@ -14,7 +14,6 @@ import {
   VictoryLegend,
   VictoryLabel,
 } from 'victory';
-import getRandomColor from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +60,7 @@ function QualityStatsGraph({ data: dataProps, width, yLabel, xName, yName }) {
     .slice(0, 8);
 
   const ticks = dataProps[legend[0].name].map((value) => value.timestamp);
-  const colors = legend.map(() => getRandomColor());
+  const colors = legend.map((value) => seedColor(value.name).toHex());
   return (
     <Grid
       container
