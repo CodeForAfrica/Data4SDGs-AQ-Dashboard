@@ -1,8 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import { formatDateTime } from 'lib';
 
-
-
 const CITIES_LOCATION = {
   nairobi: {
     slug: 'nairobi',
@@ -262,34 +260,50 @@ const API = {
   },
 };
 
-  async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
+async function getNodesPerNetwork(
+  url = 'https://api.sensors.africa/v1/node',
+  total = 485
+) {
   const data = [];
-  const networks = ['PURPLE_AIR', 'AIRQO', 'OPENAQ', 'DATA4_DSGS'];
+  const networks = [
+    { name: 'PURPLE_AIR', label: 'PurpleAir' },
+    { name: 'AIRQO', label: 'AirQO' },
+    { name: 'SMART_CITIZEN', label: 'SmartCitizen' },
+    { name: 'AIR_NOW', label: 'AirNow' },
+  ];
   /* eslint-disable no-await-in-loop */
-  for (let index = 0; index < networks.length; index=+1) {
+  for (let index = 0; index < networks.length; index = +1) {
     const response = await fetch(url, {
-      headers: { Authorization: `token ${process.env[networks[index] ]}` },
+      headers: { Authorization: `token ${process.env[networks[index].name]}` },
     });
     const resjson = await response.json();
-    data.push({ name: networks[index], count: resjson.count});
+    console.log(networks[index], resjson.results.length);
+    data.push({ name: networks[index].label, count: resjson.count });
   }
-    /* eslint-enable no-await-in-loop */
 
+  /* eslint-enable no-await-in-loop */
+  data.push({
+    name: 'sensors.AFRICA',
+    count: total - data.reduce((acc, curr) => acc.count + curr.count, 0),
+  });
   return data;
 }
 
-async function getNodesPerCountry(countries,url = 'https://api.sensors.africa/v1/node') {
+async function getNodesPerCountry(
+  countries,
+  url = 'https://api.sensors.africa/v1/node'
+) {
   const data = [];
-    /* eslint-disable no-await-in-loop */
-  for (let index = 0; index < countries.length; index=+1) {
-    let countryQuery = `?location__country=${countries[index]}`  
-    const response = await fetch(url+countryQuery, {
-      headers: { Authorization: `token ${process.env.DATA4_DSGS }` },
+  /* eslint-disable no-await-in-loop */
+  for (let index = 0; index < countries.length; index = +1) {
+    const countryQuery = `?location__country=${countries[index]}`;
+    const response = await fetch(url + countryQuery, {
+      headers: { Authorization: `token ${process.env.DATA4_DSGS}` },
     });
     const resjson = await response.json();
-    data.push({ name: countries[index], count: resjson.count});
+    data.push({ name: countries[index], count: resjson.count });
   }
-    /* eslint-enable no-await-in-loop */
+  /* eslint-enable no-await-in-loop */
 
   return data;
 }
@@ -302,6 +316,6 @@ export {
   calculateAverage,
   sortCountries,
   getNodesPerNetwork,
-  getNodesPerCountry
+  getNodesPerCountry,
 };
 export default API;
