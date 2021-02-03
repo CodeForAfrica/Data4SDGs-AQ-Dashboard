@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
+import React from 'react';
 import Router from 'next/router';
-
-import { Grid, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSession } from 'next-auth/client';
 
@@ -16,19 +14,17 @@ import API, {
   getNodesPerNetwork,
 } from 'api';
 
-import AQIndex from 'components/City/AQIndex';
 import Footer from 'components/Footer';
-import HazardReading from 'components/City/HazardReadings';
 import Insights from 'components/Insights';
 import Navigation from 'components/Navigation';
 import Resources from 'components/Resources';
 import SensorMap from 'components/SensorMap';
 import Ticker from 'components/Ticker';
-import QualityStatsGraph from 'components/City/QualityStatsGraph';
+import TimeSeries from 'components/TimeSeries';
+import RankChart from 'components/RankChart';
 import BarChart from 'components/City/BarChart';
 
 import NotFound from 'pages/404';
-import Filter from 'components/Filter';
 
 const DEFAULT_COUNTRY = 'africa';
 
@@ -93,16 +89,6 @@ function Country({
   ...props
 }) {
   const classes = useStyles(props);
-  const [country] = useState(location);
-  const [yAxisLabels, setYAxisLAbel] = useState({
-    yName: 'P1',
-    yLabel: 'PM10',
-  });
-  const [hazardReading, setHazardReading] = useState({
-    name: 'P1',
-    label: 'PM10',
-  });
-  const { sortedCountries, sensorsDataByCountry } = data;
 
   const [session, loading] = useSession();
 
@@ -196,53 +182,42 @@ function Country({
           id="graph"
           className={classes.graphContainer}
         >
-          <Grid item xs={12}>
-            {sensorsDataByCountry ? (
-              <div>
-                <Filter
-                  onChange={(value) => {
-                    setYAxisLAbel(JSON.parse(value));
-                    setHazardReading({
-                      label: JSON.parse(value).yLabel,
-                      name: JSON.parse(value).yName,
-                    });
-                  }}
-                />
-                <Typography className={classes.chartTitle}>
-                  Air Quality in {COUNTRIES_LOCATION[country].label}
-                </Typography>
-                <QualityStatsGraph
-                  {...yAxisLabels}
-                  xLabel="Date"
-                  data={sensorsDataByCountry}
-                />
-              </div>
-            ) : null}
-            {/* <Typography> Air Quality in Africa</Typography>
-            <QualityStatsGraph {...yAxisLabels} data={africaData} /> */}
-          </Grid>
-
           <Grid lg={6}>
             <BarChart data={networkNodes} />
           </Grid>
           <Grid lg={6}>
             <BarChart xLabel="Countries" data={countryNodes} />
           </Grid>
-          <Grid
-            container
-            alignItems="center"
-            item
-            xs={12}
-            className={classes.hazardContainer}
-          >
-            <HazardReading
-              hazardReading={hazardReading}
-              data={sortedCountries}
+
+          <Grid>
+            <TimeSeries description="Time Series Trends" />
+          </Grid>
+          <Grid container justify="center">
+            <RankChart
+              title="Good"
+              subtitle="Air Quality"
+              description="Ranked by city/node"
+              chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-zsjQNF"
+            />
+            <RankChart
+              title="Bad"
+              subtitle="Air Quality"
+              description="Ranked by city/node"
+              chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-N9dGTq/chart-e9vx5K"
             />
           </Grid>
-
-          <Grid item lg={12} justify="center">
-            <AQIndex />
+          <Grid container justify="center">
+            <RankChart
+              description="Sensor location"
+              chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
+            />
+            <RankChart
+              description="Measurements"
+              chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
+            />
+          </Grid>
+          <Grid>
+            <TimeSeries description="Sensor lifespan" />
           </Grid>
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
@@ -292,10 +267,10 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const countryProp = countryProps || DEFAULT_COUNTRY;
   const { slug } = COUNTRIES_LOCATION[countryProp];
   let errorCode = slug ? 200 : 404;
-  const t0 = Date.now();
+  // const t0 = Date.now();
   const sensorsData = await API.getData();
-  const t1 = Date.now();
-  console.log(`Call to getData took ${t1 - t0} milliseconds.`);
+  // const t1 = Date.now();
+  // console.log(`Call to getData took ${t1 - t0} milliseconds.`); //husky fails
 
   const sensorsDataByCountry = dataByCountries(sensorsData);
   let countryData;
@@ -313,7 +288,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const meta = (!errorCode && (await metaRes.json())) || {};
   const networkNodes = await getNodesPerNetwork(meta.nodes_count);
   const countryNodes = await getNodesPerCountry(meta.sensors_locations || []);
-  
+
   return {
     props: { errorCode, country: slug, data, meta, networkNodes, countryNodes },
     revalidate: 3600, // 1 hour
