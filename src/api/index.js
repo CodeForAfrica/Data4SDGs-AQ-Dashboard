@@ -205,7 +205,7 @@ const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const defaultTimestampGte = new Date();
-defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 10);
+defaultTimestampGte.setHours(defaultTimestampGte.getHours() + 6);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
@@ -270,6 +270,8 @@ async function getNodesPerNetwork(
     { name: 'AIRQO', label: 'AirQO' },
     { name: 'SMART_CITIZEN', label: 'SmartCitizen' },
     { name: 'AIR_NOW', label: 'AirNow' },
+    { name: 'OPENDATA_DURBAN', label: 'OpenData Durban' },
+    { name: 'SENSORS_COMMUNITY', label: 'Sensor.Community' },
   ];
   /* eslint-disable no-await-in-loop */
   for (let index = 0; index < networks.length; index += 1) {
