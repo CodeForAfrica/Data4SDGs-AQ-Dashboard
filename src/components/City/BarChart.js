@@ -5,8 +5,13 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
-import { VictoryChart, VictoryTheme, VictoryBar, VictoryAxis } from 'victory';
-import getRandomColor from '../../utils';
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryBar,
+  VictoryAxis,
+  VictoryLegend,
+} from 'victory';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
+function BarChart({ data: dataProps, width, xLabel, yLabel }) {
   const classes = useStyles();
   let chartWidth = window.innerWidth;
   let labelAngle = 45;
@@ -41,23 +46,14 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
   }
   const chartHeight = chartWidth * (6 / 16) + 20;
 
-  let dataArray = [];
   if (!dataProps) {
     return null;
   }
 
-  if (dataProps[0]?.data) {
-    dataArray = dataProps
-      .map(({ name, data }) => {
-        const average =
-          data.reduce((sum, datum) => sum + parseFloat(datum.averagePM), 0) /
-          data.length;
-        return { name, data: average };
-      })
-      .sort((a, b) => parseFloat(b.data) - parseFloat(a.data));
-  }
-  const yMax = dataArray[0].data * 1.2;
-  const colors = dataArray.map(() => getRandomColor());
+  const data = dataProps.sort((a, b) => b.count - a.count).slice(0, 7); // sort descending
+
+  // const colors = data.map((value) => seedColor(value.name).toHex());
+
   return (
     <Grid
       container
@@ -74,10 +70,8 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
             height={chartHeight}
             width={chartWidth}
             domainPadding={{ x: 120 }}
-            domain={{ y: [0, yMax] }}
           >
             <VictoryAxis
-              label={xLabel}
               style={{
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',
@@ -99,6 +93,7 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
                   angle: labelAngle,
+                  fontSize: 6.5,
                 },
               }}
             />
@@ -112,7 +107,7 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
                 },
                 axisLabel: {
                   padding: 30,
-                  fontSize: 18,
+                  fontSize: 12,
                   fontWeight: 'bold',
                 },
                 grid: {
@@ -122,18 +117,28 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
+                  fontSize: 8,
                 },
               }}
               fixLabelOverlap
             />
-
+            <VictoryLegend
+              x={chartWidth / 2.2}
+              y={chartHeight - 20}
+              centerTitle
+              orientation="horizontal"
+              itemsPerRow={8}
+              gutter={5}
+              style={{ title: { fontSize: 16 } }}
+              data={[{ name: xLabel, symbol: { fill: '#9ecbe0' } }]}
+            />
             <VictoryBar
-              data={dataArray}
+              data={data}
               x="name"
-              y="data"
+              y="count"
               style={{
                 data: {
-                  fill: ({ index }) => colors[index],
+                  fill: '#9ecbe0',
                 },
               }}
             />
@@ -144,7 +149,7 @@ function CityHazardComparisonChart({ data: dataProps, width, xLabel, yLabel }) {
   );
 }
 
-CityHazardComparisonChart.propTypes = {
+BarChart.propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.shape({}),
     PropTypes.arrayOf(PropTypes.shape({})),
@@ -154,9 +159,9 @@ CityHazardComparisonChart.propTypes = {
   yLabel: PropTypes.string,
 };
 
-CityHazardComparisonChart.defaultProps = {
-  xLabel: 'Cities',
-  yLabel: 'Hazard Average',
+BarChart.defaultProps = {
+  xLabel: 'Networks',
+  yLabel: 'Number of Nodes',
 };
 
-export default withWidth()(CityHazardComparisonChart);
+export default withWidth()(BarChart);

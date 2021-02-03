@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Router from 'next/router';
@@ -12,6 +12,8 @@ import API, {
   dataByCountries,
   calculateAverage,
   sortCountries,
+  getNodesPerCountry,
+  getNodesPerNetwork,
 } from 'api';
 
 import AQIndex from 'components/City/AQIndex';
@@ -23,6 +25,7 @@ import Resources from 'components/Resources';
 import SensorMap from 'components/SensorMap';
 import Ticker from 'components/Ticker';
 import QualityStatsGraph from 'components/City/QualityStatsGraph';
+import BarChart from 'components/City/BarChart';
 
 import NotFound from 'pages/404';
 import Filter from 'components/Filter';
@@ -75,14 +78,22 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   hazardContainer: {},
-  chartTitle:{
-    fontWeight:"bold"
-  }
+  chartTitle: {
+    fontWeight: 'bold',
+  },
 }));
 
-function Country({ country: location, data, errorCode, meta, ...props }) {
+function Country({
+  country: location,
+  data,
+  errorCode,
+  meta,
+  networkNodes,
+  countryNodes,
+  ...props
+}) {
   const classes = useStyles(props);
-  const [country, setCountry] = useState(location);
+  const [country] = useState(location);
   const [yAxisLabels, setYAxisLAbel] = useState({
     yName: 'P1',
     yLabel: 'PM10',
@@ -92,7 +103,7 @@ function Country({ country: location, data, errorCode, meta, ...props }) {
     label: 'PM10',
   });
   const { sortedCountries, sensorsDataByCountry } = data;
- 
+
   const [session, loading] = useSession();
 
   if (loading) return null;
@@ -100,8 +111,6 @@ function Country({ country: location, data, errorCode, meta, ...props }) {
   if (!loading && !session) {
     Router.push('/');
   }
-
-  const { weeklyData } = data;
 
   // if !data, 404
   if (!COUNTRIES_LOCATION[location] || errorCode >= 400) {
@@ -212,6 +221,13 @@ function Country({ country: location, data, errorCode, meta, ...props }) {
             {/* <Typography> Air Quality in Africa</Typography>
             <QualityStatsGraph {...yAxisLabels} data={africaData} /> */}
           </Grid>
+
+          <Grid lg={6}>
+            <BarChart data={networkNodes} />
+          </Grid>
+          <Grid lg={6}>
+            <BarChart xLabel="Countries" data={countryNodes} />
+          </Grid>
           <Grid
             container
             alignItems="center"
@@ -251,6 +267,7 @@ Country.propTypes = {
   }),
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   meta: PropTypes.shape({}).isRequired,
+  nodes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 Country.defaultProps = {
@@ -294,10 +311,13 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
   errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
   const meta = (!errorCode && (await metaRes.json())) || {};
-
-  return { props: { errorCode, country: slug, data,meta },
-  revalidate: 3600, // 1 hour
-};
+  const networkNodes = await getNodesPerNetwork(meta.nodes_count);
+  const countryNodes = await getNodesPerCountry(meta.sensors_locations || []);
+  
+  return {
+    props: { errorCode, country: slug, data, meta, networkNodes, countryNodes },
+    revalidate: 3600, // 1 hour
+  };
 }
 
 export default Country;
