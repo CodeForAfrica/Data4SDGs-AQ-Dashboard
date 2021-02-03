@@ -39,7 +39,7 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
   let labelAngle = 45;
   if (isWidthUp('md', width)) {
     chartWidth = 59.625 * 16;
-    labelAngle = 0;
+    labelAngle = 10;
     if (isWidthUp('lg', width)) {
       chartWidth = 79.5 * 8;
     }
@@ -50,7 +50,7 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
     return null;
   }
 
-  const data = dataProps.sort((a, b) => b.count - a.count).slice(0, 6); // sort descending
+  const data = dataProps.sort((a, b) => b.count - a.count).slice(0, 7); // sort descending
 
   // const colors = data.map((value) => seedColor(value.name).toHex());
 
