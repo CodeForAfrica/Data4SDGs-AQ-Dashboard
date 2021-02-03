@@ -5,8 +5,13 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
-import { VictoryChart, VictoryTheme, VictoryBar, VictoryAxis } from 'victory';
-import seedColor from 'seed-color';
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryBar,
+  VictoryAxis,
+  VictoryLegend,
+} from 'victory';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BarChart({ data:dataProps, width, xLabel, yLabel }) {
+function BarChart({ data: dataProps, width, xLabel, yLabel }) {
   const classes = useStyles();
   let chartWidth = window.innerWidth;
   let labelAngle = 45;
@@ -45,10 +50,9 @@ function BarChart({ data:dataProps, width, xLabel, yLabel }) {
     return null;
   }
 
-  const data = dataProps.sort((a,b)=>b.count-a.count).slice(0,6) //sort descending
+  const data = dataProps.sort((a, b) => b.count - a.count).slice(0, 6); // sort descending
 
-
-  const colors = data.map((value) => seedColor(value.name).toHex());
+  // const colors = data.map((value) => seedColor(value.name).toHex());
 
   return (
     <Grid
@@ -68,7 +72,6 @@ function BarChart({ data:dataProps, width, xLabel, yLabel }) {
             domainPadding={{ x: 120 }}
           >
             <VictoryAxis
-              label={xLabel}
               style={{
                 axis: {
                   stroke: 'rgba(0,0,0,0.1)',
@@ -113,19 +116,28 @@ function BarChart({ data:dataProps, width, xLabel, yLabel }) {
                 tickLabels: {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
-                  fontSize: 8
+                  fontSize: 8,
                 },
               }}
               fixLabelOverlap
             />
-
+            <VictoryLegend
+              x={40}
+              y={chartHeight - 30}
+              centerTitle
+              orientation="horizontal"
+              itemsPerRow={8}
+              gutter={5}
+              style={{ title: { fontSize: 5 } }}
+              data={[{ name: { xLabel }, symbol: { fill: '#9ecbe0' } }]}
+            />
             <VictoryBar
               data={data}
               x="name"
               y="count"
               style={{
                 data: {
-                  fill: ({ index }) => colors[index],
+                  fill: '#9ecbe0',
                 },
               }}
             />

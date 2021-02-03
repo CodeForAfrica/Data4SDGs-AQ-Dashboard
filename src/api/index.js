@@ -260,10 +260,7 @@ const API = {
   },
 };
 
-async function getNodesPerNetwork(
-  url = 'https://api.sensors.africa/v1/node',
-  total = 485
-) {
+async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
   const data = [];
   const networks = [
     { name: 'PURPLE_AIR', label: 'PurpleAir' },
@@ -277,14 +274,20 @@ async function getNodesPerNetwork(
       headers: { Authorization: `token ${process.env[networks[index].name]}` },
     });
     const resjson = await response.json();
-    console.log(networks[index], resjson.results.length);
     data.push({ name: networks[index].label, count: resjson.count });
   }
-
   /* eslint-enable no-await-in-loop */
+
+  const totalNodesResoponse = await fetch(url, {
+    headers: { Authorization: `token ${process.env.DATA4_DSGS}` },
+  });
+
+  const totalSensors = totalNodesResoponse.json();
   data.push({
     name: 'sensors.AFRICA',
-    count: total - data.reduce((acc, curr) => acc.count + curr.count, 0),
+    count:
+      totalSensors.count -
+      data.reduce((acc, curr) => acc.count + curr.count, 0),
   });
   return data;
 }
