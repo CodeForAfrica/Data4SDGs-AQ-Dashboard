@@ -296,7 +296,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const meta = (!errorCode && (await metaRes.json())) || {};
 
   return { props: { errorCode, country: slug, data,meta },
-  revalidate: 300, // seconds
+  revalidate: 3600, // 1 hour
 };
 }
 
