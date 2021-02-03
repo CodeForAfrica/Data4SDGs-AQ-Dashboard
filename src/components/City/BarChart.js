@@ -39,7 +39,7 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
   let labelAngle = 45;
   if (isWidthUp('md', width)) {
     chartWidth = 59.625 * 16;
-    labelAngle = 10;
+    labelAngle = 0;
     if (isWidthUp('lg', width)) {
       chartWidth = 79.5 * 8;
     }
@@ -93,7 +93,7 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
                   angle: labelAngle,
-                  fontSize: 10,
+                  fontSize: 6.5,
                 },
               }}
             />
