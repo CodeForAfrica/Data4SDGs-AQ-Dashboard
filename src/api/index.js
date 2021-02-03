@@ -269,7 +269,7 @@ async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
     { name: 'AIR_NOW', label: 'AirNow' },
   ];
   /* eslint-disable no-await-in-loop */
-  for (let index = 0; index < networks.length; index = +1) {
+  for (let index = 0; index < networks.length; index += 1) {
     const response = await fetch(url, {
       headers: { Authorization: `token ${process.env[networks[index].name]}` },
     });
@@ -283,11 +283,10 @@ async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
   });
 
   const totalSensors = totalNodesResoponse.json();
+  console.log(totalSensors);
   data.push({
     name: 'sensors.AFRICA',
-    count:
-      totalSensors.count -
-      data.reduce((acc, curr) => acc.count + curr.count, 0),
+    count: totalSensors.count - data.reduce((acc, curr) => acc + curr.count, 0),
   });
   return data;
 }
@@ -298,7 +297,7 @@ async function getNodesPerCountry(
 ) {
   const data = [];
   /* eslint-disable no-await-in-loop */
-  for (let index = 0; index < countries.length; index = +1) {
+  for (let index = 0; index < countries.length; index += 1) {
     const countryQuery = `?location__country=${countries[index]}`;
     const response = await fetch(url + countryQuery, {
       headers: { Authorization: `token ${process.env.DATA4_DSGS}` },
