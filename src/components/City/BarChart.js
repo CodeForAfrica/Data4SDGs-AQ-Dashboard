@@ -93,6 +93,7 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
                   fontFamily: '"Montserrat", "sans-serif"',
                   fontWeight: 'bold',
                   angle: labelAngle,
+                  fontSize: 10,
                 },
               }}
             />
@@ -122,14 +123,14 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
               fixLabelOverlap
             />
             <VictoryLegend
-              x={40}
-              y={chartHeight - 30}
+              x={chartWidth / 2.2}
+              y={chartHeight - 20}
               centerTitle
               orientation="horizontal"
               itemsPerRow={8}
               gutter={5}
-              style={{ title: { fontSize: 5 } }}
-              data={[{ name: { xLabel }, symbol: { fill: '#9ecbe0' } }]}
+              style={{ title: { fontSize: 16 } }}
+              data={[{ name: xLabel, symbol: { fill: '#9ecbe0' } }]}
             />
             <VictoryBar
               data={data}
