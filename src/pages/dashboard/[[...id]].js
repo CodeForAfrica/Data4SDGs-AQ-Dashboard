@@ -159,6 +159,12 @@ function Country({ country: location, data, errorCode, meta, ...props }) {
                 },
                 {
                   highlight: true,
+                  name: 'Cities Covered',
+                  status: 'Total',
+                  slug: 'cities',
+                },
+                {
+                  highlight: true,
                   name: 'Networks',
                   status: 'Total',
                   slug: 'networks',
@@ -169,6 +175,7 @@ function Country({ country: location, data, errorCode, meta, ...props }) {
                 sensors: meta.sensors_count,
                 nodes: meta.nodes_count,
                 networks: meta.sensor_networks.count,
+                cities: meta.sensor_networks.count,
               }}
               valueTexts={{
                 'data-values': `Updated: ${new Date(

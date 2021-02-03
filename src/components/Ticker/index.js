@@ -53,6 +53,13 @@ const useStyles = makeStyles((theme) => ({
   statuses: {
     marginTop: '1.125rem',
   },
+  statusGrid: {
+    [theme.breakpoints.up('lg')]: {
+      width: '20%',
+      flexBasis: '20%',
+    },
+
+  },
   title: {
     textTransform: 'uppercase',
   },
@@ -108,7 +115,12 @@ function Ticker({
           </Grid>
           <Grid item xs={12} container className={classes.statuses}>
             {statuses.map((status, index) => (
-              <Grid key={status.name} item xs={6} md={3}>
+              <Grid
+                className={classes.statusGrid}
+                key={status.name}
+                item
+                xs={6}
+              >
                 <Status
                   {...status}
                   value={values[status.slug]}
