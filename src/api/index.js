@@ -1,81 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import { formatDateTime } from 'lib';
 
-const HUMIDITY_READING = 'humidity';
-const TEMPERATURE_READING = 'temperature';
-const P2_READING = 'P2';
 
-const formatAirStats = (data, isPm2 = false) => {
-  const formatted = {};
-  ['average', 'maximum', 'minimum'].forEach((stat) => {
-    const parsed = Number.parseFloat(data[stat]);
-    if (isPm2 && stat === 'average') {
-      formatted.averageDescription = `measurements not recorded`;
-      if (!Number.isNaN(parsed)) {
-        let difference = 25.0 - parsed;
-        let position = 'below';
-        if (parsed > 25.0) {
-          difference = parsed - 25.0;
-          position = 'above';
-        }
-        const percentage = ((difference / 25.0) * 100).toFixed(2);
-        formatted.averageDescription = `${percentage}% ${position} the safe level`;
-      }
-    }
-    formatted[stat] = Number.isNaN(parsed) ? '--' : parsed.toFixed(2);
-  });
-  return formatted;
-};
-
-const getFormattedStats = (data, reading) => {
-  let statData = {};
-  if (data && data.count === 1) {
-    statData = data.results[0][reading];
-  }
-  return formatAirStats(statData, reading === P2_READING);
-};
-
-const getFormattedHumidityStats = (data) => {
-  return getFormattedStats(data, HUMIDITY_READING);
-};
-
-const getFormattedP2Stats = (data) => {
-  return getFormattedStats(data, P2_READING);
-};
-
-const getFormattedTemperatureStats = (data) => {
-  return getFormattedStats(data, TEMPERATURE_READING);
-};
-
-const DATE_FMT_OPTIONS = {
-  timeZone: 'UTC',
-  weekday: 'short',
-  day: 'numeric',
-  month: 'short',
-};
-
-const formatWeeklyP2Stats = (data) => {
-  const stats = [];
-  // Start with the oldest value
-  for (let i = data.length - 1; i >= 0; i -= 1) {
-    let averagePM = Number.parseFloat(data[i].average);
-    if (Number.isNaN(averagePM)) {
-      averagePM = 0.0;
-    }
-    const date = new Date(data[i].start_datetime).toLocaleDateString(
-      'en-US',
-      DATE_FMT_OPTIONS
-    );
-    stats.push({ date, averagePM });
-  }
-  return stats;
-};
-
-const getFormattedWeeklyP2Stats = (data) => {
-  const statData =
-    (data && data.count === 1 && data.results[0][P2_READING]) || [];
-  return formatWeeklyP2Stats(statData);
-};
 
 const CITIES_LOCATION = {
   nairobi: {
@@ -336,16 +262,46 @@ const API = {
   },
 };
 
+  async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
+  const data = [];
+  const networks = ['PURPLE_AIR', 'AIRQO', 'OPENAQ', 'DATA4_DSGS'];
+  /* eslint-disable no-await-in-loop */
+  for (let index = 0; index < networks.length; index=+1) {
+    const response = await fetch(url, {
+      headers: { Authorization: `token ${process.env[networks[index] ]}` },
+    });
+    const resjson = await response.json();
+    data.push({ name: networks[index], count: resjson.count});
+  }
+    /* eslint-enable no-await-in-loop */
+
+  return data;
+}
+
+async function getNodesPerCountry(countries,url = 'https://api.sensors.africa/v1/node') {
+  const data = [];
+    /* eslint-disable no-await-in-loop */
+  for (let index = 0; index < countries.length; index=+1) {
+    let countryQuery = `?location__country=${countries[index]}`  
+    const response = await fetch(url+countryQuery, {
+      headers: { Authorization: `token ${process.env.DATA4_DSGS }` },
+    });
+    const resjson = await response.json();
+    data.push({ name: countries[index], count: resjson.count});
+  }
+    /* eslint-enable no-await-in-loop */
+
+  return data;
+}
+
 export {
   CITIES_LOCATION,
   COUNTRIES_LOCATION,
-  getFormattedHumidityStats,
-  getFormattedP2Stats,
-  getFormattedTemperatureStats,
-  getFormattedWeeklyP2Stats,
   dataByCountry,
   dataByCountries,
   calculateAverage,
   sortCountries,
+  getNodesPerNetwork,
+  getNodesPerCountry
 };
 export default API;
