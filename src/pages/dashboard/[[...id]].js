@@ -13,7 +13,7 @@ import API, {
   calculateAverage,
   sortCountries,
   getNodesPerCountry,
-  getNodesPerNetwork
+  getNodesPerNetwork,
 } from 'api';
 
 import AQIndex from 'components/City/AQIndex';
@@ -79,11 +79,19 @@ const useStyles = makeStyles((theme) => ({
   },
   hazardContainer: {},
   chartTitle: {
-    fontWeight: "bold"
-  }
+    fontWeight: 'bold',
+  },
 }));
 
-function Country({ country: location, data, errorCode, meta, networkNodes, countryNodes, ...props }) {
+function Country({
+  country: location,
+  data,
+  errorCode,
+  meta,
+  networkNodes,
+  countryNodes,
+  ...props
+}) {
   const classes = useStyles(props);
   const [country] = useState(location);
   const [yAxisLabels, setYAxisLAbel] = useState({
@@ -103,7 +111,6 @@ function Country({ country: location, data, errorCode, meta, networkNodes, count
   if (!loading && !session) {
     Router.push('/');
   }
-
 
   // if !data, 404
   if (!COUNTRIES_LOCATION[location] || errorCode >= 400) {
@@ -215,15 +222,11 @@ function Country({ country: location, data, errorCode, meta, networkNodes, count
             <QualityStatsGraph {...yAxisLabels} data={africaData} /> */}
           </Grid>
 
-          <Grid
-            lg={6}
-          >
-            <BarChart data={networkNodes}></BarChart>
+          <Grid lg={6}>
+            <BarChart data={networkNodes} />
           </Grid>
-          <Grid
-            lg={6}
-          >
-            <BarChart xLabel="Countries" data={countryNodes}></BarChart>
+          <Grid lg={6}>
+            <BarChart xLabel="Countries" data={countryNodes} />
           </Grid>
           <Grid
             container
@@ -312,7 +315,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const countryNodes = await getNodesPerCountry(meta.sensors_locations || []);
   return {
     props: { errorCode, country: slug, data, meta, networkNodes, countryNodes },
-    revalidate: 300, // seconds
+    revalidate: 3600, // 1 hour
   };
 }
 
