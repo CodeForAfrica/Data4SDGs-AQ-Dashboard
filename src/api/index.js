@@ -205,7 +205,7 @@ const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const defaultTimestampGte = new Date();
-defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 6);
+defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 10);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
@@ -260,7 +260,10 @@ const API = {
   },
 };
 
-async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
+async function getNodesPerNetwork(
+  totalNodes,
+  url = 'https://api.sensors.africa/v1/node'
+) {
   const data = [];
   const networks = [
     { name: 'PURPLE_AIR', label: 'PurpleAir' },
@@ -278,15 +281,9 @@ async function getNodesPerNetwork(url = 'https://api.sensors.africa/v1/node') {
   }
   /* eslint-enable no-await-in-loop */
 
-  const totalNodesResoponse = await fetch(url, {
-    headers: { Authorization: `token ${process.env.DATA4_DSGS}` },
-  });
-
-  const totalSensors = totalNodesResoponse.json();
-  console.log(totalSensors);
   data.push({
     name: 'sensors.AFRICA',
-    count: totalSensors.count - data.reduce((acc, curr) => acc + curr.count, 0),
+    count: totalNodes - data.reduce((acc, curr) => acc + curr.count, 0),
   });
   return data;
 }

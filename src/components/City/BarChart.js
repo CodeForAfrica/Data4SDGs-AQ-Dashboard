@@ -107,7 +107,7 @@ function BarChart({ data: dataProps, width, xLabel, yLabel }) {
                 },
                 axisLabel: {
                   padding: 30,
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: 'bold',
                 },
                 grid: {
@@ -161,7 +161,7 @@ BarChart.propTypes = {
 
 BarChart.defaultProps = {
   xLabel: 'Networks',
-  yLabel: 'Nodes',
+  yLabel: 'Number of Nodes',
 };
 
 export default withWidth()(BarChart);

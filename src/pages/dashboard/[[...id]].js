@@ -308,7 +308,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
   errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
   const meta = (!errorCode && (await metaRes.json())) || {};
-  const networkNodes = await getNodesPerNetwork();
+  const networkNodes = await getNodesPerNetwork(meta.nodes_count);
   const countryNodes = await getNodesPerCountry(meta.sensors_locations || []);
   return {
     props: { errorCode, country: slug, data, meta, networkNodes, countryNodes },
