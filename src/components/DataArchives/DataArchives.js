@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { color: theme.palette.primary.dark },
   typography: {
-    paddingTop: '1.5rem',
     textAlign: 'center',
     fontWeight: 'bold',
   },
@@ -113,11 +112,7 @@ function DataArchives() {
         className={classes.main}
       >
         <Grid item xs={12}>
-          <Typography
-            variant="h5"
-            className={classes.typography}
-            component="h2"
-          >
+          <Typography variant="h6" className={classes.typography}>
             Accessing Sensors Data
           </Typography>
         </Grid>
