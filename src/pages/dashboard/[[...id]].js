@@ -92,7 +92,6 @@ function Country({
   const classes = useStyles(props);
 
   const [session, loading] = useSession();
-  console.log(meta)
   if (loading) return null;
 
   if (!loading && !session) {
