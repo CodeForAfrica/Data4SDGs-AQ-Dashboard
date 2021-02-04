@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Tabs, Tab, Typography, Box } from '@material-ui/core';
+import { Tabs, Grid, Tab, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DataArchives from 'components/DataArchives//DataArchives';
 
@@ -43,12 +43,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    padding: '10rem 0rem',
+    padding: '2.5rem 0rem',
     height: '100rem',
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     width: '25%',
+    backgroundColor: '#424143',
+    color: 'white',
   },
   tabLabel: {},
 }));
@@ -71,6 +73,14 @@ function DrawerDocs({ display }) {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
+        <Grid item>
+          <Typography
+            variant="h5"
+            style={{ color: 'white', padding: '2rem 0rem' }}
+          >
+            Sensors.AFRICA API
+          </Typography>
+        </Grid>
         <Tab
           label="Authorization"
           {...a11yProps(0)}
