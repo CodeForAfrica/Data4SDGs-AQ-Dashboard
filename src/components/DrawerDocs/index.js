@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    paddingTop: '4rem',
+    paddingTop: '10rem',
     height: '100rem',
   },
   tabs: {

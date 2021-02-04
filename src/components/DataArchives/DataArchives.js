@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { color: theme.palette.primary.dark },
   typography: {
-    paddingTop: theme.spacing(6),
+    // paddingTop: theme.spacing(6),
     textAlign: 'center',
     fontWeight: 'bold',
   },

@@ -20,10 +20,7 @@ function Data({ tokens }) {
   return (
     <>
       <Navigation />
-      <DrawerDocs
-        style={{ paddingTop: '40rem' }}
-        display={<Tokens tokens={tokens} />}
-      />
+      <DrawerDocs display={<Tokens tokens={tokens} />} />
       <Footer />
     </>
   );

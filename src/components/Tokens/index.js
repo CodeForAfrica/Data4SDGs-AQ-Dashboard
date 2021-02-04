@@ -7,9 +7,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: 'white',
-    marginTop: '6rem',
+    marginTop: '0rem',
     [theme.breakpoints.up('md')]: {
-      marginTop: '3rem',
+      marginTop: '0rem',
     },
   },
   main: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { color: theme.palette.primary.dark },
   typography: {
-    paddingTop: theme.spacing(6),
+    // paddingTop: theme.spacing(6),
     textAlign: 'center',
     fontWeight: 'bold',
   },
