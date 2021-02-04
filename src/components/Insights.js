@@ -48,7 +48,9 @@ function Insights(props) {
             reports.
           </Typography>
           <Grid className={classes.sectionText}>
-            <Typography variant="p">Use the API here</Typography>
+            <Typography variant="h5">
+              <Link href="/dashboard/docs">Use the API here</Link>{' '}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
