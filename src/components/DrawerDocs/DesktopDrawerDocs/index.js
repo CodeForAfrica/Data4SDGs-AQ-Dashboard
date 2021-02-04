@@ -36,9 +36,8 @@ const StyledTab = withStyles((theme) => ({
     textTransform: 'none',
     color: '#fff',
     fontWeight: 'bolder',
-    padding: '1rem',
+    paddingTop: '3rem',
     fontSize: theme.typography.pxToRem(13),
-    marginRight: theme.spacing(1),
     '&:focus': {
       opacity: 1,
     },
@@ -78,7 +77,7 @@ function a11yProps(index) {
   };
 }
 
-function DrawerDocs({ display }) {
+function DesktopDrawerDocs({ display }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -96,7 +95,7 @@ function DrawerDocs({ display }) {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        {/* <Typography
+        {/* 	<Typography
 					{...a11yProps(0)}
 					variant="h5"
 					style={{ color: 'white', backgroundColor: '#23282e', padding: '2rem 1rem' }}
@@ -109,9 +108,10 @@ function DrawerDocs({ display }) {
           className={classes.tabLabel}
         />
         <StyledTab
-          label="Sensors Data"
+          label="Accessing Sensors Data"
           {...a11yProps(1)}
           className={classes.tabLabel}
+          style={{ paddingTop: 0 }}
         />
       </Tabs>
 
@@ -125,8 +125,8 @@ function DrawerDocs({ display }) {
   );
 }
 
-DrawerDocs.propTypes = {
+DesktopDrawerDocs.propTypes = {
   display: PropTypes.func.isRequired,
 };
 
-export default DrawerDocs;
+export default DesktopDrawerDocs;

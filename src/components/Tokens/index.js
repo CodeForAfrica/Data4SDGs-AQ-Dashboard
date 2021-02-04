@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { color: theme.palette.primary.dark },
   typography: {
+    paddingTop: '1.5rem',
     textAlign: 'center',
     fontWeight: 'bold',
   },
@@ -94,6 +95,14 @@ const useStyles = makeStyles((theme) => ({
   wiki: {
     marginTop: '2rem',
   },
+  wikiCaption: {
+    color: 'black',
+    fontStyle: 'italic',
+  },
+  a: {
+    color: 'inherit',
+    underline: 'none',
+  },
 }));
 
 function DataArchives({ tokens }) {
@@ -135,6 +144,7 @@ function DataArchives({ tokens }) {
               href="http://api.sensors.africa"
               target="_blank"
               rel="noopener noreferrer"
+              className={classes.a}
             >
               sensors.AFRICA
             </a>{' '}
@@ -254,10 +264,7 @@ function DataArchives({ tokens }) {
 					</Grid>
 				</Grid> */}
         <Grid item xs={12} className={classes.wiki}>
-          <Typography
-            variant="caption"
-            style={{ color: 'black', fontStyle: 'italic' }}
-          >
+          <Typography variant="caption" className={classes.wikiCaption}>
             * Data4DSGs token is a super token that can be used to access all
             data regardless of which networked the data was pulled from.
           </Typography>
