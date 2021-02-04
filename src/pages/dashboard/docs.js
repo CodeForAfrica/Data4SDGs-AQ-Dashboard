@@ -4,11 +4,10 @@ import Router from 'next/router';
 
 import { useSession } from 'next-auth/client';
 
-import DataArchives from 'components/DataArchives/DataArchives';
 import Footer from 'components/Footer';
 import Navigation from 'components/Navigation';
 import Tokens from 'components/Tokens';
-/* import DrawerDocs from 'src/components/DrawerDocs'; */
+import DrawerDocs from 'components/DrawerDocs';
 
 function Data({ tokens }) {
   const [session, loading] = useSession();
@@ -21,11 +20,10 @@ function Data({ tokens }) {
   return (
     <>
       <Navigation />
-      <Tokens tokens={tokens} />
-      <DataArchives />
-      {/* <div id="drawer">
-				<DrawerDocs />
-			</div> */}
+      <DrawerDocs
+        style={{ paddingTop: '40rem' }}
+        display={<Tokens tokens={tokens} />}
+      />
       <Footer />
     </>
   );
