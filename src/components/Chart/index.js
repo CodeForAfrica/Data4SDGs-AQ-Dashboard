@@ -31,26 +31,12 @@ const useStyles = makeStyles((theme) => ({
       padding: '1.125rem 2.625rem 1.25rem',
     },
   },
-  lastUpdated: {
-    color: '#9D9C9C',
-  },
   subtitle: {
     color: '#5D5C5C',
     fontFamily: theme.typography.h3.fontFamily,
     textTransform: 'uppercase',
   },
-  status: {},
-  statusBorderRight: {
-    borderRight: '1px solid #D6D6D6',
-  },
-  statusBorderTop: {
-    borderTop: '1px solid #D6D6D6',
-    paddingTop: '1rem',
-  },
-  statusHighlight: {
-    color: theme.palette.secondary.main,
-  },
-  statuses: {
+  chartContainer: {
     marginTop: '1.125rem',
   },
   title: {
@@ -63,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RankChart({ title, subtitle, description, chartSrc, ...props }) {
+function Chart({ title, subtitle, description, chartSrc, ...props }) {
   const classes = useStyles(props);
 
   return (
@@ -87,7 +73,7 @@ function RankChart({ title, subtitle, description, chartSrc, ...props }) {
               {subtitle}
             </Typography>
           </Grid>
-          <Grid item xs={12} container className={classes.statuses}>
+          <Grid item xs={12} container className={classes.chartContainer}>
             <iframe
               className={classes.chartStyles}
               title="chart"
@@ -103,18 +89,18 @@ function RankChart({ title, subtitle, description, chartSrc, ...props }) {
   );
 }
 
-RankChart.propTypes = {
+Chart.propTypes = {
   description: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
   chartSrc: PropTypes.string,
 };
 
-RankChart.defaultProps = {
+Chart.defaultProps = {
   description: undefined,
   subtitle: undefined,
   title: undefined,
   chartSrc: undefined,
 };
 
-export default RankChart;
+export default Chart;

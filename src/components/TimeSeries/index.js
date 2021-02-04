@@ -30,30 +30,13 @@ const useStyles = makeStyles((theme) => ({
       padding: '1.125rem 2.625rem 1.25rem',
     },
   },
-  lastUpdated: {
-    color: '#9D9C9C',
-  },
   subtitle: {
     color: '#5D5C5C',
     fontFamily: theme.typography.h3.fontFamily,
     textTransform: 'uppercase',
   },
-  status: {},
-  statusBorderRight: {
-    borderRight: '1px solid #D6D6D6',
-  },
-  statusBorderTop: {
-    borderTop: '1px solid #D6D6D6',
-    paddingTop: '1rem',
-  },
-  statusHighlight: {
-    color: theme.palette.secondary.main,
-  },
-  statuses: {
+  chartContainer: {
     marginTop: '1.125rem',
-  },
-  title: {
-    textTransform: 'uppercase',
   },
   chartStyles: {
     border: 0,
@@ -74,7 +57,7 @@ function TimeSeries({ description, ...props }) {
           alignItems="center"
           className={classes.ticker}
         >
-          <Grid item xs={12} container className={classes.statuses}>
+          <Grid item xs={12} container className={classes.chartContainer}>
             <iframe
               className={classes.chartStyles}
               title="that "

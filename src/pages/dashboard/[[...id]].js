@@ -21,7 +21,8 @@ import Resources from 'components/Resources';
 import SensorMap from 'components/SensorMap';
 import Ticker from 'components/Ticker';
 import TimeSeries from 'components/TimeSeries';
-import RankChart from 'components/RankChart';
+import Chart from 'components/Chart';
+import Average from 'components/Average';
 import BarChart from 'components/City/BarChart';
 
 import NotFound from 'pages/404';
@@ -189,17 +190,19 @@ function Country({
             <BarChart xLabel="Countries" data={countryNodes} />
           </Grid>
 
+          <Average />
+
           <Grid>
             <TimeSeries description="Time Series Trends" />
           </Grid>
           <Grid container justify="center">
-            <RankChart
+            <Chart
               title="Good"
               subtitle="Air Quality"
               description="Ranked by city/node"
               chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-zsjQNF"
             />
-            <RankChart
+            <Chart
               title="Bad"
               subtitle="Air Quality"
               description="Ranked by city/node"
@@ -207,11 +210,11 @@ function Country({
             />
           </Grid>
           <Grid container justify="center">
-            <RankChart
+            <Chart
               description="Sensor location"
               chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
             />
-            <RankChart
+            <Chart
               description="Measurements"
               chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
             />

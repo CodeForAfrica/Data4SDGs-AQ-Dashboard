@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginBottom: '4rem',
-    fontWeight:"bold"
+    fontWeight: 'bold',
   },
 }));
 
