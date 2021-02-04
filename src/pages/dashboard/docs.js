@@ -8,6 +8,7 @@ import DataArchives from 'components/DataArchives/DataArchives';
 import Footer from 'components/Footer';
 import Navigation from 'components/Navigation';
 import Tokens from 'components/Tokens';
+import Main from 'components/Docs/Main';
 
 function Data({ tokens }) {
   const [session, loading] = useSession();
@@ -22,6 +23,7 @@ function Data({ tokens }) {
       <Navigation />
       <Tokens tokens={tokens} />
       <DataArchives />
+      <Main />
       <Footer />
     </>
   );
