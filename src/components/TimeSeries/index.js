@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     border: 0,
     width: '100%',
     height: '40vh',
+    pointerEvents: 'none',
   },
 }));
 

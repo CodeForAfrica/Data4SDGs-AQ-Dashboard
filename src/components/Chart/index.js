@@ -42,10 +42,14 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'uppercase',
   },
+  description: {
+    marginTop: '30px',
+  },
   chartStyles: {
     border: 0,
     width: '100%',
     height: '40vh',
+    pointerEvents: 'none',
   },
 }));
 
@@ -80,7 +84,11 @@ function Chart({ title, subtitle, description, chartSrc, ...props }) {
               src={chartSrc}
             />
           </Grid>
-          <Typography variant="subtitle2" component="h3">
+          <Typography
+            variant="subtitle2"
+            component="h3"
+            className={classes.description}
+          >
             {description}
           </Typography>
         </Grid>
