@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Link from 'components/Link';
 
-import logo from 'assets/images/logos/sensorsLogo.png';
+import logo from 'assets/images/logos/logoExperimental.png';
 
 const useStyles = makeStyles((theme) => ({
   defaultBadge: {
