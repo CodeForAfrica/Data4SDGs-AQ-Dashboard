@@ -219,9 +219,6 @@ function Country({
               chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
             />
           </Grid>
-          <Grid>
-            <TimeSeries description="Sensor lifespan" />
-          </Grid>
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
           <Insights />
