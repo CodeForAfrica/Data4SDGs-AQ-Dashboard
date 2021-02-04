@@ -48,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
     },
   },
+  navMenuBorder: {
+    borderRight: '1px solid',
+    padding: '0 3rem',
+  },
   toolbar: {
     [theme.breakpoints.up('md')]: {
       paddingRight: '8%',
@@ -68,8 +72,10 @@ const useStyles = makeStyles((theme) => ({
   },
   navBarRoot: {
     display: 'flex',
+    justifyContent: 'flex-end',
     [theme.breakpoints.down('sm')]: {
       padding: '10px 0',
+      justifyContent: 'flex-start',
     },
   },
   titleContainer: {
@@ -157,9 +163,18 @@ function Navbar({ handleSearch, ...props }) {
                       <Link
                         href="/dashboard#__next"
                         passHref
-                        className={classes.navLink}
+                        className={` ${classes.navLink} ${classes.navMenuBorder} `}
                       >
                         MAP
+                      </Link>
+                    </MenuItem>
+                    <MenuItem classes={{ root: classes.navBarText }}>
+                      <Link
+                        href="/dashboard/docs"
+                        passHref
+                        className={` ${classes.navLink} ${classes.navMenuBorder} `}
+                      >
+                        Data API
                       </Link>
                     </MenuItem>
                     <MenuItem classes={{ root: classes.navBarText }}>
@@ -169,15 +184,6 @@ function Navbar({ handleSearch, ...props }) {
                         className={classes.navLink}
                       >
                         RESOURCES
-                      </Link>
-                    </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
-                      <Link
-                        href="/dashboard/docs"
-                        passHref
-                        className={classes.navLink}
-                      >
-                        DOCUMENTATION
                       </Link>
                     </MenuItem>
                   </Grid>
