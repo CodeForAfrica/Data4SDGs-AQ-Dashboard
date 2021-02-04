@@ -12,11 +12,10 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 10px',
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      //   width: '59.625rem',
+      width: '59.625rem',
     },
     [theme.breakpoints.up('lg')]: {
-      //   width: '76.125rem',
-      width: '33vw',
+      width: '36.9rem',
     },
     [theme.breakpoints.down('sm')]: {
       width: '100vw',
