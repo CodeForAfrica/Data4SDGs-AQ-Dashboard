@@ -43,13 +43,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    paddingTop: '10rem',
+    padding: '10rem 0rem',
     height: '100rem',
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
+    width: '25%',
   },
-  indicator: {},
+  tabLabel: {},
 }));
 
 function DrawerDocs({ display }) {
@@ -70,7 +71,11 @@ function DrawerDocs({ display }) {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Authorization" {...a11yProps(0)} />
+        <Tab
+          label="Authorization"
+          {...a11yProps(0)}
+          className={classes.tabLabel}
+        />
         <Tab label="Sensors Data" {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
