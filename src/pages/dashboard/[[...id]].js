@@ -92,13 +92,12 @@ function Country({
   const classes = useStyles(props);
 
   const [session, loading] = useSession();
-
+  console.log(meta)
   if (loading) return null;
 
   if (!loading && !session) {
     Router.push('/');
   }
-
   // if !data, 404
   if (!COUNTRIES_LOCATION[location] || errorCode >= 400) {
     return <NotFound />;
@@ -169,15 +168,15 @@ function Country({
               values={{
                 'data-values': meta.sensor_data_count,
                 sensors: meta.sensors_count,
-                nodes: meta.nodes_count,
+                nodes: meta.nodes.count,
                 networks: meta.sensor_networks.count,
-                cities: meta.sensor_networks.count,
+                cities: meta.sensors_cities?.length,
               }}
               valueTexts={{
                 'data-values': `Updated: ${new Date(
                   meta.database_last_updated
                 ).toISOString()}`,
-                networks: `in ${meta.sensors_locations?.length} countries`,
+                networks: `in ${meta.sensors_countries?.length} countries`,
               }}
             />
           </Grid>
@@ -294,7 +293,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
   const meta = (!errorCode && (await metaRes.json())) || {};
   const networkNodes = await getNodesPerNetwork(meta.nodes_count);
-  const countryNodes = await getNodesPerCountry(meta.sensors_locations || []);
+  const countryNodes = await getNodesPerCountry(meta.sensors_countries || []);
 
   return {
     props: { errorCode, country: slug, data, meta, networkNodes, countryNodes },
