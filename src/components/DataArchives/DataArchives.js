@@ -219,28 +219,28 @@ function DataArchives() {
 							</li>
 						</Typography>
 					</Grid>
-				</Grid>
+				</Grid> */}
 
-				<Grid item xs={12}>
-					<Typography variant="h6" className={classes.title} component="h3">
-						Accessing Public Data
+        <Grid item xs={12}>
+          <Typography variant="h6" className={classes.title} component="h3">
+            Accessing Public Data
           </Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Typography variant="body2" style={{ fontStyle: 'italic' }}>
-						For a more detailed documentation on how to access API data , visit
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body2" style={{ fontStyle: 'italic' }}>
+            For a more detailed documentation on how to access API data , visit
             the sensors.AFRICA{' '}
-						<a
-							className={classes.link}
-							href="http://api.sensors.africa/docs/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							API Documentation
+            <a
+              className={classes.link}
+              href="http://api.sensors.africa/docs/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              API Documentation
             </a>{' '}
             site
           </Typography>
-				</Grid> */}
+        </Grid>
 
         <Grid item xs={12} className={classes.wiki}>
           <Typography variant="h6" className={classes.title} component="h3">
