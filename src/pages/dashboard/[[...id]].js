@@ -57,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
   loading: {
     textAlign: 'center',
   },
+  iframe:{
+    height:"720px",
+    [theme.breakpoints.up('lg')]: {
+      height: '2800px',
+    },
+  },
   loadingContainer: {
     display: 'flex',
     height: '100vh',
@@ -111,7 +117,7 @@ function Country({ country: location, data, errorCode, ...props }) {
           <iframe
             title="Sensors Report"
             width="100%"
-            height="2800px"
+            className={classes.iframe}
             src="https://datastudio.google.com/embed/reporting/b848529e-8e67-4fda-9897-b6efb6a6c680/page/9mA0B"
             frameBorder="0"
             style={{ border: 0 }}
