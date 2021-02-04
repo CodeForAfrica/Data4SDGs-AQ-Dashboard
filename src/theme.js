@@ -82,6 +82,12 @@ const theme = createMuiTheme({
         backgroundColor: '#F3F3F3',
       },
     },
+    MuiTabWrapper: {
+      root: {
+        display: 'flex',
+        flexDirection: 'row!important',
+      },
+    },
   },
 });
 

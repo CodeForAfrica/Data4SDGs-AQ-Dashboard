@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Tabs, Tab, Typography, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import DataArchives from 'components/DataArchives//DataArchives';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    padding: '2.8rem 0rem',
-    height: '80rem',
+    paddingTop: '4rem',
+    height: '70rem',
   },
   stylesTabRoot: {
     textTransform: 'none',
@@ -25,11 +25,25 @@ const useStyles = makeStyles((theme) => ({
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
-    width: '25%',
-    backgroundColor: '#424143',
+    width: '15%',
+    backgroundColor: '#2e353d',
     color: 'white',
   },
 }));
+
+const StyledTab = withStyles((theme) => ({
+  root: {
+    textTransform: 'none',
+    color: '#fff',
+    fontWeight: 'bolder',
+    padding: '1rem',
+    fontSize: theme.typography.pxToRem(13),
+    marginRight: theme.spacing(1),
+    '&:focus': {
+      opacity: 1,
+    },
+  },
+}))((props) => <Tab disableRipple {...props} />);
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,28 +96,29 @@ function DrawerDocs({ display }) {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Typography
-          variant="h5"
-          style={{ color: 'white', padding: '2rem 0rem' }}
-        >
-          Sensors.AFRICA API
-        </Typography>
-        <Tab
+        {/* <Typography
+					{...a11yProps(0)}
+					variant="h5"
+					style={{ color: 'white', backgroundColor: '#23282e', padding: '2rem 1rem' }}
+				>
+					Sensors.AFRICA API
+        </Typography> */}
+        <StyledTab
           label="Authorization"
-          {...a11yProps(1)}
+          {...a11yProps(0)}
           className={classes.tabLabel}
         />
-        <Tab
+        <StyledTab
           label="Sensors Data"
-          {...a11yProps(2)}
+          {...a11yProps(1)}
           className={classes.tabLabel}
         />
       </Tabs>
 
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={0}>
         {display}
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={1}>
         <DataArchives />
       </TabPanel>
     </div>
