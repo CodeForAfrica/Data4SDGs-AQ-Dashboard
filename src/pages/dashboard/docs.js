@@ -8,7 +8,7 @@ import DataArchives from 'components/DataArchives/DataArchives';
 import Footer from 'components/Footer';
 import Navigation from 'components/Navigation';
 import Tokens from 'components/Tokens';
-import Main from 'components/Docs/Main';
+/* import DrawerDocs from 'src/components/DrawerDocs'; */
 
 function Data({ tokens }) {
   const [session, loading] = useSession();
@@ -23,7 +23,9 @@ function Data({ tokens }) {
       <Navigation />
       <Tokens tokens={tokens} />
       <DataArchives />
-      <Main />
+      {/* <div id="drawer">
+				<DrawerDocs />
+			</div> */}
       <Footer />
     </>
   );
