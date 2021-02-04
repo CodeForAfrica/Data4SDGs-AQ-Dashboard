@@ -1,9 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Tabs, Grid, Tab, Typography, Box } from '@material-ui/core';
+import { Tabs, Tab, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DataArchives from 'components/DataArchives//DataArchives';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    padding: '2.8rem 0rem',
+    height: '80rem',
+  },
+  stylesTabRoot: {
+    textTransform: 'none',
+    color: '#fff',
+    fontWeight: theme.typography.fontWeightRegular,
+    fontSize: theme.typography.pxToRem(15),
+    marginRight: theme.spacing(1),
+    '&:focus': {
+      opacity: 1,
+    },
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    width: '25%',
+    backgroundColor: '#424143',
+    color: 'white',
+  },
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,23 +64,6 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    padding: '2.5rem 0rem',
-    height: '100rem',
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-    width: '25%',
-    backgroundColor: '#424143',
-    color: 'white',
-  },
-  tabLabel: {},
-}));
-
 function DrawerDocs({ display }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -73,25 +82,28 @@ function DrawerDocs({ display }) {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Grid item>
-          <Typography
-            variant="h5"
-            style={{ color: 'white', padding: '2rem 0rem' }}
-          >
-            Sensors.AFRICA API
-          </Typography>
-        </Grid>
+        <Typography
+          variant="h5"
+          style={{ color: 'white', padding: '2rem 0rem' }}
+        >
+          Sensors.AFRICA API
+        </Typography>
         <Tab
           label="Authorization"
-          {...a11yProps(0)}
+          {...a11yProps(1)}
           className={classes.tabLabel}
         />
-        <Tab label="Sensors Data" {...a11yProps(1)} />
+        <Tab
+          label="Sensors Data"
+          {...a11yProps(2)}
+          className={classes.tabLabel}
+        />
       </Tabs>
-      <TabPanel value={value} index={0}>
+
+      <TabPanel value={value} index={1}>
         {display}
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={2}>
         <DataArchives />
       </TabPanel>
     </div>
