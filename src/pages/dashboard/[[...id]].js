@@ -15,6 +15,7 @@ import Resources from 'components/Resources';
 import SensorMap from 'components/SensorMap';
 
 import NotFound from 'pages/404';
+import Insights from 'components/Insights';
 
 const DEFAULT_COUNTRY = 'africa';
 
@@ -79,13 +80,11 @@ function Country({ country: location, data, errorCode, ...props }) {
   const classes = useStyles(props);
 
   const [session, loading] = useSession();
-
   if (loading) return null;
 
   if (!loading && !session) {
     Router.push('/');
   }
-
   // if !data, 404
   if (!COUNTRIES_LOCATION[location] || errorCode >= 400) {
     return <NotFound />;
@@ -123,6 +122,9 @@ function Country({ country: location, data, errorCode, ...props }) {
             style={{ border: 0 }}
             allowFullScreen
           />
+        </Grid>
+        <Grid item id="insights" className={classes.section} xs={12}>
+       <Insights/>
         </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />
