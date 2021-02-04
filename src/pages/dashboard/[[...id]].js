@@ -132,7 +132,7 @@ function Country({
               title="Executive Summary"
               subtitle={`Database Size: ${meta.database_size}`}
               description={`
-             This dashboard tracks air quality data aggregated (via API or regular manual data uploads) from independent citizen science or academic research networks across Africa. The dashboard is intended to give users an overview of network coverage and data trends, as well as to help researchers understand gaps in the networks and grassroots challenges around keeping sensors online / updated. sensors.AFRICA is custodian of the dashboard. We are happy to receive requests/suggestions for new networks to be added to the repository. 
+              This experimental dashboard tracks air quality data aggregated via API or regular manual data uploads from independent citizen science or academic research networks across Africa. The dashboard is intended to give users an overview of existing network coverage and data trends, as well as gaps in coverage. It offers researchers insights into the that challenges grassroots AQ networks face in keeping sensors online, and the wide disparities in data standards and quality. All information in the repository is open data. sensors.AFRICA is custodian of the dashboard. We are happy to explore suggestions for adding new networks to the repository.               
               `}
               statuses={[
                 {
@@ -211,11 +211,11 @@ function Country({
           </Grid>
           <Grid container justify="center">
             <Chart
-              description="Sensor location"
+              description="Where are sensors located?"
               chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
             />
             <Chart
-              description="Measurements"
+              description="What is being measured?"
               chartSrc="https://dev.pesayetu.pesacheck.org/embed/level1-KE_1_047/section-768KuR/chart-KnGbdK"
             />
           </Grid>

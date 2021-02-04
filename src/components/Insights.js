@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   text: {},
+  sectionText: {
+    marginTop: '2rem',
+  },
 }));
 
 function Insights(props) {
@@ -34,15 +37,19 @@ function Insights(props) {
   return (
     <Grid container justify="center" className={classes.root}>
       <Grid item xs={12}>
-        <Typography variant="h3">Want Real-Time Insights?</Typography>
+        <Typography variant="h3">Do you want to play with the data?</Typography>
       </Grid>
       <Grid item xs={12} container justify="center">
         <Grid item className={classes.section}>
           <Typography variant="body1" className={classes.text}>
-            Use the dashboard&apos;s{' '}
-            <Link href="/dashboard/docs">API toolkit</Link> to access the raw
-            real-time data, and extract granular insights or reports.
+            Our data can give you granular real-time insights. Use the
+            dashboard&apos;s <Link href="/dashboard/docs">API toolkit</Link> to
+            access the raw real-time data, and extract granular insights or
+            reports.
           </Typography>
+          <Grid className={classes.sectionText}>
+            <Typography variant="p">Use the API here</Typography>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
