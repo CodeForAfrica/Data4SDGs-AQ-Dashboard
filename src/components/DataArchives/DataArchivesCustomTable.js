@@ -95,8 +95,8 @@ const StyledTableRow = withStyles(() => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(endpoint, usage) {
+  return { endpoint, usage };
 }
 
 const apiV1Node =
@@ -193,16 +193,16 @@ export default function DataArchivesCustomTable() {
         <TableHead>
           <TableRow>
             <StyledTableCell>Endpoints</StyledTableCell>
-            <StyledTableCell align="right">Use</StyledTableCell>
+            <StyledTableCell align="right">Usage</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row.endpoint}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {row.endpoint}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
+              <StyledTableCell align="right">{row.usage}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

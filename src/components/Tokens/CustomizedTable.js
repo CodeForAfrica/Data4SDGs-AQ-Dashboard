@@ -29,8 +29,8 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(network, tokens) {
+  return { network, tokens };
 }
 
 const useStyles = makeStyles({
@@ -68,11 +68,11 @@ export default function CustomizedTable({ tokens, ...props }) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row.network}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {row.network}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
+              <StyledTableCell align="right">{row.tokens}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

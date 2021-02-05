@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     paddingTop: '4rem',
-    height: '70rem',
+    height: '80rem',
   },
   stylesTabRoot: {
     textTransform: 'none',
@@ -95,13 +95,6 @@ function DesktopDrawerDocs({ display }) {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        {/* 	<Typography
-					{...a11yProps(0)}
-					variant="h5"
-					style={{ color: 'white', backgroundColor: '#23282e', padding: '2rem 1rem' }}
-				>
-					Sensors.AFRICA API
-        </Typography> */}
         <StyledTab
           label="Authorization"
           {...a11yProps(0)}

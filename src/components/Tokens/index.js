@@ -106,15 +106,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DataArchives({ tokens }) {
-  /* 	const {
-			airNowToken,
-			airQOToken,
-			data4SDGToken,
-			purpleAirToken,
-			smartCitizenToken,
-		} = tokens; */
   const classes = useStyles();
-
   return (
     <Grid
       container
@@ -170,99 +162,7 @@ function DataArchives({ tokens }) {
             Access Tokens{' '}
           </Typography>
         </Grid>
-
         <CustomizedTable tokens={tokens} />
-
-        {/* 	<Grid
-					item
-					xs={12}
-					container
-					justify="flex-start"
-					alignItems="flex-start"
-					className={classes.dl}
-				>
-					<Grid className={classes.dt}>
-						<Typography variant="body2" component="p">
-							AirNow
-            </Typography>
-					</Grid>
-
-					<Grid item className={classes.dd}>
-						<code className={classes.code}>{airNowToken}</code>
-					</Grid>
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					container
-					justify="flex-start"
-					alignItems="flex-start"
-					className={classes.dl}
-				>
-					<Grid className={classes.dd}>
-						<Typography variant="body2" component="p">
-							AirQO
-            </Typography>
-					</Grid>
-
-					<Grid item className={classes.dt}>
-						<code className={classes.code}>{airQOToken}</code>
-					</Grid>
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					container
-					justify="flex-start"
-					alignItems="flex-start"
-					className={classes.dl}
-				>
-					<Grid className={classes.dt}>
-						<Typography variant="body2" component="p">
-							Data4DSGs*
-            </Typography>
-					</Grid>
-
-					<Grid item className={classes.dd}>
-						<code className={classes.code}>{data4SDGToken}</code>
-					</Grid>
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					container
-					justify="flex-start"
-					alignItems="flex-start"
-					className={classes.dl}
-				>
-					<Grid className={classes.dt}>
-						<Typography variant="body2" component="p">
-							PurpleAir
-            </Typography>
-					</Grid>
-
-					<Grid item className={classes.dd}>
-						<code className={classes.code}>{purpleAirToken}</code>
-					</Grid>
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					container
-					justify="flex-start"
-					alignItems="flex-start"
-					className={classes.dl}
-				>
-					<Grid className={classes.dt}>
-						<Typography variant="body2" component="p">
-							SmartCitizen
-            </Typography>
-					</Grid>
-
-					<Grid item className={classes.dd}>
-						<code className={classes.code}>{smartCitizenToken}</code>
-					</Grid>
-				</Grid> */}
         <Grid item xs={12} className={classes.wiki}>
           <Typography variant="caption" className={classes.wikiCaption}>
             * Data4DSGs token is a super token that can be used to access all
