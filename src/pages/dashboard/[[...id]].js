@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
   loading: {
     textAlign: 'center',
   },
-  iframe:{
-    height:"720px",
+  iframe: {
+    height: '720px',
     [theme.breakpoints.up('lg')]: {
       height: '2800px',
     },
@@ -124,7 +124,7 @@ function Country({ country: location, data, errorCode, ...props }) {
           />
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
-       <Insights/>
+          <Insights />
         </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />

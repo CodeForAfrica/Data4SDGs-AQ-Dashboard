@@ -96,6 +96,31 @@ const useStyles = makeStyles((theme) => ({
   buttonLink: {
     textDecoration: 'none',
   },
+  underline: {
+    backgroundColor: 'rgba(47, 181, 107, 0.3)',
+    height: '40px',
+    maxWidth: '300px',
+    borderRadius: '10px',
+    [theme.breakpoints.between('sm', 'sm')]: {
+      maxWidth: '200px',
+      marginBottom: '20px',
+    },
+    [theme.breakpoints.between('xs', 'xs')]: {
+      marginBottom: '20px',
+      maxWidth: '200px',
+    },
+  },
+  title: {
+    position: 'relative',
+    bottom: '30px',
+    [theme.breakpoints.between('xs', 'sm')]: {
+      fontSize: '40px',
+      bottom: '20px',
+    },
+    [theme.breakpoints.between('xs', 'xs')]: {
+      fontSize: '40px',
+    },
+  },
   fa: {
     transition: 'all .5s ease-in-out',
     padding: theme.spacing(0.5),
@@ -111,8 +136,10 @@ function Support({ classNames }) {
   const className = classNames ? `${classes.root} ${classNames}` : classes.root;
   return (
     <Grid className={classes.section} container justify="center" xs={12}>
-      <Grid item xs={12} justify="center">
-        <Typography variant="h3">RESOURCES</Typography>
+      <Grid className={classes.underline} item xs={12} justify="center">
+        <Typography className={classes.title} variant="h3">
+          RESOURCES
+        </Typography>
       </Grid>
       <Grid container justify="center" align="center" className={className}>
         <Card className={classes.supportCard}>
