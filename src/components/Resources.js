@@ -135,8 +135,8 @@ function Support({ classNames }) {
   const classes = useStyles();
   const className = classNames ? `${classes.root} ${classNames}` : classes.root;
   return (
-    <Grid className={classes.section} container justify="center" xs={12}>
-      <Grid className={classes.underline} item xs={12} justify="center">
+    <Grid className={classes.section} container justify="center">
+      <Grid className={classes.underline} item xs={12}>
         <Typography className={classes.title} variant="h3">
           RESOURCES
         </Typography>

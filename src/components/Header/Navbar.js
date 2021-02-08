@@ -146,7 +146,7 @@ function Navbar({ handleSearch, ...props }) {
         {/* Position sticky is not universally supported so the attribute reverts to static when unavailable */}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters>
-            <div item className={classes.logoGrid}>
+            <div className={classes.logoGrid}>
               <IconLogo />
             </div>
             <Grid container>
@@ -162,7 +162,6 @@ function Navbar({ handleSearch, ...props }) {
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <Link
                         href="/dashboard#__next"
-                        passHref
                         className={` ${classes.navLink} ${classes.navMenuBorder} `}
                       >
                         MAP
@@ -171,7 +170,6 @@ function Navbar({ handleSearch, ...props }) {
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <Link
                         href="/dashboard/docs"
-                        passHref
                         className={` ${classes.navLink} ${classes.navMenuBorder} `}
                       >
                         Data API
@@ -180,7 +178,6 @@ function Navbar({ handleSearch, ...props }) {
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <Link
                         href="/dashboard#resources"
-                        passHref
                         className={classes.navLink}
                       >
                         RESOURCES

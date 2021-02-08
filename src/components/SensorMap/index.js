@@ -9,7 +9,7 @@ import IframeComponent from 'components/SensorMap/IframeComponent';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    height: 610,
+    height: 560,
     width: '100%',
     backgroundColor: 'white',
   },

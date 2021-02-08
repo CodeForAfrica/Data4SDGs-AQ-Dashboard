@@ -37,7 +37,7 @@ const styles = (theme) => ({
     },
   },
   chip: {
-    margin: `${theme.spacing(0.5)}px ${theme.spacing.unit / 4}px`,
+    margin: `${theme.spacing(0.5)}px ${theme.spacing(1) / 4}px`,
   },
   noOptionsMessage: {
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
@@ -95,7 +95,7 @@ function inputComponent({ inputRef, ...props }) {
   return <div ref={inputRef} {...props} />;
 }
 inputComponent.propTypes = {
-  inputRef: PropTypes.shape(),
+  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
   props: PropTypes.shape({}),
 };
 inputComponent.defaultProps = {
@@ -125,7 +125,7 @@ Control.propTypes = {
     PropTypes.node,
   ]),
   innerProps: PropTypes.shape({}),
-  innerRef: PropTypes.node,
+  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
   selectProps: PropTypes.shape({
     textFieldProps: PropTypes.string,
     classes: PropTypes.shape({
@@ -320,7 +320,7 @@ class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
   handleSearch: PropTypes.func,
-  options: PropTypes.shape({}),
+  options: PropTypes.arrayOf(PropTypes.shape({})),
   placeholder: PropTypes.string,
 };
 

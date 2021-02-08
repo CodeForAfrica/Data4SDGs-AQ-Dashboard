@@ -59,10 +59,23 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   iframe: {
-    height: '720px',
-    [theme.breakpoints.up('lg')]: {
-      height: '2800px',
-    },
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+  responsiveInlineIframe: {
+    maxWidth:
+      '1280px' /** 4*16 aspect ratio from 1280/400% by padding top in responsiveInlineIframeInner */,
+    margin: 'auto',
+  },
+  responsiveInlineIframeInner: {
+    width: '100%',
+    position: 'relative',
+    overflow: 'hidden',
+    paddingTop: '400%',
+    height: '0px',
   },
   loadingContainer: {
     display: 'flex',
@@ -113,15 +126,19 @@ function Country({ country: location, data, errorCode, ...props }) {
           />
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
-          <iframe
-            title="Sensors Report"
-            width="100%"
-            className={classes.iframe}
-            src="https://datastudio.google.com/embed/reporting/b848529e-8e67-4fda-9897-b6efb6a6c680/page/9mA0B"
-            frameBorder="0"
-            style={{ border: 0 }}
-            allowFullScreen
-          />
+          <div className={classes.responsiveInlineIframe}>
+            <div className={classes.responsiveInlineIframeInner}>
+              <iframe
+                title="Sensors Report"
+                width="100%"
+                className={classes.iframe}
+                src="https://datastudio.google.com/embed/reporting/b848529e-8e67-4fda-9897-b6efb6a6c680/page/9mA0B"
+                frameBorder="0"
+                style={{ border: 0 }}
+                allowFullScreen
+              />
+            </div>
+          </div>
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
           <Insights />
@@ -139,18 +156,11 @@ function Country({ country: location, data, errorCode, ...props }) {
 
 Country.propTypes = {
   country: PropTypes.string,
-  data: PropTypes.shape({
-    air: PropTypes.shape({}).isRequired,
-    weeklyP2: PropTypes.shape({}).isRequired,
-  }),
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-  meta: PropTypes.shape({}).isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 Country.defaultProps = {
   country: undefined,
-  data: undefined,
   errorCode: false,
 };
 
