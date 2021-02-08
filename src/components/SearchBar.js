@@ -30,7 +30,6 @@ const styles = (theme) => ({
     flexGrow: 1,
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingTop: theme.spacing(2),
     width: 280,
     [theme.breakpoints.down('sm')]: {
       width: '80vw',
@@ -44,7 +43,7 @@ const styles = (theme) => ({
   },
   singleValue: {
     fontSize: 16,
-    paddingLeft: '1rem',
+    paddingLeft: '6rem',
   },
   placeholder: {
     position: 'absolute',
