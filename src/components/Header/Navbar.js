@@ -50,7 +50,10 @@ const useStyles = makeStyles((theme) => ({
   },
   navMenuBorder: {
     borderRight: '1px solid',
-    padding: '0 3rem',
+    paddingTop: 0,
+    paddingBotton: 0,
+    paddingRight: '1.5rem',
+    paddingLeft: 0,
   },
   toolbar: {
     [theme.breakpoints.up('md')]: {
@@ -73,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
   navBarRoot: {
     display: 'flex',
     justifyContent: 'flex-end',
+    paddingLeft: '13rem',
     [theme.breakpoints.down('sm')]: {
       padding: '10px 0',
       justifyContent: 'flex-start',
@@ -158,7 +162,12 @@ function Navbar({ handleSearch, ...props }) {
                 classes={{ root: classes.navBarRoot }}
               >
                 <Hidden only={['xs', 'sm']}>
-                  <Grid item md={7} classes={{ root: classes.navBarRoot }}>
+                  <Grid
+                    container
+                    item
+                    md={7}
+                    classes={{ root: classes.navBarRoot }}
+                  >
                     <MenuItem classes={{ root: classes.navBarText }}>
                       <Link
                         href="/dashboard#__next"
