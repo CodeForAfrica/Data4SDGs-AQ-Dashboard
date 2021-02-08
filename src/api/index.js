@@ -86,7 +86,7 @@ const COUNTRIES_LOCATION = {
     longitude: '22.937506',
     name: 'South Africa',
     label: 'South Africa',
-    zoom: '6',
+    zoom: '5',
     center: '-30.559482,22.937506',
   },
   nigeria: {
