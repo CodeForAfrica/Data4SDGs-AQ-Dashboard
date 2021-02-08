@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Link from 'components/Link';
@@ -23,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
   footerContentContainer: {
     textAlign: 'center',
     paddingBottom: '1rem',
-    borderTop: '1px solid white',
-    borderBottom: '1px solid white',
     [theme.breakpoints.up('md')]: {
       marginTop: '3rem',
       width: '19.875rem',
@@ -32,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: '26.5rem',
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       paddingTop: '2rem',
+      borderTop: 'solid 1px white',
     },
     [theme.breakpoints.up('md')]: {
       marginTop: '3rem',
       width: '19.875rem',
-      border: '1px solid white',
       borderTop: 'none',
       borderBottom: 'none',
       borderRight: 'none',
@@ -53,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       marginTop: '3rem',
       width: '19.875rem',
-      border: '1px solid white',
       borderTop: 'none',
       borderBottom: 'none',
       borderLeft: 'none',
@@ -61,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: '26.5rem',
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       paddingTop: '2rem',
     },
   },
@@ -76,11 +73,18 @@ const useStyles = makeStyles((theme) => ({
   },
   aboutContent: {
     color: 'white',
-    padding: '1rem',
+    padding: '1.2rem',
 
-    textalign: 'justify',
-    textAlignLast: 'center',
+    textAlign: 'justify',
     lineHeight: '2',
+
+    marginLeft: '1.5rem',
+    marginRight: '1.5rem',
+
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '0',
+      marginRight: '0',
+    },
   },
   footerButton: {
     color: 'white',
@@ -116,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       marginLeft: '1.5rem',
       marginRight: '1.5rem',
-      textAlign: 'center',
+      textAlign: 'justify',
     },
     [theme.breakpoints.down('md')]: {
       marginLeft: '0rem',
@@ -129,7 +133,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   socialContainer: {
-    border: 'none',
+    border: '1px solid white',
+    borderBottom: 'none',
+    borderTop: 'none',
+    paddingBottom: '190px',
+    [theme.breakpoints.between('xs', 'sm')]: {
+      border: 'none',
+      paddingBottom: '40px',
+    },
   },
 }));
 
@@ -170,11 +181,6 @@ function Footer(props) {
               in January 2019.
             </Typography>
           </div>
-          <Link href="/about" className={classes.buttonLink}>
-            <Button variant="contained" className={classes.footerButton}>
-              READ MORE
-            </Button>
-          </Link>
         </Grid>
 
         <Grid
