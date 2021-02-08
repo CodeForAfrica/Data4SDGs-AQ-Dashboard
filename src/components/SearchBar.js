@@ -44,10 +44,11 @@ const styles = (theme) => ({
   },
   singleValue: {
     fontSize: 16,
+    paddingLeft: '1rem',
   },
   placeholder: {
     position: 'absolute',
-    left: 2,
+    left: 50,
     fontSize: 16,
     color: '#164B3E',
     paddingLeft: '1rem',
