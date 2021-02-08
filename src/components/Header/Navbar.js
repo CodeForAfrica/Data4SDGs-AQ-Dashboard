@@ -50,10 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   navMenuBorder: {
     borderRight: '1px solid',
-    paddingTop: 0,
-    paddingBotton: 0,
-    paddingRight: '1.5rem',
-    paddingLeft: 0,
+    padding: '0 1.5rem',
   },
   toolbar: {
     [theme.breakpoints.up('md')]: {
@@ -81,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
       padding: '10px 0',
       justifyContent: 'flex-start',
     },
+  },
+  navBarPadding: {
+    paddingLeft: '1.5rem',
   },
   titleContainer: {
     display: 'flex',
@@ -168,7 +168,10 @@ function Navbar({ handleSearch, ...props }) {
                     md={7}
                     classes={{ root: classes.navBarRoot }}
                   >
-                    <MenuItem classes={{ root: classes.navBarText }}>
+                    <MenuItem
+                      classes={{ root: classes.navBarText }}
+                      disableGutters
+                    >
                       <Link
                         href="/dashboard#__next"
                         passHref
@@ -177,7 +180,10 @@ function Navbar({ handleSearch, ...props }) {
                         MAP
                       </Link>
                     </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
+                    <MenuItem
+                      classes={{ root: classes.navBarText }}
+                      disableGutters
+                    >
                       <Link
                         href="/dashboard/docs"
                         passHref
@@ -186,7 +192,10 @@ function Navbar({ handleSearch, ...props }) {
                         Data API
                       </Link>
                     </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
+                    <MenuItem
+                      className={` ${classes.navBarText} ${classes.navBarPadding} `}
+                      disableGutters
+                    >
                       <Link
                         href="/dashboard#resources"
                         passHref
@@ -200,7 +209,7 @@ function Navbar({ handleSearch, ...props }) {
                 <Grid item md={5} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
-                    placeholder="Search for country"
+                    placeholder="Search for a place"
                     classes={{ root: classes.searchBarRoot }}
                   />
                   <Hidden only={['xs', 'sm']}>
