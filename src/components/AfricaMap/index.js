@@ -16,7 +16,7 @@ const styles = (theme) => ({
   },
   headline: {
     textAlign: 'center',
-    paddingBottom: theme.spacing.unit * 3,
+    paddingBottom: theme.spacing(3),
   },
   caption: {
     textTransform: 'none',

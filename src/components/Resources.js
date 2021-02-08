@@ -110,8 +110,8 @@ function Support({ classNames }) {
   const classes = useStyles();
   const className = classNames ? `${classes.root} ${classNames}` : classes.root;
   return (
-    <Grid className={classes.section} container justify="center" xs={12}>
-      <Grid item xs={12} justify="center">
+    <Grid className={classes.section} container justify="center">
+      <Grid item xs={12}>
         <Typography variant="h3">RESOURCES</Typography>
       </Grid>
       <Grid container justify="center" align="center" className={className}>
