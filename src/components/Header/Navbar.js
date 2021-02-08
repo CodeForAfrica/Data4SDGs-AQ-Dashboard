@@ -50,16 +50,29 @@ const useStyles = makeStyles((theme) => ({
   },
   navMenuBorder: {
     borderRight: '1px solid',
-    padding: '0 3rem',
+    padding: '0 1.5rem',
   },
   toolbar: {
-    [theme.breakpoints.up('md')]: {
-      paddingRight: '8%',
-      paddingLeft: '8%',
-    },
+    padding: '0 23px',
+    margin: 0,
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
       padding: '0 5px',
+    },
+    [theme.breakpoints.up('md')]: {
+      padding: 0,
+      margin: '0 auto',
+      width: '960px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      padding: 0,
+      margin: '0 auto',
+      width: '1280px',
+    },
+    [theme.breakpoints.up('xl')]: {
+      padding: 0,
+      margin: '0 auto',
     },
   },
   root: {
@@ -73,10 +86,15 @@ const useStyles = makeStyles((theme) => ({
   navBarRoot: {
     display: 'flex',
     justifyContent: 'flex-end',
+    paddingLeft: '13rem',
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       padding: '10px 0',
       justifyContent: 'flex-start',
     },
+  },
+  navBarPadding: {
+    paddingLeft: '1.5rem',
   },
   titleContainer: {
     display: 'flex',
@@ -91,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     padding: '10px 0',
     display: 'flex',
-    justifyContent: 'flex-end',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       order: 2,
@@ -158,8 +175,16 @@ function Navbar({ handleSearch, ...props }) {
                 classes={{ root: classes.navBarRoot }}
               >
                 <Hidden only={['xs', 'sm']}>
-                  <Grid item md={7} classes={{ root: classes.navBarRoot }}>
-                    <MenuItem classes={{ root: classes.navBarText }}>
+                  <Grid
+                    container
+                    item
+                    md={7}
+                    classes={{ root: classes.navBarRoot }}
+                  >
+                    <MenuItem
+                      classes={{ root: classes.navBarText }}
+                      disableGutters
+                    >
                       <Link
                         href="/dashboard#__next"
                         className={` ${classes.navLink} ${classes.navMenuBorder} `}
@@ -167,7 +192,10 @@ function Navbar({ handleSearch, ...props }) {
                         MAP
                       </Link>
                     </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
+                    <MenuItem
+                      classes={{ root: classes.navBarText }}
+                      disableGutters
+                    >
                       <Link
                         href="/dashboard/docs"
                         className={` ${classes.navLink} ${classes.navMenuBorder} `}
@@ -175,7 +203,10 @@ function Navbar({ handleSearch, ...props }) {
                         Data API
                       </Link>
                     </MenuItem>
-                    <MenuItem classes={{ root: classes.navBarText }}>
+                    <MenuItem
+                      className={` ${classes.navBarText} ${classes.navBarPadding} `}
+                      disableGutters
+                    >
                       <Link
                         href="/dashboard#resources"
                         className={classes.navLink}
@@ -184,27 +215,28 @@ function Navbar({ handleSearch, ...props }) {
                       </Link>
                     </MenuItem>
                   </Grid>
+
+                  <Grid item md={5} classes={{ root: classes.searchBar }}>
+                    <SearchBar
+                      handleSearch={handleSearch}
+                      placeholder="Search for location"
+                      classes={{ root: classes.searchBarRoot }}
+                    />
+                    <Hidden only={['xs', 'sm']}>
+                      <Button
+                        variant="text"
+                        onClick={signOut}
+                        classes={{
+                          root: classes.signOutButton,
+                        }}
+                      >
+                        <Typography className={classes.navBarText}>
+                          Logout
+                        </Typography>
+                      </Button>
+                    </Hidden>
+                  </Grid>
                 </Hidden>
-                <Grid item md={5} classes={{ root: classes.searchBar }}>
-                  <SearchBar
-                    handleSearch={handleSearch}
-                    placeholder="Search for country"
-                    classes={{ root: classes.searchBarRoot }}
-                  />
-                  <Hidden only={['xs', 'sm']}>
-                    <Button
-                      variant="text"
-                      onClick={signOut}
-                      classes={{
-                        root: classes.signOutButton,
-                      }}
-                    >
-                      <Typography className={classes.navBarText}>
-                        Logout
-                      </Typography>
-                    </Button>
-                  </Hidden>
-                </Grid>
                 <Hidden only={['md', 'lg', 'xl']}>
                   <MenuBar />
                 </Hidden>
