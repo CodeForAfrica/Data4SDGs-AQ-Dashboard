@@ -75,9 +75,17 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     padding: '1rem',
 
-    textalign: 'justify',
+    textAlign: 'center',
     textAlignLast: 'center',
     lineHeight: '2',
+
+    marginLeft: '1.5rem',
+    marginRight: '1.5rem',
+
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '0',
+      marginRight: '0',
+    },
   },
   footerButton: {
     color: 'white',
