@@ -209,7 +209,7 @@ function Navbar({ handleSearch, ...props }) {
                 <Grid item md={5} classes={{ root: classes.searchBar }}>
                   <SearchBar
                     handleSearch={handleSearch}
-                    placeholder="Search for a place"
+                    placeholder="Search for location"
                     classes={{ root: classes.searchBarRoot }}
                   />
                   <Hidden only={['xs', 'sm']}>
