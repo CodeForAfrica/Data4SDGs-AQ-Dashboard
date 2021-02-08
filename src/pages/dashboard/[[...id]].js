@@ -58,11 +58,27 @@ const useStyles = makeStyles((theme) => ({
   loading: {
     textAlign: 'center',
   },
-  iframe:{
-    height:"720px",
-    [theme.breakpoints.up('lg')]: {
-      height: '2800px',
-    },
+  iframe: {
+    // height:"720px",
+    // [theme.breakpoints.up('lg')]: {
+    //   height: '4800px',
+    // },
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+  responsiveInlineIframe: {
+    maxWidth: '100%' /* 800x450 (16x9 aspect ratio) */,
+    margin: 'auto',
+  },
+  responsiveInlineIframeInner: {
+    width: '100%',
+    position: 'relative',
+    overflow: 'hidden',
+    paddingTop: '400%',
+    height: '0px',
   },
   loadingContainer: {
     display: 'flex',
@@ -113,18 +129,22 @@ function Country({ country: location, data, errorCode, ...props }) {
           />
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
-          <iframe
-            title="Sensors Report"
-            width="100%"
-            className={classes.iframe}
-            src="https://datastudio.google.com/embed/reporting/b848529e-8e67-4fda-9897-b6efb6a6c680/page/9mA0B"
-            frameBorder="0"
-            style={{ border: 0 }}
-            allowFullScreen
-          />
+          <div className={classes.responsiveInlineIframe}>
+            <div className={classes.responsiveInlineIframeInner}>
+              <iframe
+                title="Sensors Report"
+                width="100%"
+                className={classes.iframe}
+                src="https://datastudio.google.com/embed/reporting/b848529e-8e67-4fda-9897-b6efb6a6c680/page/9mA0B"
+                frameBorder="0"
+                style={{ border: 0 }}
+                allowFullScreen
+              />
+            </div>
+          </div>
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
-       <Insights/>
+          <Insights />
         </Grid>
         <Grid item id="resources" className={classes.section} xs={12}>
           <Resources />
