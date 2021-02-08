@@ -101,11 +101,11 @@ const useStyles = makeStyles((theme) => ({
     height: '40px',
     maxWidth: '300px',
     borderRadius: '10px',
-    [theme.breakpoints.between('sm', 'sm')]: {
+    [theme.breakpoints.down('sm')]: {
       maxWidth: '200px',
       marginBottom: '20px',
     },
-    [theme.breakpoints.between('xs', 'xs')]: {
+    [theme.breakpoints.down('xs')]: {
       marginBottom: '20px',
       maxWidth: '200px',
     },
@@ -113,11 +113,11 @@ const useStyles = makeStyles((theme) => ({
   title: {
     position: 'relative',
     bottom: '30px',
-    [theme.breakpoints.between('xs', 'sm')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '40px',
       bottom: '20px',
     },
-    [theme.breakpoints.between('xs', 'xs')]: {
+    [theme.breakpoints.down('xs')]: {
       fontSize: '40px',
     },
   },

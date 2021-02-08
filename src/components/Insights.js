@@ -32,22 +32,28 @@ const useStyles = makeStyles((theme) => ({
   title: {
     position: 'relative',
     bottom: '30px',
-    [theme.breakpoints.between('xs', 'sm')]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '40px',
       bottom: '20px',
     },
-    [theme.breakpoints.between('xs', 'xs')]: {
+    [theme.breakpoints.down('xs')]: {
       bottom: '60px',
     },
   },
   apiLink: {
     color: '#424143',
+    '&:hover': {
+      textDecoration: 'none',
+    },
   },
   background: {
-    backgroundColor: 'rgba(47, 181, 107, 0.5)',
+    backgroundColor: 'rgba(213, 145, 193, 1)',
     width: '250px',
     borderRadius: '15px',
     padding: '5px 20px',
+    '&:hover': {
+      backgroundColor: 'rgba(213, 145, 193, 0.6)',
+    },
   },
   underline: {
     backgroundColor: 'rgba(47, 181, 107, 0.5)',

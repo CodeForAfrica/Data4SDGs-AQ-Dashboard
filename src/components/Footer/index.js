@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: '26.5rem',
     },
-    [theme.breakpoints.between('xs', 'sm')]: {
+    [theme.breakpoints.down('sm')]: {
       paddingTop: '2rem',
       borderTop: 'solid 1px white',
     },
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: '26.5rem',
     },
-    [theme.breakpoints.between('xs', 'sm')]: {
+    [theme.breakpoints.down('sm')]: {
       paddingTop: '2rem',
     },
   },
