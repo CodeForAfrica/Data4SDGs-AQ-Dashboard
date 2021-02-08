@@ -61,8 +61,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '0 5px',
     },
     [theme.breakpoints.up('md')]: {
-      paddingRight: '8%',
-      paddingLeft: '8%',
       padding: 0,
       margin: '0 auto',
       width: '960px',
@@ -75,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('xl')]: {
       padding: 0,
       margin: '0 auto',
-      width: '1920px',
     },
   },
   root: {
