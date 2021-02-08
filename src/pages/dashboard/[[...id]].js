@@ -59,10 +59,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   iframe: {
-    // height:"720px",
-    // [theme.breakpoints.up('lg')]: {
-    //   height: '4800px',
-    // },
     position: 'absolute',
     top: 0,
     left: 0,
@@ -70,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   responsiveInlineIframe: {
-    maxWidth: '100%' /* 800x450 (16x9 aspect ratio) */,
+    maxWidth:
+      '1280px' /** 4*16 aspect ratio from 1280/400% by padding top in responsiveInlineIframeInner */,
     margin: 'auto',
   },
   responsiveInlineIframeInner: {
@@ -159,18 +156,11 @@ function Country({ country: location, data, errorCode, ...props }) {
 
 Country.propTypes = {
   country: PropTypes.string,
-  data: PropTypes.shape({
-    air: PropTypes.shape({}).isRequired,
-    weeklyP2: PropTypes.shape({}).isRequired,
-  }),
   errorCode: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-  meta: PropTypes.shape({}).isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 Country.defaultProps = {
   country: undefined,
-  data: undefined,
   errorCode: false,
 };
 
