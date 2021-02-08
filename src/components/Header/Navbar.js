@@ -112,7 +112,6 @@ const useStyles = makeStyles((theme) => ({
   searchBar: {
     padding: '10px 0',
     display: 'flex',
-    // justifyContent: 'flex-end',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       order: 2,
