@@ -73,10 +73,9 @@ const useStyles = makeStyles((theme) => ({
   },
   aboutContent: {
     color: 'white',
-    padding: '1rem',
+    padding: '1.2rem',
 
-    textAlign: 'center',
-    textAlignLast: 'center',
+    textAlign: 'justify',
     lineHeight: '2',
 
     marginLeft: '1.5rem',
@@ -121,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       marginLeft: '1.5rem',
       marginRight: '1.5rem',
-      textAlign: 'center',
+      textAlign: 'justify',
     },
     [theme.breakpoints.down('md')]: {
       marginLeft: '0rem',
