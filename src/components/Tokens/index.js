@@ -149,9 +149,9 @@ function DataArchives({ tokens }) {
             <br />
             An example using <code>curl</code> would be:
             <br />
-            <pre className={classes.queryParam}>
-              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}
-            </pre>
+            <Grid item xs={12} className={classes.queryParam}>
+              <code>{`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}</code>
+            </Grid>
             <br />
             The above API call would then return all nodes belonging to the
             network identified by the <code>ACCESS_TOKEN</code>

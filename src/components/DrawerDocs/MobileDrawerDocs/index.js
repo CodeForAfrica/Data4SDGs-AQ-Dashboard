@@ -7,10 +7,13 @@ import Typography from '@material-ui/core/Typography';
 
 import DataArchives from 'components/DataArchives//DataArchives';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   mainGrid: {
     paddingTop: '9rem',
     paddingBottom: '2rem',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: '4rem',
+    },
   },
   title: {
     color: 'white',
