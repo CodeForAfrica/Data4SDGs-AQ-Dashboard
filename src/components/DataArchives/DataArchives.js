@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
   wiki: {
     marginTop: '2rem',
   },
+  body2: {
+    fontStyle: 'italic',
+  },
 }));
 
 function DataArchives() {
@@ -138,7 +141,7 @@ function DataArchives() {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="body2" style={{ fontStyle: 'italic' }}>
+          <Typography variant="body2" className={classes.body2}>
             For a more detailed documentation on how to access API data , visit
             the sensors.AFRICA{' '}
             <a
@@ -157,7 +160,7 @@ function DataArchives() {
           <Typography variant="h6" className={classes.title} component="h3">
             Accessing Archive Data
           </Typography>
-          <Typography variant="body2" style={{ fontStyle: 'italic' }}>
+          <Typography variant="body2" className={classes.body2}>
             In addition to sensor data accessible via the API, data is also
             exported once a day in CSV file format and made available at the{' '}
             <a
