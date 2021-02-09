@@ -7,6 +7,10 @@ import Link from 'components/Link';
 import SocialMedia from 'components/SocialMedia';
 
 import codeforafrica from 'assets/images/logos/cfafrica_white.png';
+import sensorslogo from 'assets/images/logos/logowhite.png';
+import worldbank from 'assets/images/partners/worldbankgroup.png';
+import globalpartner from 'assets/images/logos/globalpartner.svg';
+
 import Email from 'components/Email';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     padding: '1.2rem',
 
-    textAlign: 'justify',
+    textAlign: 'left',
     lineHeight: '2',
 
     marginLeft: '1.5rem',
@@ -120,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       marginLeft: '1.5rem',
       marginRight: '1.5rem',
-      textAlign: 'justify',
+      textAlign: 'left',
     },
     [theme.breakpoints.down('md')]: {
       marginLeft: '0rem',
@@ -132,11 +136,17 @@ const useStyles = makeStyles((theme) => ({
     height: '100px',
   },
 
+  logo: {
+    paddingTop: '2rem',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: '6rem',
+    },
+  },
+
   socialContainer: {
     border: '1px solid white',
     borderBottom: 'none',
     borderTop: 'none',
-    paddingBottom: '190px',
     [theme.breakpoints.between('xs', 'sm')]: {
       border: 'none',
       paddingBottom: '40px',
@@ -181,6 +191,19 @@ function Footer(props) {
               in January 2019.
             </Typography>
           </div>
+          <Grid container justify="center" alignItems="center">
+            <a
+              href="https://www.data4sdgs.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={globalpartner}
+                alt="Data for SDGs"
+                className={classes.img}
+              />
+            </a>
+          </Grid>
         </Grid>
 
         <Grid
@@ -194,6 +217,35 @@ function Footer(props) {
             <SocialMedia />
           </div>
           <Email />
+          <Grid
+            className={classes.logo}
+            container
+            justify="center"
+            alignItems="center"
+          >
+            <a
+              href="https://codeforafrica.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={codeforafrica}
+                alt="Code for Africa"
+                className={classes.img}
+              />
+            </a>
+            <a
+              href="https://sensors.africa/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={sensorslogo}
+                alt="Sensors Africa"
+                className={classes.img}
+              />
+            </a>
+          </Grid>
         </Grid>
 
         <Grid item className={classes.footerContentContainer}>
@@ -215,13 +267,13 @@ function Footer(props) {
           <Grid container justify="center" alignItems="center">
             <Grid item xs>
               <a
-                href="https://codeforafrica.org/"
+                href="https://www.worldbank.org/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
-                  src={codeforafrica}
-                  alt="Code for Africa"
+                  src={worldbank}
+                  alt="World Bank Group"
                   className={classes.img}
                 />
               </a>
