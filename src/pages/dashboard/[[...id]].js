@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   topMargin: {
-    marginTop: '5.7rem',
+    marginTop: '1.7rem',
     [theme.breakpoints.up('md')]: {
       marginTop: '2.5rem',
     },

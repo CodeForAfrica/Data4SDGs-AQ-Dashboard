@@ -86,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
   navBarRoot: {
     display: 'flex',
     justifyContent: 'flex-end',
-    paddingLeft: '13rem',
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       padding: '10px 0',
