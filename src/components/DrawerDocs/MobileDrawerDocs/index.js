@@ -9,7 +9,7 @@ import DataArchives from 'components/DataArchives//DataArchives';
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
-    paddingTop: '9rem',
+    paddingTop: '7.5rem',
     paddingBottom: '2rem',
     [theme.breakpoints.up('md')]: {
       paddingTop: '4rem',
