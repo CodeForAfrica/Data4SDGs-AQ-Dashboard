@@ -16,6 +16,7 @@ import SensorMap from 'components/SensorMap';
 
 import NotFound from 'pages/404';
 import Insights from 'components/Insights';
+import Experimental from 'components/Experimental';
 
 const DEFAULT_COUNTRY = 'africa';
 
@@ -124,6 +125,9 @@ function Country({ country: location, data, errorCode, ...props }) {
             longitude={COUNTRIES_LOCATION[location].longitude}
             location={COUNTRIES_LOCATION[location].label}
           />
+        </Grid>
+        <Grid>
+          <Experimental />
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
           <div className={classes.responsiveInlineIframe}>
