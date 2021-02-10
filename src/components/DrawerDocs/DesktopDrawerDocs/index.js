@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    paddingTop: '4.285rem',
+    paddingTop: '4.3rem',
     height: '80rem',
   },
   stylesTabRoot: {
