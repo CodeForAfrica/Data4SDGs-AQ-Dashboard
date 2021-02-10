@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    paddingTop: '4rem',
+    paddingTop: '4.285rem',
     height: '80rem',
   },
   stylesTabRoot: {
@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
+    // borderRight: `1px solid ${theme.palette.divider}`,
     width: '15%',
-    backgroundColor: '#2e353d',
+    backgroundColor: theme.palette.primary.light,
     color: 'white',
   },
 }));
@@ -36,7 +36,7 @@ const StyledTab = withStyles((theme) => ({
     textTransform: 'none',
     color: '#fff',
     fontWeight: 'bolder',
-    paddingTop: '3rem',
+    paddingTop: '2rem',
     fontSize: theme.typography.pxToRem(13),
     '&:focus': {
       opacity: 1,
