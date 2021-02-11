@@ -16,7 +16,7 @@ import SensorMap from 'components/SensorMap';
 
 import NotFound from 'pages/404';
 import Insights from 'components/Insights';
-import Experimental from 'components/Experimental';
+import NodesData from 'components/NodesData';
 
 const DEFAULT_COUNTRY = 'africa';
 
@@ -128,7 +128,7 @@ function Country({ country: location, data, meta, errorCode, ...props }) {
         </Grid>
         <Grid>
           {meta && meta.database_last_updated ? (
-            <Experimental
+            <NodesData
               sensors={meta.sensors_count}
               sensorTotal={meta.sensor_data_count}
               nodes={meta.nodes.count}
