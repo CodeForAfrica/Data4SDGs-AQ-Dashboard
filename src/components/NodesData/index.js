@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { formatDistance } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,9 +103,18 @@ function NodesData({
       day: 'numeric',
     }
   );
-  const lastUpdatedDay = new Date(lastUpdated).toLocaleDateString('en-gb', {
-    weekday: 'long',
+
+  const lastUpdatedTime = formatDistance(new Date(lastUpdated), new Date());
+
+  let hourUTC = new Date(lastUpdated).toLocaleDateString('en-gb', {
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZone: 'UTC',
+    timeZoneName: 'short',
   });
+
+  hourUTC = hourUTC.split(',');
+
   return (
     <Grid
       container
@@ -129,12 +139,12 @@ function NodesData({
         <Typography
           className={`${classes.centerText} ${classes.boldText} ${classes.lastUpdate}`}
         >
-          on {lastUpdatedDay}
+          {lastUpdatedTime} ago
         </Typography>
       </Grid>
       <Grid item>
         <Typography className={classes.centerText}>
-          {lastUpdatedFormatted}
+          on {lastUpdatedFormatted} at {hourUTC[1]}
         </Typography>
       </Grid>
       <Grid item>
@@ -218,17 +228,6 @@ function NodesData({
           </Typography>
         </Grid>
       </Grid>
-      {/* <hr className={classes.lineBreak} />
-      <Grid item>
-        <Typography className={`${classes.text} ${classes.boldText}`}>
-          All charts below are based on calculations over the previous 4 weeks
-        </Typography>
-      </Grid> */}
-      {/* <Grid item>
-        <Typography className={classes.text}>
-          (current period: 2021-01-01 to 2021-02-03)
-        </Typography>
-      </Grid> */}
     </Grid>
   );
 }
