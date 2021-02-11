@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     padding: '1.2rem',
 
-    textAlign: 'justify',
+    textAlign: 'left',
     lineHeight: '2',
 
     marginLeft: '1.5rem',
@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       marginLeft: '1.5rem',
       marginRight: '1.5rem',
-      textAlign: 'justify',
+      textAlign: 'left',
     },
     [theme.breakpoints.down('md')]: {
       marginLeft: '0rem',
@@ -171,11 +171,11 @@ function Footer(props) {
               This experimental dashboard is a pilot project that seeks to map
               citizen science initiatives across Africa that use low-cost air
               quality (AQ) sensors, to offer insights into potential new data
-              collection and evaluation methods. The project was{' '}
+              collection and evaluation methods. The project was a winner (
               <Link href="https://www.data4sdgs.org/news/7-data-innovation-projects-win-funding-tackle-local-challenges">
-                a winner
-              </Link>{' '}
-              of the
+                see announcement here
+              </Link>
+              ) of the
               <b> Global Partnership for Sustainable Development Data’</b>s
               third round of funding for collaborative data innovation projects
               in January 2019.
