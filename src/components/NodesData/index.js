@@ -151,10 +151,10 @@ function NodesData({
           give users an overview of existing network coverage and data trends,
           as well as gaps in coverage. It offers researchers insights into the
           challenges grassroots AQ networks face in keeping sensors online, and
-          the wide disparities in data standards and quality. <br />
-          All information in the repository is open data. sensors.AFRICA is
-          custodian of the dashboard. We are happy to explore suggestions for
-          adding new networks to the repository.
+          the wide disparities in data standards and quality. All information in
+          the repository is open data. sensors.AFRICA is custodian of the
+          dashboard. We are happy to explore suggestions for adding new networks
+          to the repository.
         </Typography>
       </Grid>
       <Grid
