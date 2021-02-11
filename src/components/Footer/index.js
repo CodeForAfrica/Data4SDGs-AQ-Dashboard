@@ -7,7 +7,6 @@ import Link from 'components/Link';
 import SocialMedia from 'components/SocialMedia';
 
 import codeforafrica from 'assets/images/logos/cfafrica_white.png';
-
 import Email from 'components/Email';
 
 const useStyles = makeStyles((theme) => ({
@@ -222,7 +221,7 @@ function Footer(props) {
               >
                 <img
                   src={codeforafrica}
-                  alt="Code For Africa"
+                  alt="Code for Africa"
                   className={classes.img}
                 />
               </a>
