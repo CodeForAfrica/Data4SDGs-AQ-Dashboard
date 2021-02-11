@@ -203,7 +203,7 @@ function DataArchives({ tokens }) {
         >
           <Grid className={classes.dt}>
             <Typography variant="body2" component="p">
-              Data4DSGs*
+              Data4SDGs*
             </Typography>
           </Grid>
 
@@ -249,7 +249,7 @@ function DataArchives({ tokens }) {
         </Grid>
         <Grid item xs={12} className={classes.wiki}>
           <Typography variant="caption">
-            * Data4DSGs token is a super token that can be used to access all
+            * Data4SDGs token is a super token that can be used to access all
             data regardless of which networked the data was pulled from.
           </Typography>
         </Grid>
