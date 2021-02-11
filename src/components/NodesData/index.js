@@ -149,7 +149,7 @@ function NodesData({
           or regular manual data uploads from independent citizen science or
           academic research networks across Africa. The dashboard is intended to
           give users an overview of existing network coverage and data trends,
-          as well as gaps in coverage. It offers researchers insights into that
+          as well as gaps in coverage. It offers researchers insights into the
           challenges grassroots AQ networks face in keeping sensors online, and
           the wide disparities in data standards and quality. <br />
           All information in the repository is open data. sensors.AFRICA is
