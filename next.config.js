@@ -20,7 +20,7 @@ module.exports = withImages({
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
             key: 'Access-Control-Allow-Origin',
-            value: 'https://wb.map.sensors.africa',
+            value: 'https://map.data4sdgs.sensors.africa',
           },
           {
             key: 'Access-Control-Allow-Methods',
