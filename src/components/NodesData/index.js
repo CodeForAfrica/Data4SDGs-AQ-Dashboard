@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
   },
   aqText: {
     fontSize: '50px',
-    // fontFamily: 'Roboto',
     fontWeight: 'bold',
     position: 'relative',
     bottom: '2rem',
@@ -36,9 +35,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '0 20rem',
     },
   },
-  //   lineBreak: {
-  //     width: '600px',
-  //   },
   dataStatus: {
     margin: '2rem',
     [theme.breakpoints.up('lg')]: {
