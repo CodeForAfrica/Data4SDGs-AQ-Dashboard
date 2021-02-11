@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,15 +22,39 @@ const useStyles = makeStyles(() => ({
   lineBreak: {
     width: '600px',
   },
+  dataStatus: {
+    padding: '0 3rem',
+  },
 }));
 
-function Experimental() {
-  const classes = useStyles();
+function Experimental({
+  sensors,
+  sensorTotal,
+  nodes,
+  networks,
+  cities,
+  countries,
+  lastUpdated,
+  ...props
+}) {
+  const classes = useStyles(props);
+
+  const lastUpdatedFormatted = new Date(lastUpdated).toLocaleDateString(
+    'en-gb',
+    {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }
+  );
+  const lastUpdatedDay = new Date(lastUpdated).toLocaleDateString('en-gb', {
+    weekday: 'long',
+  });
   return (
     <Grid>
       <Grid item>
         <Typography className={`${classes.aqText} ${classes.text}`}>
-          20,367,729
+          {sensorTotal.toLocaleString()}
         </Typography>
       </Grid>
       <Grid item>
@@ -43,13 +67,11 @@ function Experimental() {
       </Grid>
       <Grid item>
         <Typography className={`${classes.text} ${classes.boldText}`}>
-          on Monday
+          on {lastUpdatedDay}
         </Typography>
       </Grid>
       <Grid item>
-        <Typography className={classes.text}>
-          08 February 2021 at 17h00 UTC{' '}
-        </Typography>
+        <Typography className={classes.text}>{lastUpdatedFormatted}</Typography>
       </Grid>
       <Grid item>
         <Typography className={`${classes.text} ${classes.descText}`}>
@@ -66,40 +88,58 @@ function Experimental() {
         </Typography>
       </Grid>
       <Grid container justify="center">
-        <Grid>
-          <Typography>1,183</Typography>
+        <Grid className={classes.dataStatus}>
+          <Typography>{sensors.toLocaleString()}</Typography>
           <Typography>sensors</Typography>
         </Grid>
-        <Grid>
-          <Typography>483</Typography>
+        <Grid className={classes.dataStatus}>
+          <Typography>{nodes.toLocaleString()}</Typography>
           <Typography>nodes</Typography>
         </Grid>
-        <Grid>
-          <Typography>82</Typography>
+        <Grid className={classes.dataStatus}>
+          <Typography>{cities.toLocaleString()}</Typography>
           <Typography>cities</Typography>
         </Grid>
-        <Grid>
-          <Typography>28</Typography>
+        <Grid className={classes.dataStatus}>
+          <Typography>{countries.toLocaleString()}</Typography>
           <Typography>countries</Typography>
         </Grid>
-        <Grid>
-          <Typography>7</Typography>
+        <Grid className={classes.dataStatus}>
+          <Typography>{networks.toLocaleString()}</Typography>
           <Typography>networks</Typography>
         </Grid>
       </Grid>
-      <hr className={classes.lineBreak} />
+      {/* <hr className={classes.lineBreak} />
       <Grid item>
         <Typography className={`${classes.text} ${classes.boldText}`}>
           All charts below are based on calculations over the previous 4 weeks
         </Typography>
-      </Grid>
-      <Grid item>
+      </Grid> */}
+      {/* <Grid item>
         <Typography className={classes.text}>
           (current period: 2021-01-01 to 2021-02-03)
         </Typography>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }
+
+Experimental.propTypes = {
+  sensors: PropTypes.string,
+  sensorTotal: PropTypes.string,
+  nodes: PropTypes.string,
+  networks: PropTypes.string,
+  cities: PropTypes.string,
+  countries: PropTypes.string,
+};
+
+Experimental.defaultProps = {
+  sensors: undefined,
+  sensorTotal: undefined,
+  nodes: undefined,
+  networks: undefined,
+  cities: undefined,
+  countries: undefined,
+};
 
 export default Experimental;
