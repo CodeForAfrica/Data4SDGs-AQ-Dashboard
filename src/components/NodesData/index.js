@@ -29,11 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
   descText: {
     padding: '0 2rem',
-    marginTop: '1rem',
     fontSize: '16px',
-    [theme.breakpoints.up('lg')]: {
-      padding: '0 20rem',
-    },
+  },
+  descContainer: {
+    maxWidth: '1100px',
   },
   dataStatus: {
     margin: '2rem',
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: '1.3rem',
     [theme.breakpoints.up('lg')]: {
       fontSize: '48px',
-      bottom: '2.3rem',
+      bottom: '2.5rem',
       padding: '0 1rem',
     },
   },
@@ -67,15 +66,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(47, 181, 107, 0.5)',
     height: '40px',
     padding: '0 1rem',
-    borderRadius: '10px',
+    borderRadius: '5px',
     [theme.breakpoints.up('md')]: {
       padding: '0 2rem',
     },
   },
   lastUpdate: {
     backgroundColor: 'rgba(47, 181, 107, 0.5)',
-    borderRadius: '10px',
+    borderRadius: '5px',
     padding: '0 0.5rem',
+  },
+  lastUpdateText: {
+    position: 'relative',
+    bottom: '5px',
   },
 }));
 
@@ -106,10 +109,10 @@ function NodesData({
     hour: 'numeric',
     minute: 'numeric',
     timeZone: 'UTC',
-    timeZoneName: 'short',
   });
 
   hourUTC = hourUTC.split(',');
+  const timeUTC = hourUTC[1].split(':');
 
   return (
     <Grid
@@ -129,21 +132,25 @@ function NodesData({
         </Typography>
       </Grid>
       <Grid item>
-        <Typography className={classes.text}>last updated</Typography>
+        <Typography
+          className={`${classes.centerText} ${classes.lastUpdateText}`}
+        >
+          last updated
+        </Typography>
       </Grid>
-      <Grid item>
+      <Grid item className={classes.lastUpdateText}>
         <Typography
           className={`${classes.centerText} ${classes.boldText} ${classes.lastUpdate}`}
         >
           {lastUpdatedTime} ago
         </Typography>
       </Grid>
-      <Grid item>
+      <Grid item className={classes.lastUpdateText}>
         <Typography className={classes.centerText}>
-          on {lastUpdatedFormatted} at {hourUTC[1]}
+          on {lastUpdatedFormatted} at {`${timeUTC[0]}h${timeUTC[1]}`} UTC
         </Typography>
       </Grid>
-      <Grid item>
+      <Grid className={classes.descContainer} item>
         <Typography className={`${classes.centerText} ${classes.descText}`}>
           This experimental dashboard tracks air quality data aggregated via API
           or regular manual data uploads from independent citizen science or
