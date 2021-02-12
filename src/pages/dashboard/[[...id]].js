@@ -16,6 +16,7 @@ import SensorMap from 'components/SensorMap';
 
 import NotFound from 'pages/404';
 import Insights from 'components/Insights';
+import NodesData from 'components/NodesData';
 
 const DEFAULT_COUNTRY = 'africa';
 
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Country({ country: location, data, errorCode, ...props }) {
+function Country({ country: location, data, meta, errorCode, ...props }) {
   const classes = useStyles(props);
 
   const [session, loading] = useSession();
@@ -124,6 +125,19 @@ function Country({ country: location, data, errorCode, ...props }) {
             longitude={COUNTRIES_LOCATION[location].longitude}
             location={COUNTRIES_LOCATION[location].label}
           />
+        </Grid>
+        <Grid>
+          {meta && meta.database_last_updated ? (
+            <NodesData
+              sensors={meta.sensors_count}
+              sensorTotal={meta.sensor_data_count}
+              nodes={meta.nodes.count}
+              networks={meta.sensor_networks.count}
+              cities={meta.sensors_cities.length}
+              countries={meta.sensors_countries.length}
+              lastUpdated={meta.database_last_updated}
+            />
+          ) : null}
         </Grid>
         <Grid item id="insights" className={classes.section} xs={12}>
           <div className={classes.responsiveInlineIframe}>
@@ -179,10 +193,14 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
   const countryProp = countryProps || DEFAULT_COUNTRY;
   const { slug } = COUNTRIES_LOCATION[countryProp];
-  const errorCode = slug ? 200 : 404;
+  let errorCode = slug ? 200 : 404;
+
+  const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
+  errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
+  const meta = (!errorCode && (await metaRes.json())) || {};
 
   return {
-    props: { errorCode, country: slug },
+    props: { errorCode, meta, country: slug },
     revalidate: 3600, // 1 hour
   };
 }
