@@ -193,7 +193,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
   // Fetch data from external API
   const countryProp = countryProps || DEFAULT_COUNTRY;
   const { slug } = COUNTRIES_LOCATION[countryProp];
-  let errorCode = slug ? 200 : 404;
+  let errorCode = slug ? false : 404;
 
   const metaRes = await fetch('http://api.sensors.africa/v2/meta/');
   errorCode = !errorCode && metaRes.statusCode > 200 && metaRes.statusCode;
@@ -201,7 +201,7 @@ export async function getStaticProps({ params: { id: countryProps } }) {
 
   return {
     props: { errorCode, meta, country: slug },
-    revalidate: 3600, // 1 hour
+    revalidate: 15 * 60, // In seconds
   };
 }
 
