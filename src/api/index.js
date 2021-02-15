@@ -321,9 +321,11 @@ async function fetchAllNodes(url, options = { headers }, times = 0) {
   const resjson = await response.json();
   const data = resjson.results;
   if (resjson.next) {
-    return data.concat(await fetchAllNodes(resjson.next, options, times + 1));
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
   }
-  return data;
+
+  return { ...resjson, results: data };
 }
 
 export {
