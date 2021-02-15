@@ -309,6 +309,25 @@ async function getNodesPerCountry(
   return data;
 }
 
+/**
+ * Recuresively fetch data till result.next page is null then concats all data and return
+ * @param  {String} url URL to fetch.
+ * @param  {Object} options http options.
+ * @param  {String} times number of times this function has been called Recuresively.
+ * @return {Array}     Array of results
+ */
+async function fetchAllNodes(url, options = { headers }, times = 0) {
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  if (resjson.next) {
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
+  }
+
+  return { ...resjson, results: data };
+}
+
 export {
   CITIES_LOCATION,
   COUNTRIES_LOCATION,
@@ -318,5 +337,6 @@ export {
   sortCountries,
   getNodesPerNetwork,
   getNodesPerCountry,
+  fetchAllNodes,
 };
 export default API;
