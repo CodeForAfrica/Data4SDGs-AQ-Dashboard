@@ -142,13 +142,13 @@ function DataArchives({ tokens }) {
             authorized for the token.
             <br />
             <br />
-            An example using <code>curl</code> would be:
+            An example using <code>curl</code>:
             <br />
             <pre className={classes.queryParam}>
-              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}
+              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v1/node/`}
             </pre>
             <br />
-            The above API call would then return all nodes belonging to the
+            The above API call returns all nodes belonging to the
             network identified by the <code>ACCESS_TOKEN</code>
           </Typography>
         </Grid>
