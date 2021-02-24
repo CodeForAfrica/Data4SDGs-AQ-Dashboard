@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import DataArchivesCustomTable from './DataArchivesCustomTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { color: theme.palette.primary.dark },
   typography: {
-    paddingTop: theme.spacing(6),
+    paddingTop: '1.5rem',
     textAlign: 'center',
     fontWeight: 'bold',
   },
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   dl: {
-    padding: '1rem 0.5rem',
+    padding: '2rem 0.5rem',
     borderBottom: '1px solid #f0f4f7',
     [theme.breakpoints.up('md')]: {
       paddingLeft: 0,
@@ -68,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     color: theme.palette.secondary.main,
     fontSize: theme.typography.caption.fontSize,
+    backgroundColor: '#fafafa',
+    bordeRadius: '4px',
+    padding: '0.5rem',
   },
   query: {
     fontSize: theme.typography.caption.fontSize,
@@ -87,14 +91,10 @@ const useStyles = makeStyles((theme) => ({
   wiki: {
     marginTop: '2rem',
   },
+  body2: {
+    fontStyle: 'italic',
+  },
 }));
-
-const apiV1Node =
-  'http://api.sensors.africa/v1/node?&location__country=country';
-const apiV2Data =
-  'http://api.sensors.africa/v2/data?&location__country=country&timestamp__gte=timestamp';
-const country = '{country}';
-const timestamp = '{timestamp}';
 
 function DataArchives() {
   const classes = useStyles();
@@ -113,11 +113,7 @@ function DataArchives() {
         className={classes.main}
       >
         <Grid item xs={12}>
-          <Typography
-            variant="h5"
-            className={classes.typography}
-            component="h2"
-          >
+          <Typography variant="h6" className={classes.typography}>
             Accessing Sensors Data
           </Typography>
         </Grid>
@@ -127,108 +123,25 @@ function DataArchives() {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="body2" component="p">
+          <Typography
+            variant="body2"
+            component="p"
+            style={{ paddingBottom: '2rem' }}
+          >
             The primary way to access private sensor data is via API endpoints:{' '}
             <code className={classes.code}>/v1/node</code> and{' '}
             <code className={classes.code}>/v2/data</code>
           </Typography>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="http://api.sensors.africa/v1/node/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{apiV1Node}</code>
-            </a>
-          </Grid>
-
-          <Grid className={classes.dd}>
-            <Typography variant="body2" component="p">
-              List all nodes belonging to the uthenticated user or network
-              identified by the provided <code>ACCESS_TOKEN</code>
-            </Typography>
-            <Typography variant="body2">Supported queries are:</Typography>
-            <Typography
-              variant="body2"
-              component="ul"
-              style={{ listStyle: 'none', marginTop: '0.5rem' }}
-            >
-              <li className={classes.query}>
-                <code className={classes.queryParam}>location__country</code>={' '}
-                <code className={classes.queryDescription}>{country}</code>:
-                Return list of nodes located in a given country only e.g.{' '}
-                <code className={classes.var}>kenya</code> ,
-                <code className={classes.var}>uganda</code>
-              </li>
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid item className={classes.dt}>
-            <a
-              className={classes.link}
-              href="https://api.sensors.africa/v2/data"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <code className={classes.code}>{apiV2Data}</code>
-            </a>
-          </Grid>
-          <Grid item className={classes.dd}>
-            <Typography variant="body2" component="p">
-              Provides <em>raw</em> sensor data of all nodes from a network
-              identified by the provided <code>ACCESS_TOKEN</code>
-            </Typography>
-            <Typography variant="body2">Supported queries are:</Typography>
-            <Typography
-              variant="body2"
-              component="ul"
-              style={{ listStyle: 'none', marginTop: '0.5rem' }}
-            >
-              <li className={classes.query}>
-                <code className={classes.queryParam}>location__country</code>={' '}
-                <code className={classes.queryDescription}>{country}</code>:
-                Return data from all sensors located in a given country only
-                e.g. <code className={classes.var}>kenya</code> ,
-              </li>
-              <li className={classes.query}>
-                {' '}
-                <code className={classes.queryParam}>timestamp__gte</code>={' '}
-                <code className={classes.queryDescription}>{timestamp}</code>:
-                Return sensor data measurements greater than or equal to the
-                given timestamp e.g.{' '}
-                <code className={classes.var}>2021-01-12T12:29:21.428563Z</code>
-              </li>
-            </Typography>
-          </Grid>
-        </Grid>
-
+        <DataArchivesCustomTable />
         <Grid item xs={12}>
           <Typography variant="h6" className={classes.title} component="h3">
             Accessing Public Data
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="body2">
+          <Typography variant="body2" className={classes.body2}>
             For a more detailed documentation on how to access API data , visit
             the sensors.AFRICA{' '}
             <a
@@ -247,7 +160,7 @@ function DataArchives() {
           <Typography variant="h6" className={classes.title} component="h3">
             Accessing Archive Data
           </Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" className={classes.body2}>
             In addition to sensor data accessible via the API, data is also
             exported once a day in CSV file format and made available at the{' '}
             <a

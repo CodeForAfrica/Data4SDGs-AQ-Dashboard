@@ -4,12 +4,19 @@ import Router from 'next/router';
 
 import { useSession } from 'next-auth/client';
 
-import DataArchives from 'components/DataArchives/DataArchives';
+import { useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+
 import Footer from 'components/Footer';
 import Navigation from 'components/Navigation';
 import Tokens from 'components/Tokens';
+import DesktopDrawerDocs from 'components/DrawerDocs/DesktopDrawerDocs';
+import MobileDrawerDocs from 'components/DrawerDocs/MobileDrawerDocs';
 
 function Data({ tokens }) {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
   const [session, loading] = useSession();
   if (loading) return null;
 
@@ -20,8 +27,11 @@ function Data({ tokens }) {
   return (
     <>
       <Navigation />
-      <Tokens tokens={tokens} />
-      <DataArchives />
+      {isDesktop ? (
+        <DesktopDrawerDocs display={<Tokens tokens={tokens} />} />
+      ) : (
+        <MobileDrawerDocs display={<Tokens tokens={tokens} />} />
+      )}
       <Footer />
     </>
   );

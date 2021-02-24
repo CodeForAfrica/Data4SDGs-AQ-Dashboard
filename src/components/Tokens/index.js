@@ -2,14 +2,15 @@ import React from 'react';
 
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import CustomizedTable from 'components/Tokens/CustomizedTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: 'white',
-    marginTop: '6rem',
+    marginTop: '0rem',
     [theme.breakpoints.up('md')]: {
-      marginTop: '3rem',
+      marginTop: '0rem',
     },
   },
   main: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { color: theme.palette.primary.dark },
   typography: {
-    paddingTop: theme.spacing(6),
+    paddingTop: '1.5rem',
     textAlign: 'center',
     fontWeight: 'bold',
   },
@@ -79,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
   queryParam: {
     color: theme.palette.primary.dark,
     fontSize: theme.typography.caption.fontSize,
+    backgroundColor: '#fafafa',
+    bordeRadius: '4px',
+    padding: '1rem',
   },
   queryDescription: {
     fontSize: theme.typography.caption.fontSize,
@@ -91,18 +95,18 @@ const useStyles = makeStyles((theme) => ({
   wiki: {
     marginTop: '2rem',
   },
+  wikiCaption: {
+    color: 'black',
+    fontStyle: 'italic',
+  },
+  a: {
+    color: 'inherit',
+    underline: 'none',
+  },
 }));
 
 function DataArchives({ tokens }) {
-  const {
-    airNowToken,
-    airQOToken,
-    data4SDGToken,
-    purpleAirToken,
-    smartCitizenToken,
-  } = tokens;
   const classes = useStyles();
-
   return (
     <Grid
       container
@@ -119,7 +123,7 @@ function DataArchives({ tokens }) {
       >
         <Grid item xs={12}>
           <Typography
-            variant="h5"
+            variant="h6"
             className={classes.typography}
             component="h2"
           >
@@ -132,6 +136,7 @@ function DataArchives({ tokens }) {
               href="http://api.sensors.africa"
               target="_blank"
               rel="noopener noreferrer"
+              className={classes.a}
             >
               sensors.AFRICA
             </a>{' '}
@@ -144,9 +149,9 @@ function DataArchives({ tokens }) {
             <br />
             An example using <code>curl</code> would be:
             <br />
-            <pre className={classes.queryParam}>
-              {`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}
-            </pre>
+            <Grid item xs={12} className={classes.queryParam}>
+              <code>{`curl -H "Authorization: Token <ACCESS_TOKEN>" http://api.sensors.africa/v2/node/`}</code>
+            </Grid>
             <br />
             The above API call would then return all nodes belonging to the
             network identified by the <code>ACCESS_TOKEN</code>
@@ -157,99 +162,10 @@ function DataArchives({ tokens }) {
             Access Tokens{' '}
           </Typography>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid className={classes.dt}>
-            <Typography variant="body2" component="p">
-              AirNow
-            </Typography>
-          </Grid>
-
-          <Grid item className={classes.dd}>
-            <code className={classes.code}>{airNowToken}</code>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid className={classes.dd}>
-            <Typography variant="body2" component="p">
-              AirQO
-            </Typography>
-          </Grid>
-
-          <Grid item className={classes.dt}>
-            <code className={classes.code}>{airQOToken}</code>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid className={classes.dt}>
-            <Typography variant="body2" component="p">
-              Data4SDGs*
-            </Typography>
-          </Grid>
-
-          <Grid item className={classes.dd}>
-            <code className={classes.code}>{data4SDGToken}</code>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid className={classes.dt}>
-            <Typography variant="body2" component="p">
-              PurpleAir
-            </Typography>
-          </Grid>
-
-          <Grid item className={classes.dd}>
-            <code className={classes.code}>{purpleAirToken}</code>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          justify="flex-start"
-          alignItems="flex-start"
-          className={classes.dl}
-        >
-          <Grid className={classes.dt}>
-            <Typography variant="body2" component="p">
-              SmartCitizen
-            </Typography>
-          </Grid>
-
-          <Grid item className={classes.dd}>
-            <code className={classes.code}>{smartCitizenToken}</code>
-          </Grid>
-        </Grid>
+        <CustomizedTable tokens={tokens} />
         <Grid item xs={12} className={classes.wiki}>
-          <Typography variant="caption">
-            * Data4SDGs token is a super token that can be used to access all
+          <Typography variant="caption" className={classes.wikiCaption}>
+            * Data4DSGs token is a super token that can be used to access all
             data regardless of which networked the data was pulled from.
           </Typography>
         </Grid>

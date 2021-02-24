@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-size: 1.6rem;
+  --line-height: 0.8rem;
+  font-size: 62.5%;
+}
