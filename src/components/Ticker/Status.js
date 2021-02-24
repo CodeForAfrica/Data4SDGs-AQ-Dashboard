@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   value: {
     color: 'inherit',
     lineHeight: '6.25rem',
+    fontSize: '3rem',
   },
   valueText: {
     color: '#9D9C9C',

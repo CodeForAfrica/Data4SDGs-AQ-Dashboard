@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-function KenyaMap({
+function Iframe({
   title,
   src,
   height,
@@ -36,7 +36,7 @@ function KenyaMap({
   );
 }
 
-KenyaMap.propTypes = {
+Iframe.propTypes = {
   title: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   height: PropTypes.string,
@@ -45,10 +45,10 @@ KenyaMap.propTypes = {
   scrolling: PropTypes.string,
 };
 
-KenyaMap.defaultProps = {
+Iframe.defaultProps = {
   height: '',
   width: '',
   frameBorder: '0',
   scrolling: 'auto',
 };
-export default KenyaMap;
+export default Iframe;

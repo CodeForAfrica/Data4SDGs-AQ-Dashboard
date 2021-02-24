@@ -1,82 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 import { formatDateTime } from 'lib';
 
-const HUMIDITY_READING = 'humidity';
-const TEMPERATURE_READING = 'temperature';
-const P2_READING = 'P2';
-
-const formatAirStats = (data, isPm2 = false) => {
-  const formatted = {};
-  ['average', 'maximum', 'minimum'].forEach((stat) => {
-    const parsed = Number.parseFloat(data[stat]);
-    if (isPm2 && stat === 'average') {
-      formatted.averageDescription = `measurements not recorded`;
-      if (!Number.isNaN(parsed)) {
-        let difference = 25.0 - parsed;
-        let position = 'below';
-        if (parsed > 25.0) {
-          difference = parsed - 25.0;
-          position = 'above';
-        }
-        const percentage = ((difference / 25.0) * 100).toFixed(2);
-        formatted.averageDescription = `${percentage}% ${position} the safe level`;
-      }
-    }
-    formatted[stat] = Number.isNaN(parsed) ? '--' : parsed.toFixed(2);
-  });
-  return formatted;
-};
-
-const getFormattedStats = (data, reading) => {
-  let statData = {};
-  if (data && data.count === 1) {
-    statData = data.results[0][reading];
-  }
-  return formatAirStats(statData, reading === P2_READING);
-};
-
-const getFormattedHumidityStats = (data) => {
-  return getFormattedStats(data, HUMIDITY_READING);
-};
-
-const getFormattedP2Stats = (data) => {
-  return getFormattedStats(data, P2_READING);
-};
-
-const getFormattedTemperatureStats = (data) => {
-  return getFormattedStats(data, TEMPERATURE_READING);
-};
-
-const DATE_FMT_OPTIONS = {
-  timeZone: 'UTC',
-  weekday: 'short',
-  day: 'numeric',
-  month: 'short',
-};
-
-const formatWeeklyP2Stats = (data) => {
-  const stats = [];
-  // Start with the oldest value
-  for (let i = data.length - 1; i >= 0; i -= 1) {
-    let averagePM = Number.parseFloat(data[i].average);
-    if (Number.isNaN(averagePM)) {
-      averagePM = 0.0;
-    }
-    const date = new Date(data[i].start_datetime).toLocaleDateString(
-      'en-US',
-      DATE_FMT_OPTIONS
-    );
-    stats.push({ date, averagePM });
-  }
-  return stats;
-};
-
-const getFormattedWeeklyP2Stats = (data) => {
-  const statData =
-    (data && data.count === 1 && data.results[0][P2_READING]) || [];
-  return formatWeeklyP2Stats(statData);
-};
-
 const CITIES_LOCATION = {
   nairobi: {
     slug: 'nairobi',
@@ -162,7 +86,7 @@ const COUNTRIES_LOCATION = {
     longitude: '22.937506',
     name: 'South Africa',
     label: 'South Africa',
-    zoom: '6',
+    zoom: '5',
     center: '-30.559482,22.937506',
   },
   nigeria: {
@@ -281,7 +205,7 @@ const headers = new Headers();
 
 headers.append('Authorization', `token ${process.env.DATA4_DSGS}`);
 const defaultTimestampGte = new Date();
-defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 6);
+defaultTimestampGte.setHours(defaultTimestampGte.getHours() - 4);
 
 async function getData(
   url = `https://api.sensors.africa/v2/data`,
@@ -336,16 +260,83 @@ const API = {
   },
 };
 
+async function getNodesPerNetwork(
+  totalNodes,
+  url = 'https://api.sensors.africa/v1/node'
+) {
+  const data = [];
+  const networks = [
+    { name: 'PURPLE_AIR', label: 'PurpleAir' },
+    { name: 'AIRQO', label: 'AirQO' },
+    { name: 'SMART_CITIZEN', label: 'SmartCitizen' },
+    { name: 'AIR_NOW', label: 'AirNow' },
+    { name: 'OPENDATA_DURBAN', label: 'OpenData Durban' },
+    { name: 'SENSORS_COMMUNITY', label: 'Sensor.Community' },
+  ];
+  /* eslint-disable no-await-in-loop */
+  for (let index = 0; index < networks.length; index += 1) {
+    const response = await fetch(url, {
+      headers: { Authorization: `token ${process.env[networks[index].name]}` },
+    });
+    const resjson = await response.json();
+    data.push({ name: networks[index].label, count: resjson.count });
+  }
+  /* eslint-enable no-await-in-loop */
+
+  data.push({
+    name: 'sensors.AFRICA',
+    count: totalNodes - data.reduce((acc, curr) => acc + curr.count, 0),
+  });
+  return data;
+}
+
+async function getNodesPerCountry(
+  countries,
+  url = 'https://api.sensors.africa/v1/node'
+) {
+  const data = [];
+  /* eslint-disable no-await-in-loop */
+  for (let index = 0; index < countries.length; index += 1) {
+    const countryQuery = `?location__country=${countries[index]}`;
+    const response = await fetch(url + countryQuery, {
+      headers: { Authorization: `token ${process.env.DATA4_DSGS}` },
+    });
+    const resjson = await response.json();
+    data.push({ name: countries[index], count: resjson.count });
+  }
+  /* eslint-enable no-await-in-loop */
+
+  return data;
+}
+
+/**
+ * Recuresively fetch data till result.next page is null then concats all data and return
+ * @param  {String} url URL to fetch.
+ * @param  {Object} options http options.
+ * @param  {String} times number of times this function has been called Recuresively.
+ * @return {Array}     Array of results
+ */
+async function fetchAllNodes(url, options = { headers }, times = 0) {
+  const response = await fetch(url, options);
+  const resjson = await response.json();
+  const data = resjson.results;
+  if (resjson.next) {
+    const nextData = await fetchAllNodes(resjson.next, options, times + 1);
+    return { ...nextData, results: data.concat(nextData.results) };
+  }
+
+  return { ...resjson, results: data };
+}
+
 export {
   CITIES_LOCATION,
   COUNTRIES_LOCATION,
-  getFormattedHumidityStats,
-  getFormattedP2Stats,
-  getFormattedTemperatureStats,
-  getFormattedWeeklyP2Stats,
   dataByCountry,
   dataByCountries,
   calculateAverage,
   sortCountries,
+  getNodesPerNetwork,
+  getNodesPerCountry,
+  fetchAllNodes,
 };
 export default API;

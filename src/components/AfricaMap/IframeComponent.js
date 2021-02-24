@@ -11,7 +11,7 @@ const styles = {
   },
 };
 
-function MapAfrica({
+function Iframe({
   classes,
   title,
   src,
@@ -34,7 +34,7 @@ function MapAfrica({
   );
 }
 
-MapAfrica.propTypes = {
+Iframe.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   title: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
@@ -44,10 +44,10 @@ MapAfrica.propTypes = {
   scrolling: PropTypes.string,
 };
 
-MapAfrica.defaultProps = {
+Iframe.defaultProps = {
   height: '',
   width: '',
   frameBorder: '0',
   scrolling: 'auto',
 };
-export default withStyles(styles)(MapAfrica);
+export default withStyles(styles)(Iframe);

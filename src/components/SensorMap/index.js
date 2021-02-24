@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import IframeComponent from 'components/SensorMap/IframeComponent';
+import IframeComponent from './IframeComponent';
+
+const MAP_URL = '//map.data4sdgs.sensors.africa';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    height: 610,
+    height: 560,
     width: '100%',
     backgroundColor: 'white',
   },
@@ -38,7 +40,7 @@ function Map({ zoom, latitude, longitude }) {
       <Grid item xs={12}>
         <IframeComponent
           title="Map section"
-          src={`//wb.map.sensors.africa/#${zoom}/${latitude}/${longitude}`}
+          src={`${MAP_URL}/#${zoom}/${latitude}/${longitude}`}
           height="500"
           width="100%"
           frameBorder="0"
@@ -61,7 +63,7 @@ export function AfricaMap({ classes }) {
       <Grid item xs={12}>
         <IframeComponent
           title="Map section"
-          src="//wb.map.sensors.africa/#4/-10.79/20.87"
+          src={`${MAP_URL}/#4/-10.79/20.87`}
           height="600"
           width="100%"
           frameBorder="0"
@@ -77,4 +79,5 @@ Map.propTypes = {
   latitude: PropTypes.string.isRequired,
   longitude: PropTypes.string.isRequired,
 };
+
 export default Map;
